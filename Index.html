@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <base target="_top">
+  <meta charset="UTF-8">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    /* Same palette as cowboy-mechanics.com */
+    :root {
+      --bg: #211f1d; --surface: #1c1a18; --surface-alt: #23211f; --raised: #2a2724;
+      --border: #302c29; --text: #d6d3ce; --muted: #b3ada6; --faint: #847d76; --white: #ffffff;
+      --btn: #a4b3c2; --btn-hover: #92a2b2; --btn-text: #141312;
+      --accent: #d97706; --danger: #ef4444; --ok: #4ade80;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; }
+    body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; font-size: 14px; line-height: 1.5; min-height: 100vh; }
+    a { color: var(--btn); }
+    h1, h2, h3 { color: var(--white); margin: 0; }
+    h1 { font-size: 22px; font-weight: 900; letter-spacing: .02em; }
+    h2 { font-size: 13px; font-weight: 800; text-transform: uppercase; letter-spacing: .08em; }
+    .label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--faint); }
+    .muted { color: var(--muted); }
+    .faint { color: var(--faint); }
+
+    header { position: sticky; top: 0; z-index: 20; background: var(--bg); border-bottom: 1px solid var(--border); }
+    .bar { max-width: 1100px; margin: 0 auto; padding: 12px 16px; display: flex; align-items: center; gap: 16px; }
+    .brand { display: flex; align-items: center; gap: 10px; color: var(--white); text-decoration: none; cursor: pointer; }
+    .brand img { height: 36px; }
+    .brand b { font-weight: 900; letter-spacing: .1em; text-transform: uppercase; font-size: 14px; line-height: 1; display: block; }
+    .brand small { font-size: 10px; letter-spacing: .2em; color: var(--accent); font-weight: 800; }
+    nav { display: flex; gap: 4px; overflow-x: auto; margin-left: auto; scrollbar-width: none; }
+    nav button { background: none; border: 0; color: var(--muted); font: inherit; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; padding: 8px 10px; cursor: pointer; white-space: nowrap; border-bottom: 2px solid transparent; }
+    nav button:hover { color: var(--white); }
+    nav button.on { color: var(--white); border-bottom-color: var(--accent); }
+    @media (max-width: 720px) {
+      .bar { flex-wrap: wrap; gap: 8px; }
+      nav { margin-left: 0; width: 100%; }
+    }
+
+    main { max-width: 1100px; margin: 0 auto; padding: 20px 16px 80px; }
+    .row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+    .spread { justify-content: space-between; }
+    .grid { display: grid; gap: 14px; }
+    .g2 { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+    .stats { grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); }
+    .card { background: var(--surface); border: 1px solid var(--border); border-radius: 4px; padding: 16px; position: relative; overflow: hidden; }
+    .stat .num { font-size: 26px; font-weight: 900; color: var(--white); }
+    .section { margin-top: 22px; }
+    .section > .row { margin-bottom: 10px; }
+
+    .btn { display: inline-flex; align-items: center; gap: 6px; background: var(--btn); color: var(--btn-text); border: 0; border-radius: 2px; padding: 9px 14px; font: inherit; font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: .08em; cursor: pointer; text-decoration: none; }
+    .btn:hover { background: var(--btn-hover); }
+    .btn.ghost { background: transparent; color: var(--text); border: 1px solid var(--border); }
+    .btn.ghost:hover { border-color: var(--muted); color: var(--white); }
+    .btn.danger { background: transparent; color: var(--danger); border: 1px solid #5a2a26; }
+    .btn.sm { padding: 6px 10px; font-size: 11px; }
+    .linkbtn { background: none; border: 0; color: var(--btn); font: inherit; cursor: pointer; padding: 0; }
+
+    .badge { display: inline-block; font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: .08em; padding: 2px 7px; border-radius: 2px; border: 1px solid var(--border); color: var(--muted); }
+    .badge.lead { color: var(--accent); border-color: #6b4310; }
+    .badge.customer { color: var(--ok); border-color: #22543a; }
+    .badge.repeat { background: var(--accent); color: #141312; border-color: var(--accent); }
+    .badge.danger { color: var(--danger); border-color: #5a2a26; }
+
+    .list { display: flex; flex-direction: column; }
+    .item { display: flex; gap: 12px; align-items: flex-start; padding: 12px 0; border-top: 1px solid var(--border); }
+    .item:first-child { border-top: 0; }
+    .item.click { cursor: pointer; }
+    .item.click:hover .name { color: var(--btn); }
+    .item .grow { flex: 1; min-width: 0; }
+    .name { color: var(--white); font-weight: 700; }
+    .when { min-width: 74px; text-align: center; background: var(--surface-alt); border: 1px solid var(--border); border-radius: 3px; padding: 6px 4px; }
+    .when b { display: block; color: var(--white); font-size: 18px; font-weight: 900; line-height: 1.1; }
+    .when span { font-size: 10px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); font-weight: 700; }
+    .empty { color: var(--faint); padding: 14px 0; }
+    .pre { white-space: pre-wrap; word-break: break-word; }
+
+    table { width: 100%; border-collapse: collapse; }
+    th { text-align: left; font-size: 11px; text-transform: uppercase; letter-spacing: .08em; color: var(--faint); font-weight: 700; padding: 8px; border-bottom: 1px solid var(--border); }
+    td { padding: 10px 8px; border-bottom: 1px solid var(--border); vertical-align: top; }
+    tr.click { cursor: pointer; }
+    tr.click:hover td { background: var(--surface-alt); }
+    .scroll-x { overflow-x: auto; }
+    .money { text-align: right; white-space: nowrap; }
+
+    input, select, textarea { width: 100%; background: var(--surface-alt); border: 1px solid var(--border); color: var(--white); font: inherit; padding: 9px 10px; border-radius: 2px; }
+    input:focus, select:focus, textarea:focus { outline: none; border-color: var(--btn); }
+    input[type=checkbox] { width: auto; accent-color: var(--accent); }
+    textarea { min-height: 80px; resize: vertical; }
+    label.f { display: block; }
+    label.f .label { display: block; margin-bottom: 4px; }
+    .form { display: grid; gap: 12px; grid-template-columns: 1fr 1fr; }
+    .form .full { grid-column: 1 / -1; }
+    .check { display: flex; align-items: center; gap: 8px; color: var(--text); }
+    .hint { font-size: 12px; color: var(--faint); margin-top: 3px; }
+    @media (max-width: 560px) { .form { grid-template-columns: 1fr; } }
+
+    .chips { display: flex; gap: 6px; flex-wrap: wrap; }
+    .chip { background: transparent; border: 1px solid var(--border); color: var(--muted); padding: 5px 10px; border-radius: 20px; font: inherit; font-size: 12px; font-weight: 600; cursor: pointer; }
+    .chip.on { background: var(--btn); border-color: var(--btn); color: var(--btn-text); }
+
+    .info { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; }
+    .info div > div:last-child { color: var(--white); word-break: break-word; }
+
+    .modal-wrap { position: fixed; inset: 0; background: rgba(0,0,0,.65); z-index: 50; display: flex; align-items: flex-start; justify-content: center; padding: 40px 16px; overflow-y: auto; }
+    .modal { background: var(--surface); border: 1px solid var(--border); border-radius: 4px; width: 100%; max-width: 620px; padding: 20px; }
+    .modal .actions { display: flex; justify-content: flex-end; gap: 8px; margin-top: 18px; }
+
+    #toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: var(--white); color: #141312; padding: 10px 16px; border-radius: 3px; font-weight: 700; z-index: 70; display: none; max-width: calc(100% - 32px); }
+    #toast.err { background: var(--danger); color: var(--white); }
+    #busy { position: fixed; top: 0; left: 0; height: 3px; width: 100%; background: linear-gradient(90deg, transparent, var(--accent), transparent); background-size: 50% 100%; background-repeat: no-repeat; animation: slide 1s linear infinite; z-index: 80; display: none; }
+    @keyframes slide { from { background-position: -50% 0; } to { background-position: 150% 0; } }
+    .corner { position: absolute; top: -30px; right: -30px; width: 90px; height: 90px; border-radius: 50%; background: rgba(255,255,255,.035); pointer-events: none; }
+    .banner { background: #2b1d0c; border: 1px solid #6b4310; color: #f5c77e; padding: 10px 14px; border-radius: 3px; margin-bottom: 16px; }
+  </style>
+</head>
+<body>
+  <div id="busy"></div>
+  <header>
+    <div class="bar">
+      <a class="brand" onclick="go('dashboard')">
+        <img src="https://cowboy-mechanics.com/logo-mark.png" alt="">
+        <div><b>Cowboy Mechanics</b><small>CRM</small></div>
+      </a>
+      <nav id="nav">
+        <button data-v="dashboard" onclick="go('dashboard')">Dashboard</button>
+        <button data-v="clients" onclick="go('clients')">Clients</button>
+        <button data-v="appointments" onclick="go('appointments')">Appointments</button>
+        <button data-v="jobs" onclick="go('jobs')">Services</button>
+        <button data-v="settings" onclick="go('settings')">Settings</button>
+      </nav>
+    </div>
+  </header>
+  <main id="app"><p class="muted">Loading your clients...</p></main>
+  <div id="modal"></div>
+  <div id="toast"></div>
+
+<script>
+  /* ------------------------------------------------------------ state */
+  let DATA = { clients: [], jobs: [], appointments: [], interactions: [], outbox: [] };
+  let SETTINGS = null;
+  const UI = { view: 'dashboard', clientId: null, search: '', status: 'All', showPast: false, jobSearch: '' };
+  const STATUSES = ['New lead', 'Contacted', 'Quoted', 'Customer', 'Inactive', 'Lost'];
+  const CATEGORIES = ['Diagnostics', 'Brakes', 'Oil & Fluids', 'Cooling & A/C', 'Electrical', 'Engine', 'Suspension & Steering', 'Battery & Starting', 'Inspection', 'Other'];
+  const INTERACTION_TYPES = ['Call', 'Text', 'Email', 'In person', 'Note'];
+
+  /* ----------------------------------------------------- server calls */
+  function call(fn, ...args) {
+    document.getElementById('busy').style.display = 'block';
+    return new Promise((resolve, reject) => {
+      google.script.run
+        .withSuccessHandler(r => { document.getElementById('busy').style.display = 'none'; resolve(r); })
+        .withFailureHandler(e => { document.getElementById('busy').style.display = 'none'; toast(e.message || String(e), true); reject(e); })[fn](...args);
+    });
+  }
+  async function act(fn, ...args) {
+    const data = await call(fn, ...args);
+    setData(data);
+    return data;
+  }
+  function setData(d) {
+    DATA = { clients: d.clients, jobs: d.jobs, appointments: d.appointments, interactions: d.interactions, outbox: d.outbox || [] };
+    render();
+  }
+
+  /* ---------------------------------------------------------- helpers */
+  const esc = v => String(v == null ? '' : v).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  const money = n => '$' + (Number(n) || 0).toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 2 });
+  const toDate = s => { if (!s) return null; s = String(s); return new Date(s.length === 10 ? s + 'T00:00' : s); };
+  const pad = n => String(n).padStart(2, '0');
+  const localStr = d => `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
+  const nowStr = () => localStr(new Date());
+  const fmtDate = s => { const d = toDate(s); return d ? d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : ''; };
+  const fmtTime = s => { const d = toDate(s); return d ? d.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' }) : ''; };
+  const fmtDT = s => { const d = toDate(s); return d ? d.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' }) + ', ' + fmtTime(s) : ''; };
+  const fullName = c => c ? ([c.firstName, c.lastName].filter(Boolean).join(' ') || 'Unnamed client') : 'Unknown client';
+  const client = id => DATA.clients.find(c => c.id === id);
+  const jobsOf = id => DATA.jobs.filter(j => j.clientId === id).sort((a, b) => String(b.date).localeCompare(String(a.date)));
+  const spent = id => jobsOf(id).reduce((t, j) => t + (Number(j.total) || 0), 0);
+  const isRepeat = id => jobsOf(id).length >= 2;
+  const vehicles = c => String(c && c.vehicles || '').split('\n').map(v => v.trim()).filter(Boolean);
+  const telLink = p => String(p || '').replace(/[^\d+]/g, '');
+  // Opens the phone's Messages app with the text filled in. "?&body=" works on both iPhone and Android.
+  const smsLink = (p, body) => `sms:${telLink(p)}?&body=${encodeURIComponent(body || '')}`;
+  const KIND_LABEL = { reminder: 'Appointment reminder', followUp: 'Thank-you follow-up', service: 'Check-up reminder', lead: 'Reply to website request' };
+  const pendingTexts = () => DATA.outbox.filter(t => t.status === 'Pending' && (!t.expires || t.expires > nowStr()));
+  const phone = p => { const d = String(p || '').replace(/\D/g, '').replace(/^1(?=\d{10}$)/, '');
+    return d.length === 10 ? `(${d.slice(0, 3)}) ${d.slice(3, 6)}-${d.slice(6)}` : String(p || ''); };
+
+  function statusBadge(c) {
+    const s = c.status || 'New lead';
+    const cls = s === 'New lead' ? 'lead' : s === 'Customer' ? 'customer' : s === 'Lost' ? 'danger' : '';
+    return `<span class="badge ${cls}">${esc(s)}</span>` + (isRepeat(c.id) ? ' <span class="badge repeat">Repeat</span>' : '');
+  }
+
+  function toast(msg, err) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.className = err ? 'err' : '';
+    t.style.display = 'block';
+    clearTimeout(toast.t);
+    toast.t = setTimeout(() => { t.style.display = 'none'; }, err ? 6000 : 2500);
+  }
+
+  function go(view, clientId) {
+    UI.view = view;
+    if (clientId !== undefined) UI.clientId = clientId;
+    if (view === 'settings' && !SETTINGS) loadSettings();
+    render();
+    window.scrollTo(0, 0);
+  }
+
+  function render() {
+    document.querySelectorAll('#nav button').forEach(b =>
+      b.classList.toggle('on', b.dataset.v === UI.view || (UI.view === 'client' && b.dataset.v === 'clients')));
+    const views = { dashboard: viewDashboard, clients: viewClients, client: viewClient, appointments: viewAppointments, jobs: viewJobs, settings: viewSettings };
+    document.getElementById('app').innerHTML = (views[UI.view] || viewDashboard)();
+  }
+
+  /* -------------------------------------------------------- dashboard */
+  function viewDashboard() {
+    const now = new Date();
+    const monthKey = localStr(now).slice(0, 7), yearKey = localStr(now).slice(0, 4);
+    const month = DATA.jobs.filter(j => String(j.date).slice(0, 7) === monthKey).reduce((t, j) => t + (Number(j.total) || 0), 0);
+    const year = DATA.jobs.filter(j => String(j.date).slice(0, 4) === yearKey).reduce((t, j) => t + (Number(j.total) || 0), 0);
+    const weekOut = localStr(new Date(now.getTime() + 7 * 864e5));
+    const upcoming = DATA.appointments.filter(a => a.status === 'Scheduled' && a.start >= nowStr().slice(0, 10) && a.start <= weekOut)
+      .sort((a, b) => a.start.localeCompare(b.start));
+    const leads = DATA.clients.filter(c => (c.status || 'New lead') === 'New lead').sort((a, b) => String(b.created).localeCompare(String(a.created)));
+    const recent = DATA.interactions.slice().sort((a, b) => String(b.date).localeCompare(String(a.date))).slice(0, 8);
+    const unpaid = DATA.jobs.filter(j => j.paid !== true && Number(j.total) > 0);
+    const texts = pendingTexts().sort((a, b) => String(a.created).localeCompare(String(b.created)));
+
+    return `
+      <div class="row spread"><h1>Howdy, Russell</h1>
+        <div class="row"><button class="btn ghost" onclick="refresh()">Check for new leads</button>
+        <button class="btn" onclick="editClient()">+ New client</button></div></div>
+      ${texts.length ? `<div class="card section" style="border-color:#6b4310"><h2 style="margin-bottom:2px">Texts to send (${texts.length})</h2>
+        <div class="faint">Tap Send and your phone opens Messages with the text ready. Then just hit send.</div>
+        <div class="list">${texts.map(textItem).join('')}</div></div>` : ''}
+      <div class="grid stats section">
+        ${stat('Clients', DATA.clients.length)}
+        ${stat('Repeat clients', DATA.clients.filter(c => isRepeat(c.id)).length)}
+        ${stat('New leads', leads.length)}
+        ${stat('This month', money(month))}
+        ${stat('This year', money(year))}
+        ${unpaid.length ? stat('Unpaid jobs', unpaid.length) : ''}
+      </div>
+      <div class="grid g2 section">
+        <div class="card"><div class="row spread" style="margin-bottom:6px"><h2>Next 7 days</h2>
+          <button class="linkbtn" onclick="editAppointment()">+ Book</button></div>
+          <div class="list">${upcoming.length ? upcoming.map(apptItem).join('') : '<div class="empty">Nothing on the books this week.</div>'}</div></div>
+        <div class="card"><div class="row spread" style="margin-bottom:6px"><h2>New leads to contact</h2>
+          <button class="linkbtn" onclick="UI.status='New lead'; go('clients')">See all</button></div>
+          <div class="list">${leads.length ? leads.slice(0, 6).map(leadItem).join('') : '<div class="empty">All caught up.</div>'}</div></div>
+      </div>
+      <div class="card section"><h2 style="margin-bottom:6px">Recent activity</h2>
+        <div class="list">${recent.length ? recent.map(i => activityItem(i, true)).join('') : '<div class="empty">No activity yet.</div>'}</div></div>`;
+  }
+
+  function textItem(t) {
+    return `<div class="item"><div class="grow">
+      <div class="row spread"><button class="linkbtn name" onclick="go('client','${esc(t.clientId)}')">${esc(fullName(client(t.clientId)))}</button>
+        <span class="badge lead">${esc(KIND_LABEL[t.kind] || 'Text')}</span></div>
+      <div class="faint">${esc(phone(t.phone))}</div>
+      <div class="pre muted" style="margin-top:4px">${esc(t.body)}</div>
+      <div class="row" style="margin-top:8px"><a class="btn sm" href="${esc(smsLink(t.phone, t.body))}" onclick="markText('${esc(t.id)}','Sent')">Send</a>
+        <button class="btn ghost sm" onclick="markText('${esc(t.id)}','Skipped')">Skip</button></div></div></div>`;
+  }
+  async function markText(id, status) {
+    await act('markText', id, status);
+    if (status === 'Sent') toast('Logged as sent');
+  }
+
+  const stat = (label, value) => `<div class="card stat"><div class="corner"></div><div class="label">${label}</div><div class="num">${esc(value)}</div></div>`;
+
+  function apptItem(a) {
+    const c = client(a.clientId), d = toDate(a.start);
+    return `<div class="item click" onclick="go('client','${esc(a.clientId)}')">
+      <div class="when"><span>${d.toLocaleDateString('en-US', { weekday: 'short' })}</span><b>${d.getDate()}</b><span>${d.toLocaleDateString('en-US', { month: 'short' })}</span></div>
+      <div class="grow"><div class="name">${esc(fullName(c))}</div>
+        <div class="muted">${esc(fmtTime(a.start))} &middot; ${esc(a.service || 'Appointment')}${a.vehicle ? ' &middot; ' + esc(a.vehicle) : ''}</div>
+        ${a.location || (c && c.address) ? `<div class="faint">${esc(a.location || c.address)}</div>` : ''}</div></div>`;
+  }
+
+  function leadItem(c) {
+    const last = DATA.interactions.filter(i => i.clientId === c.id).sort((a, b) => String(b.date).localeCompare(String(a.date)))[0];
+    return `<div class="item click" onclick="go('client','${esc(c.id)}')"><div class="grow">
+      <div class="row spread"><span class="name">${esc(fullName(c))}</span><span class="faint">${esc(fmtDate(c.created))}</span></div>
+      <div class="muted">${esc(phone(c.phone))}${c.phone && c.email ? ' &middot; ' : ''}${esc(c.email)}</div>
+      ${last ? `<div class="faint" style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(last.summary)}</div>` : ''}</div></div>`;
+  }
+
+  function activityItem(i, showName) {
+    return `<div class="item ${showName ? 'click' : ''}" ${showName ? `onclick="go('client','${esc(i.clientId)}')"` : ''}>
+      <div class="grow"><div class="row spread">
+        <span>${showName ? `<span class="name">${esc(fullName(client(i.clientId)))}</span> &middot; ` : ''}<span class="badge">${esc(i.type)}</span></span>
+        <span class="faint">${esc(fmtDT(i.date))}</span></div>
+        <div class="pre muted" style="margin-top:4px">${esc(i.summary)}</div></div>
+      ${showName ? '' : `<button class="linkbtn faint" title="Delete" onclick="delInteraction('${esc(i.id)}')">&times;</button>`}</div>`;
+  }
+
+  /* ---------------------------------------------------------- clients */
+  function viewClients() {
+    const q = UI.search.toLowerCase();
+    const list = DATA.clients.filter(c => {
+      if (UI.status === 'Repeat' ? !isRepeat(c.id) : UI.status !== 'All' && (c.status || 'New lead') !== UI.status) return false;
+      if (!q) return true;
+      return [fullName(c), c.phone, c.email, c.address, c.vehicles, c.tags].join(' ').toLowerCase().includes(q) ||
+        String(c.phone).replace(/\D/g, '').includes(q.replace(/\D/g, '') || '~');
+    }).sort((a, b) => fullName(a).localeCompare(fullName(b)));
+
+    return `
+      <div class="row spread"><h1>Clients</h1><button class="btn" onclick="editClient()">+ New client</button></div>
+      <div class="section"><input id="search" placeholder="Search name, phone, email, vehicle..." value="${esc(UI.search)}" oninput="UI.search=this.value; renderKeepFocus('search')"></div>
+      <div class="chips" style="margin-top:10px">${['All', ...STATUSES, 'Repeat'].map(s =>
+        `<button class="chip ${UI.status === s ? 'on' : ''}" onclick="UI.status='${s}'; render()">${s}</button>`).join('')}</div>
+      <div class="card section scroll-x">${list.length ? `<table><thead><tr><th>Name</th><th>Contact</th><th>Vehicles</th><th>Visits</th><th class="money">Spent</th><th>Last service</th></tr></thead><tbody>
+        ${list.map(c => { const js = jobsOf(c.id); return `<tr class="click" onclick="go('client','${esc(c.id)}')">
+          <td><div class="name">${esc(fullName(c))}</div>${statusBadge(c)}</td>
+          <td>${esc(phone(c.phone))}<div class="faint">${esc(c.email)}</div></td>
+          <td class="muted">${vehicles(c).map(esc).join('<br>')}</td>
+          <td>${js.length}</td><td class="money">${money(spent(c.id))}</td>
+          <td class="muted">${js[0] ? esc(fmtDate(js[0].date)) : ''}</td></tr>`; }).join('')}
+        </tbody></table>` : '<div class="empty">No clients match.</div>'}</div>`;
+  }
+
+  function renderKeepFocus(id) {
+    const el = document.getElementById(id), pos = el.selectionStart;
+    render();
+    const n = document.getElementById(id);
+    n.focus();
+    n.setSelectionRange(pos, pos);
+  }
+
+  /* ---------------------------------------------------- client detail */
+  function viewClient() {
+    const c = client(UI.clientId);
+    if (!c) return '<p class="muted">Client not found.</p>';
+    const js = jobsOf(c.id);
+    const appts = DATA.appointments.filter(a => a.clientId === c.id).sort((a, b) => String(b.start).localeCompare(String(a.start)));
+    const acts = DATA.interactions.filter(i => i.clientId === c.id).sort((a, b) => String(b.date).localeCompare(String(a.date)));
+    const tel = telLink(c.phone);
+
+    return `
+      <button class="linkbtn" onclick="go('clients')">&larr; All clients</button>
+      <div class="row spread" style="margin-top:10px">
+        <div><h1>${esc(fullName(c))}</h1><div style="margin-top:6px">${statusBadge(c)}
+          ${c.okText === false ? '<span class="badge danger">No texts</span>' : ''}${c.okEmail === false ? ' <span class="badge danger">No emails</span>' : ''}</div></div>
+        <div class="row">
+          ${tel ? `<a class="btn ghost sm" href="tel:${esc(tel)}">Call</a><a class="btn ghost sm" href="sms:${esc(tel)}">Text from phone</a>` : ''}
+          <button class="btn ghost sm" onclick="compose('${esc(c.id)}')">Send from CRM</button>
+          <button class="btn ghost sm" onclick="editClient('${esc(c.id)}')">Edit</button>
+        </div>
+      </div>
+
+      <div class="grid stats section">
+        ${stat('Total spent', money(spent(c.id)))}
+        ${stat('Visits', js.length)}
+        ${stat('First visit', js.length ? fmtDate(js[js.length - 1].date) : '-')}
+        ${stat('Last visit', js.length ? fmtDate(js[0].date) : '-')}
+      </div>
+
+      <div class="card section"><div class="info">
+        ${info('Phone', phone(c.phone))}${info('Email', c.email)}${info('Address', c.address)}
+        ${info('Vehicles', vehicles(c).join('\n'))}${info('Source', c.source)}${info('Tags', c.tags)}
+        ${info('Client since', fmtDate(c.created))}${c.notes ? `<div style="grid-column:1/-1">${info('Notes', c.notes)}</div>` : ''}
+      </div></div>
+
+      <div class="section"><div class="row spread"><h2>Service history</h2><button class="btn sm" onclick="editJob(null,'${esc(c.id)}')">+ Add service</button></div>
+        <div class="card scroll-x">${js.length ? jobsTable(js, false) : '<div class="empty">No services yet.</div>'}</div></div>
+
+      <div class="section"><div class="row spread"><h2>Appointments</h2><button class="btn sm" onclick="editAppointment(null,'${esc(c.id)}')">+ Book appointment</button></div>
+        <div class="card"><div class="list">${appts.length ? appts.map(a => `<div class="item"><div class="grow">
+          <div class="row spread"><span class="name">${esc(fmtDT(a.start))}</span><span class="badge ${a.status === 'Cancelled' ? 'danger' : a.status === 'Completed' ? 'customer' : 'lead'}">${esc(a.status)}</span></div>
+          <div class="muted">${esc(a.service || 'Appointment')}${a.vehicle ? ' &middot; ' + esc(a.vehicle) : ''}${a.location ? ' &middot; ' + esc(a.location) : ''}</div>
+          ${a.notes ? `<div class="faint pre">${esc(a.notes)}</div>` : ''}
+          ${a.reminderSent ? `<div class="faint">Reminder sent ${esc(fmtDT(a.reminderSent))}</div>` : ''}</div>
+          <button class="btn ghost sm" onclick="editAppointment('${esc(a.id)}')">Edit</button></div>`).join('') : '<div class="empty">No appointments.</div>'}</div></div></div>
+
+      <div class="section"><div class="row spread"><h2>Interaction history</h2><button class="btn sm" onclick="editInteraction('${esc(c.id)}')">+ Log interaction</button></div>
+        <div class="card"><div class="list">${acts.length ? acts.map(i => activityItem(i, false)).join('') : '<div class="empty">Nothing logged yet.</div>'}</div></div></div>
+
+      <div class="section"><button class="btn danger sm" onclick="delClient('${esc(c.id)}')">Delete client</button></div>`;
+  }
+
+  const info = (label, v) => `<div><div class="label">${label}</div><div class="pre">${esc(v) || '<span class="faint">-</span>'}</div></div>`;
+
+  function jobsTable(js, showClient) {
+    const total = js.reduce((t, j) => t + (Number(j.total) || 0), 0);
+    return `<table><thead><tr><th>Date</th>${showClient ? '<th>Client</th>' : ''}<th>Vehicle</th><th>Work done</th><th class="money">Parts</th><th class="money">Labor</th><th class="money">Paid</th><th></th></tr></thead><tbody>
+      ${js.map(j => `<tr class="click" onclick="editJob('${esc(j.id)}')">
+        <td style="white-space:nowrap">${esc(fmtDate(j.date))}</td>
+        ${showClient ? `<td class="name">${esc(fullName(client(j.clientId)))}</td>` : ''}
+        <td>${esc(j.vehicle)}${j.mileage ? `<div class="faint">${esc(Number(j.mileage).toLocaleString())} mi</div>` : ''}</td>
+        <td>${j.category ? `<span class="badge">${esc(j.category)}</span> ` : ''}<span class="pre">${esc(j.work)}</span></td>
+        <td class="money muted">${j.partsCost !== '' ? money(j.partsCost) : ''}</td>
+        <td class="money muted">${j.labor !== '' ? money(j.labor) : ''}</td>
+        <td class="money name">${money(j.total)}</td>
+        <td>${j.paid === true ? '' : Number(j.total) > 0 ? '<span class="badge danger">Unpaid</span>' : ''}</td></tr>`).join('')}
+      <tr><td colspan="${showClient ? 6 : 5}" class="label">Total</td><td class="money name">${money(total)}</td><td></td></tr>
+      </tbody></table>`;
+  }
+
+  /* ----------------------------------------------------- appointments */
+  function viewAppointments() {
+    const today = nowStr().slice(0, 10);
+    const list = DATA.appointments.filter(a => UI.showPast ? true : a.start >= today && a.status !== 'Cancelled')
+      .sort((a, b) => UI.showPast ? b.start.localeCompare(a.start) : a.start.localeCompare(b.start));
+    const days = {};
+    list.forEach(a => { const k = String(a.start).slice(0, 10); (days[k] = days[k] || []).push(a); });
+    return `
+      <div class="row spread"><h1>Appointments</h1><button class="btn" onclick="editAppointment()">+ Book appointment</button></div>
+      <p class="muted">Every appointment is added to your Google Calendar with alerts 1 day and 1 hour before.</p>
+      <div class="chips"><button class="chip ${UI.showPast ? '' : 'on'}" onclick="UI.showPast=false; render()">Upcoming</button>
+        <button class="chip ${UI.showPast ? 'on' : ''}" onclick="UI.showPast=true; render()">All, newest first</button></div>
+      ${Object.keys(days).length ? Object.keys(days).map(k => `<div class="section"><h2 style="margin-bottom:8px">${esc(toDate(k).toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' }))}</h2>
+        <div class="card"><div class="list">${days[k].map(a => { const c = client(a.clientId); return `<div class="item">
+          <div class="when"><b style="font-size:14px">${esc(fmtTime(a.start))}</b></div>
+          <div class="grow"><div class="row spread"><button class="linkbtn name" onclick="go('client','${esc(a.clientId)}')">${esc(fullName(c))}</button>
+            <span class="badge ${a.status === 'Cancelled' ? 'danger' : a.status === 'Completed' ? 'customer' : 'lead'}">${esc(a.status)}</span></div>
+            <div class="muted">${esc(a.service || 'Appointment')}${a.vehicle ? ' &middot; ' + esc(a.vehicle) : ''}${c && c.phone ? ' &middot; ' + esc(phone(c.phone)) : ''}</div>
+            ${a.location || (c && c.address) ? `<div class="faint">${esc(a.location || c.address)}</div>` : ''}</div>
+          <div class="row">${a.status === 'Scheduled' ? `<button class="btn sm" onclick="completeAppointment('${esc(a.id)}')">Done</button>` : ''}
+            <button class="btn ghost sm" onclick="editAppointment('${esc(a.id)}')">Edit</button></div></div>`; }).join('')}</div></div></div>`).join('')
+        : '<div class="card section"><div class="empty">No appointments.</div></div>'}`;
+  }
+
+  /* -------------------------------------------------------------- jobs */
+  function viewJobs() {
+    const q = UI.jobSearch.toLowerCase();
+    const js = DATA.jobs.filter(j => !q || [fullName(client(j.clientId)), j.vehicle, j.work, j.category, j.notes].join(' ').toLowerCase().includes(q))
+      .sort((a, b) => String(b.date).localeCompare(String(a.date)));
+    return `
+      <div class="row spread"><h1>Services</h1><button class="btn" onclick="editJob()">+ Add service</button></div>
+      <p class="muted">Every job you have done, with what was paid. Click a row to edit it.</p>
+      <input id="jobSearch" placeholder="Search client, vehicle, work..." value="${esc(UI.jobSearch)}" oninput="UI.jobSearch=this.value; renderKeepFocus('jobSearch')">
+      <div class="card section scroll-x">${js.length ? jobsTable(js, true) : '<div class="empty">No services yet.</div>'}</div>`;
+  }
+
+  /* ---------------------------------------------------------- settings */
+  async function loadSettings() {
+    SETTINGS = await call('getSettings');
+    if (UI.view === 'settings') render();
+  }
+
+  function viewSettings() {
+    if (!SETTINGS) return '<p class="muted">Loading settings...</p>';
+    const s = SETTINGS;
+    const field = (k, label, type, hint) => `<label class="f ${type === 'textarea' ? 'full' : ''}"><span class="label">${label}</span>
+      ${type === 'textarea' ? `<textarea name="${k}">${esc(s[k])}</textarea>` : `<input name="${k}" type="${type || 'text'}" value="${esc(s[k])}">`}
+      ${hint ? `<div class="hint">${hint}</div>` : ''}</label>`;
+    const check = (k, label) => `<label class="check full"><input type="checkbox" name="${k}" ${s[k] ? 'checked' : ''}> ${label}</label>`;
+    const tpl = (kind, title) => `<div class="card section"><h2 style="margin-bottom:12px">${title}</h2><div class="form">
+      ${field(kind + 'Subject', 'Email subject', 'text')}<div></div>
+      ${field(kind + 'Body', 'Email message', 'textarea')}${field(kind + 'Sms', 'Text message', 'textarea')}</div></div>`;
+
+    return `
+      <h1>Settings</h1>
+      <form id="settingsForm" onsubmit="event.preventDefault(); saveSettingsForm()">
+      <div class="card section"><h2 style="margin-bottom:12px">Automatic messages</h2>
+        <div class="row" style="margin-bottom:14px">${s.automationsOn
+          ? '<span class="badge customer">Automations are running</span>'
+          : '<span class="badge danger">Automations are off</span>'}
+          <button type="button" class="btn ghost sm" onclick="turnOn()">${s.automationsOn ? 'Restart' : 'Turn on'}</button></div>
+        <div class="form">
+          ${check('sendEmail', 'Send emails')}${check('sendSms', 'Write texts for me to send from my phone')}
+          ${check('autoReminders', 'Remind customers before appointments')}
+          ${field('reminderHours', 'How many hours before', 'number')}
+          ${check('autoFollowUp', 'Send a thank-you follow-up after a service')}
+          ${field('followUpDays', 'Days after the service', 'number')}
+          ${check('autoServiceReminder', 'Send a "time for a check-up" reminder')}
+          ${field('serviceReminderMonths', 'Months after the last service', 'number')}
+          ${check('autoLeadReply', 'Auto-reply to new website form requests')}
+          ${check('dailyDigest', 'Email me a summary of my day at 6 AM')}
+        </div></div>
+
+      <div class="card section"><h2 style="margin-bottom:12px">Business info</h2><div class="form">
+        ${field('businessName', 'Business name')}${field('businessPhone', 'Business phone (shown in messages)')}
+        ${field('ownerEmail', 'Your email', 'email', 'Replies and the daily summary go here. Blank = this Google account.')}
+        ${field('reviewLink', 'Google review link', 'url', 'Added to thank-you messages. Leave blank to skip that line.')}
+        ${field('calendarId', 'Google Calendar ID', 'text', 'Blank = your main calendar.')}
+      </div><p class="hint">Your CRM data sheet: <a href="${esc(s.crmSheetUrl)}" target="_blank">open in Google Sheets</a></p></div>
+
+      <div class="card section"><h2 style="margin-bottom:12px">How texting works (free)</h2>
+        <p class="muted" style="margin-top:0">The CRM writes each reminder and follow-up text for you and puts it in
+          <b>Texts to send</b> on the Dashboard. Tap <b>Send</b> on your phone and Messages opens with the text ready to go,
+          from your own number, at no cost. Emails go out on their own. Your morning summary email tells you when texts are waiting.</p>
+        <button type="button" class="btn ghost sm" onclick="test()">Send me a test email</button></div>
+
+      <div class="section"><p class="muted">Message templates. These words get filled in for you:
+        {firstName} {name} {vehicle} {date} {time} {service} {location} {business} {phone} {reviewLink}</p></div>
+      ${tpl('reminder', 'Appointment reminder')}${tpl('followUp', 'Thank-you follow-up')}${tpl('service', 'Check-up reminder')}${tpl('lead', 'Website request auto-reply')}
+
+      <div class="section" style="position:sticky;bottom:12px"><button class="btn">Save settings</button></div>
+      </form>`;
+  }
+
+  async function saveSettingsForm() {
+    const form = document.getElementById('settingsForm'), out = {};
+    form.querySelectorAll('input, textarea').forEach(el => { out[el.name] = el.type === 'checkbox' ? el.checked : el.value; });
+    SETTINGS = await call('saveSettings', out);
+    render();
+    toast('Settings saved');
+  }
+  async function turnOn() { SETTINGS = await call('installAutomations'); render(); toast('Automations are on'); }
+  async function test() { await call('sendTest'); toast('Test email sent'); }
+
+  /* ------------------------------------------------------------ modals */
+  // fields: [{k, label, type, options, full, hint, list}]
+  function openForm(title, fields, values, onSave, extra) {
+    const v = values || {};
+    const input = f => {
+      const val = v[f.k] == null ? '' : v[f.k];
+      if (f.type === 'textarea') return `<textarea name="${f.k}">${esc(val)}</textarea>`;
+      if (f.type === 'select') return `<select name="${f.k}">${f.options.map(o => { const [ov, ol] = Array.isArray(o) ? o : [o, o];
+        return `<option value="${esc(ov)}" ${String(val) === String(ov) ? 'selected' : ''}>${esc(ol)}</option>`; }).join('')}</select>`;
+      if (f.type === 'checkbox') return `<span class="check"><input type="checkbox" name="${f.k}" ${val !== false ? 'checked' : ''}> ${esc(f.text || '')}</span>`;
+      return `<input name="${f.k}" type="${f.type || 'text'}" value="${esc(val)}" ${f.type === 'number' ? 'step="any"' : ''} ${f.list ? `list="dl-${f.k}"` : ''}>
+        ${f.list ? `<datalist id="dl-${f.k}">${f.list.map(o => `<option value="${esc(o)}">`).join('')}</datalist>` : ''}`;
+    };
+    document.getElementById('modal').innerHTML = `<div class="modal-wrap" onclick="if(event.target===this) closeModal()">
+      <form class="modal" id="mform"><h2 style="margin-bottom:16px">${esc(title)}</h2>
+        <div class="form">${fields.map(f => `<label class="f ${f.full || f.type === 'textarea' ? 'full' : ''}">
+          ${f.type === 'checkbox' ? '' : `<span class="label">${esc(f.label)}</span>`}${input(f)}${f.hint ? `<div class="hint">${esc(f.hint)}</div>` : ''}</label>`).join('')}</div>
+        <div class="actions">${extra || ''}<span style="flex:1"></span><button type="button" class="btn ghost" onclick="closeModal()">Cancel</button><button class="btn">Save</button></div>
+      </form></div>`;
+    document.getElementById('mform').onsubmit = async e => {
+      e.preventDefault();
+      const out = Object.assign({}, v);
+      e.target.querySelectorAll('[name]').forEach(el => { out[el.name] = el.type === 'checkbox' ? el.checked : el.value.trim(); });
+      try { await onSave(out); closeModal(); } catch (err) { /* toast already shown */ }
+    };
+    const first = document.querySelector('#mform input, #mform select, #mform textarea');
+    if (first) first.focus();
+  }
+  function closeModal() { document.getElementById('modal').innerHTML = ''; }
+
+  const clientOptions = () => DATA.clients.slice().sort((a, b) => fullName(a).localeCompare(fullName(b))).map(c => [c.id, fullName(c) + (c.phone ? ' - ' + phone(c.phone) : '')]);
+
+  function editClient(id) {
+    const c = id ? client(id) : { okText: true, okEmail: true, status: 'New lead' };
+    openForm(id ? 'Edit client' : 'New client', [
+      { k: 'firstName', label: 'First name' }, { k: 'lastName', label: 'Last name' },
+      { k: 'phone', label: 'Phone', type: 'tel' }, { k: 'email', label: 'Email', type: 'email' },
+      { k: 'address', label: 'Address', full: true },
+      { k: 'vehicles', label: 'Vehicles', type: 'textarea', hint: 'One per line, like: 2019 Ford Fiesta ST' },
+      { k: 'status', label: 'Status', type: 'select', options: STATUSES },
+      { k: 'source', label: 'How they found you', list: ['Website form', 'Referral', 'Google', 'Facebook', 'Instagram', 'Repeat', 'Walk-up'] },
+      { k: 'tags', label: 'Tags', full: true, hint: 'Anything you want to search by, like: fleet, VIP, pays cash' },
+      { k: 'notes', label: 'Notes', type: 'textarea' },
+      { k: 'okText', type: 'checkbox', text: 'OK to send automatic texts' },
+      { k: 'okEmail', type: 'checkbox', text: 'OK to send automatic emails' }
+    ], c, async out => {
+      const isNew = !out.id;
+      const d = await act('saveClient', out);
+      if (isNew) { const made = d.clients[d.clients.length - 1]; go('client', made.id); }
+      toast('Client saved');
+    });
+  }
+
+  function editJob(id, clientId) {
+    const j = id ? DATA.jobs.find(x => x.id === id) : { clientId: clientId || '', date: nowStr().slice(0, 10), paid: true };
+    const c = client(j.clientId);
+    const fields = [
+      { k: 'clientId', label: 'Client', type: 'select', options: [['', 'Pick a client'], ...clientOptions()], full: true },
+      { k: 'date', label: 'Date', type: 'date' },
+      { k: 'vehicle', label: 'Vehicle', list: c ? vehicles(c) : [...new Set(DATA.clients.flatMap(vehicles))] },
+      { k: 'category', label: 'Category', type: 'select', options: ['', ...CATEGORIES] },
+      { k: 'mileage', label: 'Mileage', type: 'number' },
+      { k: 'work', label: 'Work done', type: 'textarea' },
+      { k: 'partsCost', label: 'Parts cost ($)', type: 'number' }, { k: 'labor', label: 'Labor ($)', type: 'number' },
+      { k: 'total', label: 'Total paid ($)', type: 'number', hint: 'Leave blank to use parts + labor' },
+      { k: 'payment', label: 'Payment method', type: 'select', options: ['', 'Cash', 'Card', 'Zelle', 'Venmo', 'Cash App', 'Check', 'Other'] },
+      { k: 'paid', type: 'checkbox', text: 'Paid in full' },
+      { k: 'notes', label: 'Notes', type: 'textarea', hint: 'Parts used, things to check next time, etc.' }
+    ];
+    const vals = Object.assign({}, j, { date: String(j.date || '').slice(0, 10) });
+    openForm(id ? 'Edit service' : 'Add service', fields, vals, async out => {
+      if (!out.clientId) { toast('Pick a client', true); throw new Error('no client'); }
+      if (out.total === '' && (out.partsCost !== '' || out.labor !== '')) out.total = (Number(out.partsCost) || 0) + (Number(out.labor) || 0);
+      await act('saveJob', out);
+      toast('Service saved');
+    }, id ? `<button type="button" class="btn danger" onclick="delJob('${esc(id)}')">Delete</button>` : '');
+  }
+
+  function editAppointment(id, clientId) {
+    let a;
+    if (id) a = DATA.appointments.find(x => x.id === id);
+    else {
+      const t = new Date(); t.setDate(t.getDate() + 1); t.setHours(9, 0, 0, 0);
+      const c = client(clientId);
+      a = { clientId: clientId || '', start: localStr(t), status: 'Scheduled', location: c ? c.address : '', vehicle: c ? vehicles(c)[0] || '' : '' };
+    }
+    const c = client(a.clientId);
+    const vals = Object.assign({}, a, { length: a.end ? String((toDate(a.end) - toDate(a.start)) / 36e5) : '2' });
+    openForm(id ? 'Edit appointment' : 'Book appointment', [
+      { k: 'clientId', label: 'Client', type: 'select', options: [['', 'Pick a client'], ...clientOptions()], full: true },
+      { k: 'start', label: 'Date and time', type: 'datetime-local' },
+      { k: 'length', label: 'How long (hours)', type: 'number' },
+      { k: 'service', label: 'Service', list: CATEGORIES },
+      { k: 'vehicle', label: 'Vehicle', list: c ? vehicles(c) : [] },
+      { k: 'location', label: 'Location', full: true, hint: 'Blank = client address' },
+      { k: 'status', label: 'Status', type: 'select', options: ['Scheduled', 'Completed', 'Cancelled', 'No-show'] },
+      { k: 'notes', label: 'Notes', type: 'textarea' }
+    ], vals, async out => {
+      if (!out.clientId || !out.start) { toast('Pick a client and a time', true); throw new Error('missing'); }
+      const hrs = Number(out.length) || 2;
+      out.end = localStr(new Date(toDate(out.start).getTime() + hrs * 36e5));
+      delete out.length;
+      await act('saveAppointment', out);
+      toast(out.status === 'Cancelled' ? 'Cancelled and removed from Google Calendar' : 'Saved to Google Calendar');
+    }, id ? `<button type="button" class="btn danger" onclick="delAppointment('${esc(id)}')">Delete</button>` : '');
+  }
+
+  async function completeAppointment(id) {
+    const a = Object.assign({}, DATA.appointments.find(x => x.id === id), { status: 'Completed' });
+    await act('saveAppointment', a);
+    toast('Marked done. Add the service so it shows in their history.');
+    editJob(null, a.clientId);
+    const f = document.getElementById('mform');
+    if (f) { f.elements.vehicle.value = a.vehicle || ''; f.elements.date.value = String(a.start).slice(0, 10);
+      if (CATEGORIES.includes(a.service)) f.elements.category.value = a.service; }
+  }
+
+  function editInteraction(clientId) {
+    openForm('Log interaction', [
+      { k: 'type', label: 'Type', type: 'select', options: INTERACTION_TYPES },
+      { k: 'date', label: 'When', type: 'datetime-local' },
+      { k: 'summary', label: 'What happened', type: 'textarea' }
+    ], { clientId, type: 'Call', date: nowStr() }, async out => { await act('saveInteraction', out); toast('Logged'); });
+  }
+
+  function compose(clientId) {
+    const c = client(clientId);
+    openForm('Message ' + fullName(c), [
+      { k: 'channel', label: 'Send as', type: 'select', options: [['email', 'Email' + (c.email ? ' to ' + c.email : ' (no email on file)')], ['sms', 'Text' + (c.phone ? ' to ' + phone(c.phone) + ' (opens Messages on your phone)' : ' (no phone on file)')]], full: true },
+      { k: 'subject', label: 'Email subject (emails only)', full: true },
+      { k: 'body', label: 'Message', type: 'textarea' }
+    ], { channel: c.email ? 'email' : 'sms', subject: 'Cowboy Mechanics', body: `Hi ${c.firstName || 'there'},\n\n` }, async out => {
+      if (out.channel === 'sms') {
+        if (!c.phone) { toast('This client has no phone number', true); throw new Error('no phone'); }
+        const a = document.createElement('a');
+        a.href = smsLink(c.phone, out.body);
+        a.click(); // must happen right away, while the tap still counts
+      }
+      await act('sendMessage', clientId, out.channel, out.subject, out.body);
+      toast(out.channel === 'sms' ? 'Text logged' : 'Email sent and logged');
+    });
+  }
+
+  /* ----------------------------------------------------------- deletes */
+  async function delClient(id) {
+    if (!confirm('Delete this client and all their services, appointments and history? This cannot be undone.')) return;
+    await act('deleteClient', id); go('clients'); toast('Client deleted');
+  }
+  async function delJob(id) { if (!confirm('Delete this service?')) return; await act('deleteJob', id); closeModal(); toast('Deleted'); }
+  async function delAppointment(id) { if (!confirm('Delete this appointment? It will also be removed from Google Calendar.')) return; await act('deleteAppointment', id); closeModal(); toast('Deleted'); }
+  async function delInteraction(id) { if (!confirm('Delete this entry?')) return; await act('deleteInteraction', id); }
+
+  async function refresh() {
+    const before = DATA.clients.length;
+    const d = await act('getData', true);
+    if (d.syncError) toast('Could not read the form sheet: ' + d.syncError, true);
+    else toast(d.clients.length > before ? (d.clients.length - before) + ' new lead(s) added' : 'Up to date');
+  }
+
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+  call('getData', true).then(d => { setData(d); if (d.syncError) toast('Could not read the form sheet: ' + d.syncError, true); });
+</script>
+</body>
+</html>
