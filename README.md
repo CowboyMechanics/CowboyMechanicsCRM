@@ -6,7 +6,14 @@ Only you can open it, because it asks you to sign in with that Google account.
 
 What it does:
 
-- Keeps every client with phone, email, address, vehicles, status, tags and notes.
+- A **Today** page: one to-do list of everything that needs you, color-coded.
+  Red means act now (emergencies, leads waiting over a day, overdue follow-ups, unpaid jobs over a week,
+  estimates with no answer for a week, appointments not marked done). Amber means today.
+- Keeps every client with phone, email, address, vehicles, status, tags, notes, who referred them,
+  and a **next step** with a follow-up date so no lead goes cold.
+- Tracks **estimates**, checks in with the customer automatically after a few days, and shows your win rate.
+- A **Sales** page: money made by month, where customers come from, what sells, best customers and top referrers.
+- **Import a list** of clients (for example ones pulled out of old text messages) without creating duplicates.
 - Logs every service you do: date, vehicle, mileage, work done, parts, labor, price paid, payment method.
 - Shows total spent, number of visits and marks **Repeat** clients.
 - Keeps an interaction history (calls, texts, emails, notes, website requests).

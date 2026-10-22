@@ -20,7 +20,12 @@ const TABLES = {
     id: 'ID', created: 'Created', firstName: 'First name', lastName: 'Last name',
     phone: 'Phone', email: 'Email', address: 'Address', vehicles: 'Vehicles',
     status: 'Status', source: 'Source', tags: 'Tags', okText: 'OK to text',
-    okEmail: 'OK to email', notes: 'Notes', serviceReminderSent: 'Service reminder sent'
+    okEmail: 'OK to email', notes: 'Notes', serviceReminderSent: 'Service reminder sent',
+    referredBy: 'Referred by', nextStep: 'Next step', followUpOn: 'Follow up on'
+  },
+  Estimates: {
+    id: 'ID', clientId: 'Client ID', date: 'Date', vehicle: 'Vehicle', work: 'Work quoted',
+    amount: 'Amount', status: 'Status', notes: 'Notes', followUpSent: 'Follow-up sent'
   },
   Jobs: {
     id: 'ID', clientId: 'Client ID', date: 'Date', vehicle: 'Vehicle', mileage: 'Mileage',
@@ -45,9 +50,9 @@ const TABLES = {
 };
 
 const DATE_FIELDS = ['created', 'date', 'start', 'end', 'reminderSent', 'followUpSent',
-  'serviceReminderSent', 'imported', 'expires', 'sentAt'];
+  'serviceReminderSent', 'imported', 'expires', 'sentAt', 'followUpOn'];
 const BOOL_FIELDS = ['okText', 'okEmail', 'paid'];
-const ID_PREFIX = { Clients: 'C', Jobs: 'J', Appointments: 'A', Interactions: 'I', Outbox: 'T' };
+const ID_PREFIX = { Clients: 'C', Jobs: 'J', Appointments: 'A', Interactions: 'I', Outbox: 'T', Estimates: 'E' };
 
 const DEFAULT_SETTINGS = {
   businessName: 'Cowboy Mechanics',
@@ -64,6 +69,8 @@ const DEFAULT_SETTINGS = {
   followUpDays: 3,
   autoServiceReminder: false,
   serviceReminderMonths: 6,
+  autoEstimateFollowUp: true,
+  estimateFollowUpDays: 3,
   autoLeadReply: false,
   dailyDigest: true,
 
@@ -79,13 +86,18 @@ const DEFAULT_SETTINGS = {
   serviceBody: 'Hi {firstName},\n\nIt has been a while since we last worked on your {vehicle}. Now is a good time for an oil change or a quick inspection before small problems turn into big ones.\n\nCall or text {phone} to set something up. We come to you.\n\n{business}',
   serviceSms: 'Hi {firstName}, it has been a while since {business} worked on your {vehicle}. Due for a check-up? Call/text {phone}. Reply STOP to opt out.',
 
+  estimateSubject: 'Checking in on your estimate',
+  estimateBody: 'Hi {firstName},\n\nJust checking in on the estimate for your {vehicle}: {service}, {amount}.\n\nWant to get it on the calendar? Reply here or call/text {phone}. We come to you.\n\nThanks,\nRussell\n{business}',
+  estimateSms: 'Hi {firstName}, this is Russell with {business}. Just checking in on the estimate for your {vehicle} ({amount}). Want to get it scheduled? Reply STOP to opt out.',
+
   leadSubject: 'We got your request - {business}',
   leadBody: 'Hi {firstName},\n\nThanks for reaching out to {business}. We got your request and Russell will contact you soon. If it is urgent, call {phone}.\n\n{business}',
   leadSms: 'Hi {firstName}, thanks for contacting {business}! We got your request and will reach out soon. Urgent? Call {phone}.'
 };
 
 const KIND_LABEL = {
-  reminder: 'Appointment reminder', followUp: 'Follow-up', service: 'Service reminder', lead: 'Lead auto-reply'
+  reminder: 'Appointment reminder', followUp: 'Follow-up', service: 'Service reminder', lead: 'Lead auto-reply',
+  estimate: 'Estimate follow-up'
 };
 
 /* ---------------------------------------------------------------- web app */
@@ -135,7 +147,7 @@ function deleteClient(id) {
       deleteCalendarEvent_(a.calendarEventId);
       deleteRecord_('Appointments', a.id);
     });
-    ['Jobs', 'Interactions', 'Outbox'].forEach(t =>
+    ['Jobs', 'Interactions', 'Outbox', 'Estimates'].forEach(t =>
       readTable_(t).filter(r => r.clientId === id).forEach(r => deleteRecord_(t, r.id)));
     deleteRecord_('Clients', id);
     return readAll_();
@@ -152,6 +164,53 @@ function saveJob(rec) {
       saveRecord_('Clients', client);
     }
     return readAll_();
+  });
+}
+
+function saveEstimate(rec) {
+  return withLock_(() => {
+    if (!rec.status) rec.status = 'Open';
+    saveRecord_('Estimates', rec);
+    const client = findRecord_('Clients', rec.clientId);
+    if (client && rec.status === 'Open' && ['', 'New lead', 'Contacted'].indexOf(client.status) >= 0) {
+      client.status = 'Quoted';
+      saveRecord_('Clients', client);
+    }
+    return readAll_();
+  });
+}
+
+function deleteEstimate(id) {
+  return withLock_(() => { deleteRecord_('Estimates', id); return readAll_(); });
+}
+
+/**
+ * Adds clients from a list (for example ones Claude pulled out of old text messages).
+ * Matches existing clients by phone or email and only fills in blanks. Notes become history entries.
+ */
+function importClients(rows) {
+  return withLock_(() => {
+    const clients = readTable_('Clients');
+    let added = 0, updated = 0;
+    (rows || []).forEach(r => {
+      if (!r.firstName && !r.phone && !r.email) return;
+      let c = matchClient_(clients, r.phone, r.email);
+      if (!c) {
+        c = { created: now_(), status: r.status || 'New lead', source: r.source || 'Imported', okText: true, okEmail: true };
+        clients.push(c);
+        added++;
+      } else {
+        updated++;
+      }
+      ['firstName', 'lastName', 'phone', 'email', 'address', 'vehicles', 'referredBy', 'tags'].forEach(k => {
+        if (r[k] && !c[k]) c[k] = r[k];
+      });
+      saveRecord_('Clients', c);
+      if (r.notes) saveRecord_('Interactions', { clientId: c.id, date: now_(), type: 'Note (imported)', summary: r.notes });
+    });
+    const data = readAll_();
+    data.imported = { added: added, updated: updated };
+    return data;
   });
 }
 
@@ -403,6 +462,23 @@ function runAutomations_() {
     });
   }
 
+  if (s.autoEstimateFollowUp) {
+    readTable_('Estimates').forEach(e => {
+      if (e.status !== 'Open' || e.followUpSent || !e.date) return;
+      const due = parseDate_(e.date).getTime() + s.estimateFollowUpDays * DAY;
+      if (due > now) return;
+      const c = clients[e.clientId];
+      if (c && now - due < 7 * DAY) {
+        autoMessage_(c, 'estimate', {
+          vehicle: e.vehicle || firstVehicle_(c), service: e.work || 'the work we talked about',
+          amount: e.amount ? '$' + Number(e.amount).toLocaleString('en-US') : ''
+        });
+      }
+      e.followUpSent = now_();
+      saveRecord_('Estimates', e);
+    });
+  }
+
   if (s.autoServiceReminder) {
     const lastJob = {};
     jobs.forEach(j => {
@@ -436,7 +512,8 @@ function dailyDigest() {
   const leads = readTable_('Clients').filter(c => c.status === 'New lead');
   const fresh = readTable_('Interactions').filter(i => String(i.type).indexOf('Website form') === 0 && i.date >= yesterday);
   const texts = readTable_('Outbox').filter(t => t.status === 'Pending');
-  if (!appts.length && !fresh.length && !leads.length && !texts.length) return;
+  const followUps = readTable_('Clients').filter(c => c.followUpOn && String(c.followUpOn).slice(0, 10) <= today);
+  if (!appts.length && !fresh.length && !leads.length && !texts.length && !followUps.length) return;
 
   const lines = ['Good morning! Here is your day.', ''];
   lines.push('TODAY\'S APPOINTMENTS (' + appts.length + ')');
@@ -450,6 +527,10 @@ function dailyDigest() {
   if (!fresh.length) lines.push('  None');
   fresh.forEach(i => lines.push('  ' + fullName_(clients[i.clientId] || {}) + ': ' + i.summary));
   lines.push('', 'Leads still marked "New lead": ' + leads.length);
+  if (followUps.length) {
+    lines.push('', 'FOLLOW-UPS DUE (' + followUps.length + ')');
+    followUps.forEach(c => lines.push('  ' + fullName_(c) + (c.nextStep ? ': ' + c.nextStep : '') + (c.phone ? '  ' + c.phone : '')));
+  }
   if (texts.length) lines.push('Texts waiting for you to send: ' + texts.length + ' (open the CRM Dashboard)');
   MailApp.sendEmail(ownerEmail_(s), 'Your day - ' + prettyDate_(today), lines.join('\n'), { name: s.businessName + ' CRM' });
 }
@@ -599,7 +680,8 @@ function readAll_() {
     jobs: readTable_('Jobs'),
     appointments: readTable_('Appointments'),
     interactions: readTable_('Interactions'),
-    outbox: readTable_('Outbox')
+    outbox: readTable_('Outbox'),
+    estimates: readTable_('Estimates')
   };
 }
 

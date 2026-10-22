@@ -5,147 +5,187 @@
   <meta charset="UTF-8">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
-    /* Same palette as cowboy-mechanics.com */
+    /* Dark brown header, slate buttons and amber accent from cowboy-mechanics.com, on a light work area that is easy to read. */
     :root {
-      --bg: #211f1d; --surface: #1c1a18; --surface-alt: #23211f; --raised: #2a2724;
-      --border: #302c29; --text: #d6d3ce; --muted: #b3ada6; --faint: #847d76; --white: #ffffff;
+      color-scheme: light;
+      --header: #211f1d; --header-line: #302c29; --header-text: #f2efeb; --header-muted: #b3ada6;
+      --bg: #eef0f2; --card: #ffffff; --line: #dbe0e5; --line-strong: #c3cad2;
+      --text: #1f2226; --muted: #5a626b; --link: #34516b;
       --btn: #a4b3c2; --btn-hover: #92a2b2; --btn-text: #141312;
-      --accent: #d97706; --danger: #ef4444; --ok: #4ade80;
+      --brand: #d97706;
+      /* One rule everywhere: red = act now, amber = today / waiting, blue = scheduled, green = done, gray = closed */
+      --red: #b42318; --red-bg: #fdeceb; --red-line: #f3b8b2;
+      --amber: #9a4a00; --amber-bg: #fff3e0; --amber-line: #f2cf99;
+      --blue: #2f4d68; --blue-bg: #e6edf4; --blue-line: #bccbd9;
+      --green: #1b6e3a; --green-bg: #e5f4ea; --green-line: #aedbbd;
+      --gray: #5a626b; --gray-bg: #eceef0; --gray-line: #d3d8dd;
     }
     * { box-sizing: border-box; }
     html, body { margin: 0; }
-    body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; font-size: 14px; line-height: 1.5; min-height: 100vh; }
-    a { color: var(--btn); }
-    h1, h2, h3 { color: var(--white); margin: 0; }
-    h1 { font-size: 22px; font-weight: 900; letter-spacing: .02em; }
-    h2 { font-size: 13px; font-weight: 800; text-transform: uppercase; letter-spacing: .08em; }
-    .label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--faint); }
+    body { background: var(--bg); color: var(--text); font-family: 'Inter', -apple-system, 'Segoe UI', Roboto, sans-serif; font-size: 15px; line-height: 1.55; }
+    a { color: var(--link); }
+    h1 { font-size: 26px; line-height: 1.2; font-weight: 800; margin: 0; text-wrap: balance; }
+    h2 { font-size: 18px; font-weight: 700; margin: 0; }
+    h3 { font-size: 15px; font-weight: 700; margin: 0; }
     .muted { color: var(--muted); }
-    .faint { color: var(--faint); }
+    .small { font-size: 13px; }
+    .num { font-variant-numeric: tabular-nums; }
 
-    header { position: sticky; top: 0; z-index: 20; background: var(--bg); border-bottom: 1px solid var(--border); }
-    .bar { max-width: 1100px; margin: 0 auto; padding: 12px 16px; display: flex; align-items: center; gap: 16px; }
-    .brand { display: flex; align-items: center; gap: 10px; color: var(--white); text-decoration: none; cursor: pointer; }
-    .brand img { height: 36px; }
-    .brand b { font-weight: 900; letter-spacing: .1em; text-transform: uppercase; font-size: 14px; line-height: 1; display: block; }
-    .brand small { font-size: 10px; letter-spacing: .2em; color: var(--accent); font-weight: 800; }
-    nav { display: flex; gap: 4px; overflow-x: auto; margin-left: auto; scrollbar-width: none; }
-    nav button { background: none; border: 0; color: var(--muted); font: inherit; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; padding: 8px 10px; cursor: pointer; white-space: nowrap; border-bottom: 2px solid transparent; }
-    nav button:hover { color: var(--white); }
-    nav button.on { color: var(--white); border-bottom-color: var(--accent); }
-    @media (max-width: 720px) {
-      .bar { flex-wrap: wrap; gap: 8px; }
-      nav { margin-left: 0; width: 100%; }
-    }
+    header { position: sticky; top: 0; z-index: 20; background: var(--header); border-bottom: 1px solid var(--header-line); }
+    .bar { max-width: 1120px; margin: 0 auto; padding: 10px 16px; display: flex; align-items: center; gap: 18px; }
+    .brand { display: flex; align-items: center; gap: 10px; color: var(--header-text); text-decoration: none; cursor: pointer; flex-shrink: 0; }
+    .brand img { height: 38px; }
+    .brand b { font-weight: 800; letter-spacing: .08em; text-transform: uppercase; font-size: 14px; line-height: 1.1; display: block; }
+    .brand small { font-size: 12px; color: var(--brand); font-weight: 700; }
+    nav { display: flex; gap: 2px; overflow-x: auto; margin-left: auto; scrollbar-width: none; }
+    nav button { position: relative; background: none; border: 0; color: var(--header-muted); font: inherit; font-size: 14px; font-weight: 600; padding: 10px 12px; cursor: pointer; white-space: nowrap; border-radius: 4px; }
+    nav button:hover { color: var(--header-text); background: rgba(255,255,255,.06); }
+    nav button.on { color: var(--header-text); box-shadow: inset 0 -2px 0 var(--brand); border-radius: 0; }
+    nav .count { display: inline-block; min-width: 18px; padding: 0 5px; margin-left: 5px; border-radius: 9px; background: var(--red); color: #fff; font-size: 11px; line-height: 18px; text-align: center; }
+    @media (max-width: 760px) { .bar { flex-wrap: wrap; gap: 4px; } nav { margin-left: 0; width: 100%; } }
 
-    main { max-width: 1100px; margin: 0 auto; padding: 20px 16px 80px; }
+    main { max-width: 1120px; margin: 0 auto; padding: 24px 16px 90px; display: flex; flex-direction: column; gap: 22px; }
     .row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
     .spread { justify-content: space-between; }
-    .grid { display: grid; gap: 14px; }
-    .g2 { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
-    .stats { grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); }
-    .card { background: var(--surface); border: 1px solid var(--border); border-radius: 4px; padding: 16px; position: relative; overflow: hidden; }
-    .stat .num { font-size: 26px; font-weight: 900; color: var(--white); }
-    .section { margin-top: 22px; }
-    .section > .row { margin-bottom: 10px; }
+    .grid { display: grid; gap: 16px; }
+    .g2 { grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); }
+    .g2 > * { min-width: 0; }
+    .card { background: var(--card); border: 1px solid var(--line); border-radius: 8px; padding: 18px; min-width: 0; }
+    .card > h2 { margin-bottom: 10px; }
+    .head { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-bottom: 10px; flex-wrap: wrap; }
 
-    .btn { display: inline-flex; align-items: center; gap: 6px; background: var(--btn); color: var(--btn-text); border: 0; border-radius: 2px; padding: 9px 14px; font: inherit; font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: .08em; cursor: pointer; text-decoration: none; }
-    .btn:hover { background: var(--btn-hover); }
-    .btn.ghost { background: transparent; color: var(--text); border: 1px solid var(--border); }
-    .btn.ghost:hover { border-color: var(--muted); color: var(--white); }
-    .btn.danger { background: transparent; color: var(--danger); border: 1px solid #5a2a26; }
-    .btn.sm { padding: 6px 10px; font-size: 11px; }
-    .linkbtn { background: none; border: 0; color: var(--btn); font: inherit; cursor: pointer; padding: 0; }
+    .btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; background: var(--btn); color: var(--btn-text); border: 1px solid var(--btn); border-radius: 6px; padding: 9px 15px; font: inherit; font-size: 14px; font-weight: 600; cursor: pointer; text-decoration: none; white-space: nowrap; }
+    .btn:hover { background: var(--btn-hover); border-color: var(--btn-hover); }
+    .btn.plain { background: var(--card); color: var(--text); border-color: var(--line-strong); }
+    .btn.plain:hover { border-color: var(--muted); }
+    .btn.dark { background: var(--header); color: var(--header-text); border-color: var(--header); }
+    .btn.danger { background: var(--card); color: var(--red); border-color: var(--red-line); }
+    .btn.sm { padding: 6px 11px; font-size: 13px; }
+    .btn:focus-visible, nav button:focus-visible, .linkbtn:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
+    .linkbtn { background: none; border: 0; color: var(--link); font: inherit; cursor: pointer; padding: 0; font-weight: 600; text-align: left; }
+    .linkbtn:hover { text-decoration: underline; }
 
-    .badge { display: inline-block; font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: .08em; padding: 2px 7px; border-radius: 2px; border: 1px solid var(--border); color: var(--muted); }
-    .badge.lead { color: var(--accent); border-color: #6b4310; }
-    .badge.customer { color: var(--ok); border-color: #22543a; }
-    .badge.repeat { background: var(--accent); color: #141312; border-color: var(--accent); }
-    .badge.danger { color: var(--danger); border-color: #5a2a26; }
+    .pill { display: inline-flex; align-items: center; gap: 4px; font-size: 12px; font-weight: 600; padding: 2px 9px; border-radius: 20px; border: 1px solid; white-space: nowrap; }
+    .red { color: var(--red); background: var(--red-bg); border-color: var(--red-line); }
+    .amber { color: var(--amber); background: var(--amber-bg); border-color: var(--amber-line); }
+    .blue { color: var(--blue); background: var(--blue-bg); border-color: var(--blue-line); }
+    .green { color: var(--green); background: var(--green-bg); border-color: var(--green-line); }
+    .gray { color: var(--gray); background: var(--gray-bg); border-color: var(--gray-line); }
+    .star { color: var(--brand); background: #fff7ea; border-color: #f2cf99; }
+    .t-red { color: var(--red); font-weight: 600; }
+    .t-amber { color: var(--amber); font-weight: 600; }
+
+    /* To-do items carry a colored edge so urgency reads at a glance */
+    .todo { display: flex; flex-direction: column; gap: 10px; }
+    .task { display: flex; gap: 14px; align-items: flex-start; background: var(--card); border: 1px solid var(--line); border-left: 5px solid var(--gray-line); border-radius: 8px; padding: 14px 16px; }
+    .task.red { border-left-color: var(--red); background: var(--card); color: var(--text); }
+    .task.amber { border-left-color: #e08a12; background: var(--card); color: var(--text); }
+    .task.blue { border-left-color: var(--btn); background: var(--card); color: var(--text); }
+    .task .grow { flex: 1; min-width: 0; }
+    .task .what { font-weight: 700; }
+    .task .actions { display: flex; gap: 6px; flex-wrap: wrap; justify-content: flex-end; }
+    @media (max-width: 560px) { .task { flex-direction: column; } .task .actions { justify-content: flex-start; } }
+    .group-title { display: flex; align-items: center; gap: 8px; margin: 4px 0 2px; }
+    .dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+
+    .summary { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 0; background: var(--card); border: 1px solid var(--line); border-radius: 8px; }
+    .summary > div { padding: 14px 18px; border-right: 1px solid var(--line); }
+    .summary > div:last-child { border-right: 0; }
+    .summary .big { font-size: 24px; font-weight: 800; font-variant-numeric: tabular-nums; }
+    @media (max-width: 560px) { .summary > div { border-right: 0; border-bottom: 1px solid var(--line); } }
 
     .list { display: flex; flex-direction: column; }
-    .item { display: flex; gap: 12px; align-items: flex-start; padding: 12px 0; border-top: 1px solid var(--border); }
-    .item:first-child { border-top: 0; }
-    .item.click { cursor: pointer; }
-    .item.click:hover .name { color: var(--btn); }
+    .item { display: flex; gap: 12px; align-items: flex-start; padding: 12px 0; border-top: 1px solid var(--line); }
+    .item:first-child { border-top: 0; padding-top: 2px; }
     .item .grow { flex: 1; min-width: 0; }
-    .name { color: var(--white); font-weight: 700; }
-    .when { min-width: 74px; text-align: center; background: var(--surface-alt); border: 1px solid var(--border); border-radius: 3px; padding: 6px 4px; }
-    .when b { display: block; color: var(--white); font-size: 18px; font-weight: 900; line-height: 1.1; }
-    .when span { font-size: 10px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); font-weight: 700; }
-    .empty { color: var(--faint); padding: 14px 0; }
+    .name { font-weight: 700; color: var(--text); }
+    .when { min-width: 62px; text-align: center; border: 1px solid var(--line); border-radius: 6px; padding: 4px; background: var(--bg); }
+    .when b { display: block; font-size: 19px; line-height: 1.15; }
+    .when span { font-size: 12px; color: var(--muted); }
+    .empty { color: var(--muted); padding: 8px 0; }
     .pre { white-space: pre-wrap; word-break: break-word; }
 
+    .table-wrap { overflow-x: auto; }
     table { width: 100%; border-collapse: collapse; }
-    th { text-align: left; font-size: 11px; text-transform: uppercase; letter-spacing: .08em; color: var(--faint); font-weight: 700; padding: 8px; border-bottom: 1px solid var(--border); }
-    td { padding: 10px 8px; border-bottom: 1px solid var(--border); vertical-align: top; }
+    th { text-align: left; font-size: 13px; color: var(--muted); font-weight: 600; padding: 8px 10px; border-bottom: 1px solid var(--line-strong); white-space: nowrap; }
+    td { padding: 11px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
     tr.click { cursor: pointer; }
-    tr.click:hover td { background: var(--surface-alt); }
-    .scroll-x { overflow-x: auto; }
-    .money { text-align: right; white-space: nowrap; }
+    tr.click:hover td { background: var(--bg); }
+    .money { text-align: right; white-space: nowrap; font-variant-numeric: tabular-nums; }
+    tfoot td { font-weight: 700; border-bottom: 0; }
 
-    input, select, textarea { width: 100%; background: var(--surface-alt); border: 1px solid var(--border); color: var(--white); font: inherit; padding: 9px 10px; border-radius: 2px; }
-    input:focus, select:focus, textarea:focus { outline: none; border-color: var(--btn); }
-    input[type=checkbox] { width: auto; accent-color: var(--accent); }
-    textarea { min-height: 80px; resize: vertical; }
-    label.f { display: block; }
-    label.f .label { display: block; margin-bottom: 4px; }
-    .form { display: grid; gap: 12px; grid-template-columns: 1fr 1fr; }
+    input, select, textarea { width: 100%; background: var(--card); border: 1px solid var(--line-strong); color: var(--text); font: inherit; padding: 9px 11px; border-radius: 6px; }
+    input:focus, select:focus, textarea:focus { outline: 2px solid var(--btn); outline-offset: 0; border-color: var(--link); }
+    input[type=checkbox] { width: 18px; height: 18px; accent-color: var(--link); }
+    textarea { min-height: 90px; resize: vertical; }
+    label.f { display: flex; flex-direction: column; gap: 5px; font-size: 14px; font-weight: 600; }
+    .form { display: grid; gap: 14px; grid-template-columns: 1fr 1fr; }
     .form .full { grid-column: 1 / -1; }
-    .check { display: flex; align-items: center; gap: 8px; color: var(--text); }
-    .hint { font-size: 12px; color: var(--faint); margin-top: 3px; }
+    .check { display: flex; align-items: center; gap: 9px; font-weight: 500; }
+    .hint { font-size: 13px; color: var(--muted); font-weight: 400; }
     @media (max-width: 560px) { .form { grid-template-columns: 1fr; } }
 
     .chips { display: flex; gap: 6px; flex-wrap: wrap; }
-    .chip { background: transparent; border: 1px solid var(--border); color: var(--muted); padding: 5px 10px; border-radius: 20px; font: inherit; font-size: 12px; font-weight: 600; cursor: pointer; }
-    .chip.on { background: var(--btn); border-color: var(--btn); color: var(--btn-text); }
+    .chip { background: var(--card); border: 1px solid var(--line-strong); color: var(--text); padding: 6px 12px; border-radius: 20px; font: inherit; font-size: 13px; font-weight: 600; cursor: pointer; }
+    .chip.on { background: var(--header); border-color: var(--header); color: var(--header-text); }
 
-    .info { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; }
-    .info div > div:last-child { color: var(--white); word-break: break-word; }
+    .info { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 16px; }
+    .info .k { font-size: 13px; color: var(--muted); }
+    .info .v { word-break: break-word; }
+    .next { border: 1px solid var(--line); border-radius: 8px; padding: 14px 16px; background: var(--card); display: flex; gap: 14px; align-items: center; flex-wrap: wrap; }
+    .next .grow { flex: 1; min-width: 200px; }
 
-    .modal-wrap { position: fixed; inset: 0; background: rgba(0,0,0,.65); z-index: 50; display: flex; align-items: flex-start; justify-content: center; padding: 40px 16px; overflow-y: auto; }
-    .modal { background: var(--surface); border: 1px solid var(--border); border-radius: 4px; width: 100%; max-width: 620px; padding: 20px; }
-    .modal .actions { display: flex; justify-content: flex-end; gap: 8px; margin-top: 18px; }
+    .bars { display: flex; align-items: flex-end; gap: 10px; height: 170px; padding-top: 22px; border-bottom: 1px solid var(--line-strong); }
+    .bars .col { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; height: 100%; gap: 4px; min-width: 0; }
+    .bars .bar-fill { width: 100%; max-width: 56px; background: var(--btn); border-radius: 4px 4px 0 0; }
+    .bars .col.now .bar-fill { background: var(--link); }
+    .bars .val { font-size: 12px; color: var(--muted); font-variant-numeric: tabular-nums; white-space: nowrap; }
+    .bar-labels { display: flex; gap: 10px; }
+    .bar-labels span { flex: 1; text-align: center; font-size: 12px; color: var(--muted); }
+    .meter { height: 8px; background: var(--gray-bg); border-radius: 4px; overflow: hidden; }
+    .meter > div { height: 100%; background: var(--link); }
 
-    #toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: var(--white); color: #141312; padding: 10px 16px; border-radius: 3px; font-weight: 700; z-index: 70; display: none; max-width: calc(100% - 32px); }
-    #toast.err { background: var(--danger); color: var(--white); }
-    #busy { position: fixed; top: 0; left: 0; height: 3px; width: 100%; background: linear-gradient(90deg, transparent, var(--accent), transparent); background-size: 50% 100%; background-repeat: no-repeat; animation: slide 1s linear infinite; z-index: 80; display: none; }
+    .modal-wrap { position: fixed; inset: 0; background: rgba(20,19,18,.55); z-index: 50; display: flex; align-items: flex-start; justify-content: center; padding: 32px 16px; overflow-y: auto; }
+    .modal { background: var(--card); border-radius: 10px; width: 100%; max-width: 640px; padding: 22px; box-shadow: 0 20px 50px rgba(0,0,0,.25); }
+    .modal h2 { margin-bottom: 16px; }
+    .modal .actions { display: flex; gap: 8px; margin-top: 20px; flex-wrap: wrap; }
+
+    #toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: var(--header); color: var(--header-text); padding: 11px 18px; border-radius: 8px; font-weight: 600; z-index: 70; display: none; max-width: calc(100% - 32px); box-shadow: 0 8px 24px rgba(0,0,0,.2); }
+    #toast.err { background: var(--red); color: #fff; }
+    #busy { position: fixed; top: 0; left: 0; height: 3px; width: 100%; background: linear-gradient(90deg, transparent, var(--brand), transparent); background-size: 50% 100%; background-repeat: no-repeat; animation: slide 1s linear infinite; z-index: 80; display: none; }
     @keyframes slide { from { background-position: -50% 0; } to { background-position: 150% 0; } }
-    .corner { position: absolute; top: -30px; right: -30px; width: 90px; height: 90px; border-radius: 50%; background: rgba(255,255,255,.035); pointer-events: none; }
-    .banner { background: #2b1d0c; border: 1px solid #6b4310; color: #f5c77e; padding: 10px 14px; border-radius: 3px; margin-bottom: 16px; }
+    @media (prefers-reduced-motion: reduce) { #busy { animation: none; background: var(--brand); } }
   </style>
 </head>
 <body>
   <div id="busy"></div>
   <header>
     <div class="bar">
-      <a class="brand" onclick="go('dashboard')">
+      <a class="brand" onclick="go('today')">
         <img src="https://cowboy-mechanics.com/logo-mark.png" alt="">
-        <div><b>Cowboy Mechanics</b><small>CRM</small></div>
+        <div><b>Cowboy Mechanics</b><small>Customer manager</small></div>
       </a>
-      <nav id="nav">
-        <button data-v="dashboard" onclick="go('dashboard')">Dashboard</button>
-        <button data-v="clients" onclick="go('clients')">Clients</button>
-        <button data-v="appointments" onclick="go('appointments')">Appointments</button>
-        <button data-v="jobs" onclick="go('jobs')">Services</button>
-        <button data-v="settings" onclick="go('settings')">Settings</button>
-      </nav>
+      <nav id="nav"></nav>
     </div>
   </header>
   <main id="app"><p class="muted">Loading your clients...</p></main>
   <div id="modal"></div>
-  <div id="toast"></div>
+  <div id="toast" role="status"></div>
 
 <script>
   /* ------------------------------------------------------------ state */
-  let DATA = { clients: [], jobs: [], appointments: [], interactions: [], outbox: [] };
+  let DATA = { clients: [], jobs: [], appointments: [], interactions: [], outbox: [], estimates: [] };
   let SETTINGS = null;
-  const UI = { view: 'dashboard', clientId: null, search: '', status: 'All', showPast: false, jobSearch: '' };
+  const UI = { view: 'today', clientId: null, search: '', status: 'All', showPast: false, jobSearch: '', estFilter: 'Open' };
   const STATUSES = ['New lead', 'Contacted', 'Quoted', 'Customer', 'Inactive', 'Lost'];
+  const STATUS_COLOR = { 'New lead': 'amber', 'Contacted': 'blue', 'Quoted': 'blue', 'Customer': 'green', 'Inactive': 'gray', 'Lost': 'gray' };
   const CATEGORIES = ['Diagnostics', 'Brakes', 'Oil & Fluids', 'Cooling & A/C', 'Electrical', 'Engine', 'Suspension & Steering', 'Battery & Starting', 'Inspection', 'Other'];
-  const INTERACTION_TYPES = ['Call', 'Text', 'Email', 'In person', 'Note'];
+  const SOURCES = ['Website form', 'Referral', 'Google', 'Facebook', 'Instagram', 'Nextdoor', 'Yelp', 'Flyer', 'Walk-up', 'Imported'];
+  const INTERACTION_TYPES = ['Call', 'Text', 'Text conversation', 'Email', 'In person', 'Note'];
+  const KIND_LABEL = { reminder: 'Appointment reminder', followUp: 'Thank-you follow-up', service: 'Check-up reminder', lead: 'Reply to website request', estimate: 'Estimate follow-up' };
+  const DAY = 864e5;
 
   /* ----------------------------------------------------- server calls */
   function call(fn, ...args) {
@@ -162,7 +202,7 @@
     return data;
   }
   function setData(d) {
-    DATA = { clients: d.clients, jobs: d.jobs, appointments: d.appointments, interactions: d.interactions, outbox: d.outbox || [] };
+    DATA = { clients: d.clients, jobs: d.jobs, appointments: d.appointments, interactions: d.interactions, outbox: d.outbox || [], estimates: d.estimates || [] };
     render();
   }
 
@@ -173,9 +213,13 @@
   const pad = n => String(n).padStart(2, '0');
   const localStr = d => `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
   const nowStr = () => localStr(new Date());
+  const todayStr = () => nowStr().slice(0, 10);
   const fmtDate = s => { const d = toDate(s); return d ? d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : ''; };
+  const fmtShort = s => { const d = toDate(s); return d ? d.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' }) : ''; };
   const fmtTime = s => { const d = toDate(s); return d ? d.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' }) : ''; };
-  const fmtDT = s => { const d = toDate(s); return d ? d.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' }) + ', ' + fmtTime(s) : ''; };
+  const fmtDT = s => s ? fmtShort(s) + ', ' + fmtTime(s) : '';
+  const daysAgo = s => Math.floor((Date.now() - toDate(s)) / DAY);
+  const waited = s => { const h = Math.max(0, Math.round((Date.now() - toDate(s)) / 36e5)); return h < 24 ? h + (h === 1 ? ' hour' : ' hours') : Math.floor(h / 24) + (h < 48 ? ' day' : ' days'); };
   const fullName = c => c ? ([c.firstName, c.lastName].filter(Boolean).join(' ') || 'Unnamed client') : 'Unknown client';
   const client = id => DATA.clients.find(c => c.id === id);
   const jobsOf = id => DATA.jobs.filter(j => j.clientId === id).sort((a, b) => String(b.date).localeCompare(String(a.date)));
@@ -183,18 +227,16 @@
   const isRepeat = id => jobsOf(id).length >= 2;
   const vehicles = c => String(c && c.vehicles || '').split('\n').map(v => v.trim()).filter(Boolean);
   const telLink = p => String(p || '').replace(/[^\d+]/g, '');
-  // Opens the phone's Messages app with the text filled in. "?&body=" works on both iPhone and Android.
-  const smsLink = (p, body) => `sms:${telLink(p)}?&body=${encodeURIComponent(body || '')}`;
-  const KIND_LABEL = { reminder: 'Appointment reminder', followUp: 'Thank-you follow-up', service: 'Check-up reminder', lead: 'Reply to website request' };
-  const pendingTexts = () => DATA.outbox.filter(t => t.status === 'Pending' && (!t.expires || t.expires > nowStr()));
   const phone = p => { const d = String(p || '').replace(/\D/g, '').replace(/^1(?=\d{10}$)/, '');
     return d.length === 10 ? `(${d.slice(0, 3)}) ${d.slice(3, 6)}-${d.slice(6)}` : String(p || ''); };
-
-  function statusBadge(c) {
-    const s = c.status || 'New lead';
-    const cls = s === 'New lead' ? 'lead' : s === 'Customer' ? 'customer' : s === 'Lost' ? 'danger' : '';
-    return `<span class="badge ${cls}">${esc(s)}</span>` + (isRepeat(c.id) ? ' <span class="badge repeat">Repeat</span>' : '');
-  }
+  // Opens the phone's Messages app with the text filled in. "?&body=" works on both iPhone and Android.
+  const smsLink = (p, body) => `sms:${telLink(p)}?&body=${encodeURIComponent(body || '')}`;
+  const mapLink = a => 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(a);
+  const pendingTexts = () => DATA.outbox.filter(t => t.status === 'Pending' && (!t.expires || t.expires > nowStr()));
+  const pill = (text, color) => `<span class="pill ${color}">${esc(text)}</span>`;
+  const statusPill = c => pill(c.status || 'New lead', STATUS_COLOR[c.status || 'New lead'] || 'gray') + (isRepeat(c.id) ? ' ' + pill('Repeat customer', 'star') : '');
+  const lastWebsiteNote = id => DATA.interactions.filter(i => i.clientId === id && String(i.type).startsWith('Website form')).sort((a, b) => String(b.date).localeCompare(String(a.date)))[0];
+  const callBtn = c => c && telLink(c.phone) ? `<a class="btn plain sm" href="tel:${esc(telLink(c.phone))}">Call</a>` : '';
 
   function toast(msg, err) {
     const t = document.getElementById('toast');
@@ -202,7 +244,7 @@
     t.className = err ? 'err' : '';
     t.style.display = 'block';
     clearTimeout(toast.t);
-    toast.t = setTimeout(() => { t.style.display = 'none'; }, err ? 6000 : 2500);
+    toast.t = setTimeout(() => { t.style.display = 'none'; }, err ? 6000 : 2600);
   }
 
   function go(view, clientId) {
@@ -213,117 +255,170 @@
     window.scrollTo(0, 0);
   }
 
+  const VIEWS = [['today', 'Today'], ['clients', 'Clients'], ['estimates', 'Estimates'], ['appointments', 'Calendar'], ['jobs', 'Jobs'], ['sales', 'Sales'], ['settings', 'Settings']];
   function render() {
-    document.querySelectorAll('#nav button').forEach(b =>
-      b.classList.toggle('on', b.dataset.v === UI.view || (UI.view === 'client' && b.dataset.v === 'clients')));
-    const views = { dashboard: viewDashboard, clients: viewClients, client: viewClient, appointments: viewAppointments, jobs: viewJobs, settings: viewSettings };
-    document.getElementById('app').innerHTML = (views[UI.view] || viewDashboard)();
+    const urgent = buildTasks().filter(t => t.level === 'red').length;
+    const active = UI.view === 'client' ? 'clients' : UI.view;
+    document.getElementById('nav').innerHTML = VIEWS.map(([v, label]) =>
+      `<button class="${active === v ? 'on' : ''}" onclick="go('${v}')">${label}${v === 'today' && urgent ? `<span class="count">${urgent}</span>` : ''}</button>`).join('');
+    const views = { today: viewToday, clients: viewClients, client: viewClient, estimates: viewEstimates, appointments: viewAppointments, jobs: viewJobs, sales: viewSales, settings: viewSettings };
+    document.getElementById('app').innerHTML = (views[UI.view] || viewToday)();
   }
 
-  /* -------------------------------------------------------- dashboard */
-  function viewDashboard() {
-    const now = new Date();
-    const monthKey = localStr(now).slice(0, 7), yearKey = localStr(now).slice(0, 4);
-    const month = DATA.jobs.filter(j => String(j.date).slice(0, 7) === monthKey).reduce((t, j) => t + (Number(j.total) || 0), 0);
-    const year = DATA.jobs.filter(j => String(j.date).slice(0, 4) === yearKey).reduce((t, j) => t + (Number(j.total) || 0), 0);
-    const weekOut = localStr(new Date(now.getTime() + 7 * 864e5));
-    const upcoming = DATA.appointments.filter(a => a.status === 'Scheduled' && a.start >= nowStr().slice(0, 10) && a.start <= weekOut)
+  /* ------------------------------------------------------------ today */
+  // Everything that needs you, sorted into red (act now), amber (today) and blue (coming up).
+  function buildTasks() {
+    const tasks = [], today = todayStr(), now = nowStr();
+    const s = SETTINGS || { estimateFollowUpDays: 3 };
+
+    DATA.clients.filter(c => (c.status || 'New lead') === 'New lead').forEach(c => {
+      const web = lastWebsiteNote(c.id);
+      const emergency = web && web.summary.startsWith('EMERGENCY');
+      const since = (web && web.date) || c.created;
+      const late = daysAgo(since) >= 1;
+      tasks.push({ level: emergency || late ? 'red' : 'amber', sort: since, c, first: emergency,
+        what: (emergency ? 'Emergency request from ' : 'New lead: ') + fullName(c),
+        detail: (web ? web.summary : '') ,
+        tag: 'Waiting ' + waited(since),
+        actions: `${callBtn(c)}<button class="btn sm" onclick="markContacted('${esc(c.id)}')">Mark contacted</button>` });
+    });
+
+    DATA.clients.filter(c => c.followUpOn).forEach(c => {
+      const day = String(c.followUpOn).slice(0, 10);
+      if (day > today) return;
+      tasks.push({ level: day < today ? 'red' : 'amber', sort: day, c,
+        what: 'Follow up with ' + fullName(c), detail: c.nextStep || '',
+        tag: day < today ? 'Overdue since ' + fmtShort(day) : 'Due today',
+        actions: `${callBtn(c)}<button class="btn sm" onclick="followUpDone('${esc(c.id)}')">Done</button>` });
+    });
+
+    DATA.appointments.filter(a => a.status === 'Scheduled').forEach(a => {
+      const c = client(a.clientId), day = String(a.start).slice(0, 10);
+      if (a.end && a.end < now) {
+        tasks.push({ level: 'red', sort: a.start, c, what: 'Close out: ' + (a.service || 'appointment') + ' for ' + fullName(c),
+          detail: 'Was ' + fmtDT(a.start) + '. Mark it done and log the price, or reschedule.', tag: 'Not marked done',
+          actions: `<button class="btn sm" onclick="completeAppointment('${esc(a.id)}')">Done, log job</button><button class="btn plain sm" onclick="editAppointment('${esc(a.id)}')">Reschedule</button>` });
+      } else if (day === today) {
+        const where = a.location || (c && c.address) || '';
+        tasks.push({ level: 'amber', sort: a.start, c, what: fmtTime(a.start) + ' ' + (a.service || 'Appointment') + ' with ' + fullName(c),
+          detail: [a.vehicle, where].filter(Boolean).join(' at '), tag: 'Today',
+          actions: `${callBtn(c)}${where ? `<a class="btn plain sm" target="_blank" href="${esc(mapLink(where))}">Directions</a>` : ''}<button class="btn sm" onclick="completeAppointment('${esc(a.id)}')">Done</button>` });
+      }
+    });
+
+    DATA.estimates.filter(e => e.status === 'Open').forEach(e => {
+      const age = daysAgo(e.date), c = client(e.clientId);
+      if (age < (Number(s.estimateFollowUpDays) || 3)) return;
+      tasks.push({ level: age >= 7 ? 'red' : 'amber', sort: e.date, c,
+        what: 'Estimate waiting: ' + fullName(c) + ', ' + money(e.amount), detail: [e.vehicle, e.work].filter(Boolean).join(': '),
+        tag: 'No answer in ' + age + ' days',
+        actions: `${callBtn(c)}<button class="btn sm" onclick="estimateWon('${esc(e.id)}')">Won</button><button class="btn plain sm" onclick="estimateLost('${esc(e.id)}')">Lost</button>` });
+    });
+
+    DATA.jobs.filter(j => j.paid !== true && Number(j.total) > 0).forEach(j => {
+      const age = daysAgo(j.date), c = client(j.clientId);
+      tasks.push({ level: age >= 7 ? 'red' : 'amber', sort: j.date, c,
+        what: 'Unpaid: ' + money(j.total) + ' from ' + fullName(c), detail: [fmtDate(j.date), j.work].filter(Boolean).join(': '),
+        tag: age >= 7 ? age + ' days unpaid' : 'Unpaid',
+        actions: `${callBtn(c)}<button class="btn sm" onclick="markPaid('${esc(j.id)}')">Mark paid</button>` });
+    });
+
+    pendingTexts().forEach(t => {
+      const c = client(t.clientId);
+      tasks.push({ level: 'amber', sort: t.created, c, what: 'Text ' + fullName(c) + ': ' + (KIND_LABEL[t.kind] || 'message'),
+        detail: t.body, tag: 'Ready to send',
+        actions: `<a class="btn sm" href="${esc(smsLink(t.phone, t.body))}" onclick="markText('${esc(t.id)}','Sent')">Send text</a><button class="btn plain sm" onclick="markText('${esc(t.id)}','Skipped')">Skip</button>` });
+    });
+
+    // Emergencies always go on top, then oldest first.
+    return tasks.sort((a, b) => (b.first ? 1 : 0) - (a.first ? 1 : 0) || String(a.sort).localeCompare(String(b.sort)));
+  }
+
+  function taskHtml(t) {
+    return `<div class="task ${t.level}"><div class="grow">
+      <div class="row"><span class="what">${esc(t.what)}</span>${pill(t.tag, t.level)}</div>
+      ${t.detail ? `<div class="muted pre small" style="margin-top:3px">${esc(t.detail)}</div>` : ''}
+      ${t.c ? `<div class="small" style="margin-top:4px"><button class="linkbtn" onclick="go('client','${esc(t.c.id)}')">Open ${esc(fullName(t.c))}</button>${t.c.phone ? ` <span class="muted">${esc(phone(t.c.phone))}</span>` : ''}</div>` : ''}
+      </div><div class="actions">${t.actions}</div></div>`;
+  }
+
+  function viewToday() {
+    const tasks = buildTasks();
+    const red = tasks.filter(t => t.level === 'red'), amber = tasks.filter(t => t.level === 'amber');
+    const today = todayStr(), weekOut = localStr(new Date(Date.now() + 7 * DAY));
+    const upcoming = DATA.appointments.filter(a => a.status === 'Scheduled' && String(a.start).slice(0, 10) > today && a.start <= weekOut)
       .sort((a, b) => a.start.localeCompare(b.start));
-    const leads = DATA.clients.filter(c => (c.status || 'New lead') === 'New lead').sort((a, b) => String(b.created).localeCompare(String(a.created)));
-    const recent = DATA.interactions.slice().sort((a, b) => String(b.date).localeCompare(String(a.date))).slice(0, 8);
-    const unpaid = DATA.jobs.filter(j => j.paid !== true && Number(j.total) > 0);
-    const texts = pendingTexts().sort((a, b) => String(a.created).localeCompare(String(b.created)));
+    const month = today.slice(0, 7);
+    const monthJobs = DATA.jobs.filter(j => String(j.date).slice(0, 7) === month);
+    const openEst = DATA.estimates.filter(e => e.status === 'Open');
+    const newLeads = DATA.clients.filter(c => String(c.created).slice(0, 7) === month).length;
+    const hour = new Date().getHours();
 
     return `
-      <div class="row spread"><h1>Howdy, Russell</h1>
-        <div class="row"><button class="btn ghost" onclick="refresh()">Check for new leads</button>
-        <button class="btn" onclick="editClient()">+ New client</button></div></div>
-      ${texts.length ? `<div class="card section" style="border-color:#6b4310"><h2 style="margin-bottom:2px">Texts to send (${texts.length})</h2>
-        <div class="faint">Tap Send and your phone opens Messages with the text ready. Then just hit send.</div>
-        <div class="list">${texts.map(textItem).join('')}</div></div>` : ''}
-      <div class="grid stats section">
-        ${stat('Clients', DATA.clients.length)}
-        ${stat('Repeat clients', DATA.clients.filter(c => isRepeat(c.id)).length)}
-        ${stat('New leads', leads.length)}
-        ${stat('This month', money(month))}
-        ${stat('This year', money(year))}
-        ${unpaid.length ? stat('Unpaid jobs', unpaid.length) : ''}
-      </div>
-      <div class="grid g2 section">
-        <div class="card"><div class="row spread" style="margin-bottom:6px"><h2>Next 7 days</h2>
-          <button class="linkbtn" onclick="editAppointment()">+ Book</button></div>
-          <div class="list">${upcoming.length ? upcoming.map(apptItem).join('') : '<div class="empty">Nothing on the books this week.</div>'}</div></div>
-        <div class="card"><div class="row spread" style="margin-bottom:6px"><h2>New leads to contact</h2>
-          <button class="linkbtn" onclick="UI.status='New lead'; go('clients')">See all</button></div>
-          <div class="list">${leads.length ? leads.slice(0, 6).map(leadItem).join('') : '<div class="empty">All caught up.</div>'}</div></div>
-      </div>
-      <div class="card section"><h2 style="margin-bottom:6px">Recent activity</h2>
-        <div class="list">${recent.length ? recent.map(i => activityItem(i, true)).join('') : '<div class="empty">No activity yet.</div>'}</div></div>`;
-  }
+      <div class="row spread"><div><h1>Good ${hour < 12 ? 'morning' : hour < 17 ? 'afternoon' : 'evening'}, Russell</h1>
+        <div class="muted">${esc(new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' }))}</div></div>
+        <div class="row"><button class="btn plain" onclick="refresh()">Check for new leads</button>
+        <button class="btn plain" onclick="editEstimate()">New estimate</button>
+        <button class="btn" onclick="editClient()">Add client</button></div></div>
 
-  function textItem(t) {
-    return `<div class="item"><div class="grow">
-      <div class="row spread"><button class="linkbtn name" onclick="go('client','${esc(t.clientId)}')">${esc(fullName(client(t.clientId)))}</button>
-        <span class="badge lead">${esc(KIND_LABEL[t.kind] || 'Text')}</span></div>
-      <div class="faint">${esc(phone(t.phone))}</div>
-      <div class="pre muted" style="margin-top:4px">${esc(t.body)}</div>
-      <div class="row" style="margin-top:8px"><a class="btn sm" href="${esc(smsLink(t.phone, t.body))}" onclick="markText('${esc(t.id)}','Sent')">Send</a>
-        <button class="btn ghost sm" onclick="markText('${esc(t.id)}','Skipped')">Skip</button></div></div></div>`;
-  }
-  async function markText(id, status) {
-    await act('markText', id, status);
-    if (status === 'Sent') toast('Logged as sent');
-  }
+      <div class="summary">
+        <div><div class="muted small">Made this month</div><div class="big">${money(monthJobs.reduce((t, j) => t + (Number(j.total) || 0), 0))}</div><div class="small muted">${monthJobs.length} jobs</div></div>
+        <div><div class="muted small">Open estimates</div><div class="big">${money(openEst.reduce((t, e) => t + (Number(e.amount) || 0), 0))}</div><div class="small muted">${openEst.length} waiting on an answer</div></div>
+        <div><div class="muted small">New leads this month</div><div class="big">${newLeads}</div><div class="small muted">${DATA.clients.filter(c => (c.status || 'New lead') === 'New lead').length} not contacted yet</div></div>
+        <div><div class="muted small">Repeat customers</div><div class="big">${DATA.clients.filter(c => isRepeat(c.id)).length}</div><div class="small muted">of ${DATA.clients.filter(c => jobsOf(c.id).length).length} paying customers</div></div>
+      </div>
 
-  const stat = (label, value) => `<div class="card stat"><div class="corner"></div><div class="label">${label}</div><div class="num">${esc(value)}</div></div>`;
+      ${red.length ? `<section class="todo"><div class="group-title"><span class="dot" style="background:var(--red)"></span><h2>Needs you now (${red.length})</h2></div>${red.map(taskHtml).join('')}</section>` : ''}
+      <section class="todo"><div class="group-title"><span class="dot" style="background:#e08a12"></span><h2>Today (${amber.length})</h2></div>
+        ${amber.length ? amber.map(taskHtml).join('') : `<div class="card empty">${red.length ? 'Nothing else today.' : 'All caught up. Nothing needs you right now.'}</div>`}</section>
+
+      <div class="grid g2">
+        <div class="card"><div class="head"><h2>Coming up this week</h2><button class="btn plain sm" onclick="editAppointment()">Book</button></div>
+          <div class="list">${upcoming.length ? upcoming.map(apptItem).join('') : '<div class="empty">Nothing booked yet this week.</div>'}</div></div>
+        <div class="card"><h2>Recent activity</h2>
+          <div class="list">${DATA.interactions.slice().sort((a, b) => String(b.date).localeCompare(String(a.date))).slice(0, 6).map(i => activityItem(i, true)).join('') || '<div class="empty">No activity yet.</div>'}</div></div>
+      </div>`;
+  }
 
   function apptItem(a) {
     const c = client(a.clientId), d = toDate(a.start);
-    return `<div class="item click" onclick="go('client','${esc(a.clientId)}')">
-      <div class="when"><span>${d.toLocaleDateString('en-US', { weekday: 'short' })}</span><b>${d.getDate()}</b><span>${d.toLocaleDateString('en-US', { month: 'short' })}</span></div>
-      <div class="grow"><div class="name">${esc(fullName(c))}</div>
-        <div class="muted">${esc(fmtTime(a.start))} &middot; ${esc(a.service || 'Appointment')}${a.vehicle ? ' &middot; ' + esc(a.vehicle) : ''}</div>
-        ${a.location || (c && c.address) ? `<div class="faint">${esc(a.location || c.address)}</div>` : ''}</div></div>`;
-  }
-
-  function leadItem(c) {
-    const last = DATA.interactions.filter(i => i.clientId === c.id).sort((a, b) => String(b.date).localeCompare(String(a.date)))[0];
-    return `<div class="item click" onclick="go('client','${esc(c.id)}')"><div class="grow">
-      <div class="row spread"><span class="name">${esc(fullName(c))}</span><span class="faint">${esc(fmtDate(c.created))}</span></div>
-      <div class="muted">${esc(phone(c.phone))}${c.phone && c.email ? ' &middot; ' : ''}${esc(c.email)}</div>
-      ${last ? `<div class="faint" style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(last.summary)}</div>` : ''}</div></div>`;
+    return `<div class="item"><div class="when"><span>${d.toLocaleDateString('en-US', { weekday: 'short' })}</span><b>${d.getDate()}</b><span>${d.toLocaleDateString('en-US', { month: 'short' })}</span></div>
+      <div class="grow"><button class="linkbtn" onclick="go('client','${esc(a.clientId)}')">${esc(fullName(c))}</button>
+        <div>${esc(fmtTime(a.start))}, ${esc(a.service || 'Appointment')}${a.vehicle ? ', ' + esc(a.vehicle) : ''}</div>
+        ${a.location || (c && c.address) ? `<div class="muted small">${esc(a.location || c.address)}</div>` : ''}</div></div>`;
   }
 
   function activityItem(i, showName) {
-    return `<div class="item ${showName ? 'click' : ''}" ${showName ? `onclick="go('client','${esc(i.clientId)}')"` : ''}>
-      <div class="grow"><div class="row spread">
-        <span>${showName ? `<span class="name">${esc(fullName(client(i.clientId)))}</span> &middot; ` : ''}<span class="badge">${esc(i.type)}</span></span>
-        <span class="faint">${esc(fmtDT(i.date))}</span></div>
-        <div class="pre muted" style="margin-top:4px">${esc(i.summary)}</div></div>
-      ${showName ? '' : `<button class="linkbtn faint" title="Delete" onclick="delInteraction('${esc(i.id)}')">&times;</button>`}</div>`;
+    return `<div class="item"><div class="grow">
+      <div class="row spread"><span class="row" style="gap:8px">${showName ? `<button class="linkbtn" onclick="go('client','${esc(i.clientId)}')">${esc(fullName(client(i.clientId)))}</button>` : ''}${pill(i.type, 'gray')}</span>
+        <span class="muted small">${esc(fmtDT(i.date))}</span></div>
+      <div class="pre" style="margin-top:4px">${esc(i.summary)}</div></div>
+      ${showName ? '' : `<button class="linkbtn muted" title="Delete entry" aria-label="Delete entry" onclick="delInteraction('${esc(i.id)}')">&times;</button>`}</div>`;
   }
 
   /* ---------------------------------------------------------- clients */
   function viewClients() {
-    const q = UI.search.toLowerCase();
+    const q = UI.search.toLowerCase(), digits = q.replace(/\D/g, '');
     const list = DATA.clients.filter(c => {
       if (UI.status === 'Repeat' ? !isRepeat(c.id) : UI.status !== 'All' && (c.status || 'New lead') !== UI.status) return false;
       if (!q) return true;
-      return [fullName(c), c.phone, c.email, c.address, c.vehicles, c.tags].join(' ').toLowerCase().includes(q) ||
-        String(c.phone).replace(/\D/g, '').includes(q.replace(/\D/g, '') || '~');
+      return [fullName(c), c.email, c.address, c.vehicles, c.tags, c.referredBy].join(' ').toLowerCase().includes(q) ||
+        (digits.length > 2 && String(c.phone).replace(/\D/g, '').includes(digits));
     }).sort((a, b) => fullName(a).localeCompare(fullName(b)));
+    const today = todayStr();
 
     return `
-      <div class="row spread"><h1>Clients</h1><button class="btn" onclick="editClient()">+ New client</button></div>
-      <div class="section"><input id="search" placeholder="Search name, phone, email, vehicle..." value="${esc(UI.search)}" oninput="UI.search=this.value; renderKeepFocus('search')"></div>
-      <div class="chips" style="margin-top:10px">${['All', ...STATUSES, 'Repeat'].map(s =>
-        `<button class="chip ${UI.status === s ? 'on' : ''}" onclick="UI.status='${s}'; render()">${s}</button>`).join('')}</div>
-      <div class="card section scroll-x">${list.length ? `<table><thead><tr><th>Name</th><th>Contact</th><th>Vehicles</th><th>Visits</th><th class="money">Spent</th><th>Last service</th></tr></thead><tbody>
-        ${list.map(c => { const js = jobsOf(c.id); return `<tr class="click" onclick="go('client','${esc(c.id)}')">
-          <td><div class="name">${esc(fullName(c))}</div>${statusBadge(c)}</td>
-          <td>${esc(phone(c.phone))}<div class="faint">${esc(c.email)}</div></td>
+      <div class="row spread"><h1>Clients</h1><div class="row"><button class="btn plain" onclick="openImport()">Import list</button><button class="btn" onclick="editClient()">Add client</button></div></div>
+      <input id="search" aria-label="Search clients" placeholder="Search by name, phone, email, vehicle or tag" value="${esc(UI.search)}" oninput="UI.search=this.value; renderKeepFocus('search')">
+      <div class="chips">${['All', ...STATUSES, 'Repeat'].map(s =>
+        `<button class="chip ${UI.status === s ? 'on' : ''}" onclick="UI.status='${s}'; render()">${s === 'Repeat' ? 'Repeat customers' : s}</button>`).join('')}</div>
+      <div class="card table-wrap">${list.length ? `<table><thead><tr><th>Name</th><th>Phone</th><th>Vehicles</th><th>Next follow-up</th><th class="money">Jobs</th><th class="money">Spent</th><th>Last job</th></tr></thead><tbody>
+        ${list.map(c => { const js = jobsOf(c.id); const f = String(c.followUpOn || '').slice(0, 10); return `<tr class="click" onclick="go('client','${esc(c.id)}')">
+          <td><div class="name">${esc(fullName(c))}</div><div style="margin-top:3px">${statusPill(c)}</div></td>
+          <td class="num">${esc(phone(c.phone))}</td>
           <td class="muted">${vehicles(c).map(esc).join('<br>')}</td>
-          <td>${js.length}</td><td class="money">${money(spent(c.id))}</td>
+          <td>${f ? `<span class="${f < today ? 't-red' : f === today ? 't-amber' : ''}">${esc(fmtShort(f))}</span>` : '<span class="muted">None set</span>'}</td>
+          <td class="money">${js.length}</td><td class="money">${money(spent(c.id))}</td>
           <td class="muted">${js[0] ? esc(fmtDate(js[0].date)) : ''}</td></tr>`; }).join('')}
         </tbody></table>` : '<div class="empty">No clients match.</div>'}</div>`;
   }
@@ -342,91 +437,146 @@
     if (!c) return '<p class="muted">Client not found.</p>';
     const js = jobsOf(c.id);
     const appts = DATA.appointments.filter(a => a.clientId === c.id).sort((a, b) => String(b.start).localeCompare(String(a.start)));
+    const ests = DATA.estimates.filter(e => e.clientId === c.id).sort((a, b) => String(b.date).localeCompare(String(a.date)));
     const acts = DATA.interactions.filter(i => i.clientId === c.id).sort((a, b) => String(b.date).localeCompare(String(a.date)));
-    const tel = telLink(c.phone);
+    const referrals = DATA.clients.filter(x => x.referredBy && x.referredBy.toLowerCase() === fullName(c).toLowerCase());
+    const tel = telLink(c.phone), today = todayStr(), f = String(c.followUpOn || '').slice(0, 10);
 
     return `
-      <button class="linkbtn" onclick="go('clients')">&larr; All clients</button>
-      <div class="row spread" style="margin-top:10px">
-        <div><h1>${esc(fullName(c))}</h1><div style="margin-top:6px">${statusBadge(c)}
-          ${c.okText === false ? '<span class="badge danger">No texts</span>' : ''}${c.okEmail === false ? ' <span class="badge danger">No emails</span>' : ''}</div></div>
+      <div><button class="linkbtn" onclick="go('clients')">&larr; All clients</button></div>
+      <div class="row spread">
+        <div><h1>${esc(fullName(c))}</h1><div class="row" style="margin-top:8px;gap:6px">${statusPill(c)}
+          ${c.okText === false ? pill('No automatic texts', 'gray') : ''}${c.okEmail === false ? pill('No automatic emails', 'gray') : ''}</div></div>
         <div class="row">
-          ${tel ? `<a class="btn ghost sm" href="tel:${esc(tel)}">Call</a><a class="btn ghost sm" href="sms:${esc(tel)}">Text from phone</a>` : ''}
-          <button class="btn ghost sm" onclick="compose('${esc(c.id)}')">Send from CRM</button>
-          <button class="btn ghost sm" onclick="editClient('${esc(c.id)}')">Edit</button>
+          ${tel ? `<a class="btn plain sm" href="tel:${esc(tel)}">Call</a><a class="btn plain sm" href="${esc(smsLink(c.phone, ''))}">Text</a>` : ''}
+          ${c.email ? `<button class="btn plain sm" onclick="compose('${esc(c.id)}')">Email</button>` : ''}
+          <button class="btn plain sm" onclick="editClient('${esc(c.id)}')">Edit</button>
         </div>
       </div>
 
-      <div class="grid stats section">
-        ${stat('Total spent', money(spent(c.id)))}
-        ${stat('Visits', js.length)}
-        ${stat('First visit', js.length ? fmtDate(js[js.length - 1].date) : '-')}
-        ${stat('Last visit', js.length ? fmtDate(js[0].date) : '-')}
+      <div class="next" style="border-left:5px solid ${f && f < today ? 'var(--red)' : f === today ? '#e08a12' : 'var(--btn)'}">
+        <div class="grow"><div class="muted small">Next step</div>
+          <div><b>${esc(c.nextStep || 'Nothing planned')}</b>${f ? ` <span class="${f < today ? 't-red' : f === today ? 't-amber' : 'muted'}">, ${f < today ? 'overdue since ' : 'on '}${esc(fmtShort(f))}</span>` : ''}</div></div>
+        <div class="row"><button class="btn sm" onclick="editNextStep('${esc(c.id)}')">${c.nextStep ? 'Change' : 'Set a follow-up'}</button>
+          ${f ? `<button class="btn plain sm" onclick="followUpDone('${esc(c.id)}')">Done</button>` : ''}</div>
       </div>
 
-      <div class="card section"><div class="info">
+      <div class="summary">
+        <div><div class="muted small">Total spent</div><div class="big">${money(spent(c.id))}</div></div>
+        <div><div class="muted small">Jobs</div><div class="big">${js.length}</div></div>
+        <div><div class="muted small">Customer since</div><div class="big" style="font-size:18px">${js.length ? esc(fmtDate(js[js.length - 1].date)) : 'No jobs yet'}</div></div>
+        <div><div class="muted small">Referred</div><div class="big">${referrals.length}</div><div class="small muted">${referrals.map(r => esc(fullName(r))).join(', ') || 'people so far'}</div></div>
+      </div>
+
+      <div class="card"><div class="info">
         ${info('Phone', phone(c.phone))}${info('Email', c.email)}${info('Address', c.address)}
-        ${info('Vehicles', vehicles(c).join('\n'))}${info('Source', c.source)}${info('Tags', c.tags)}
-        ${info('Client since', fmtDate(c.created))}${c.notes ? `<div style="grid-column:1/-1">${info('Notes', c.notes)}</div>` : ''}
+        ${info('Vehicles', vehicles(c).join('\n'))}${info('Found you through', c.source)}${info('Referred by', c.referredBy)}
+        ${info('Tags', c.tags)}${info('Added', fmtDate(c.created))}${c.notes ? `<div style="grid-column:1/-1">${info('Notes', c.notes)}</div>` : ''}
       </div></div>
 
-      <div class="section"><div class="row spread"><h2>Service history</h2><button class="btn sm" onclick="editJob(null,'${esc(c.id)}')">+ Add service</button></div>
-        <div class="card scroll-x">${js.length ? jobsTable(js, false) : '<div class="empty">No services yet.</div>'}</div></div>
+      <div class="card"><div class="head"><h2>Estimates</h2><button class="btn sm" onclick="editEstimate(null,'${esc(c.id)}')">New estimate</button></div>
+        <div class="list">${ests.length ? ests.map(estItem).join('') : '<div class="empty">No estimates yet.</div>'}</div></div>
 
-      <div class="section"><div class="row spread"><h2>Appointments</h2><button class="btn sm" onclick="editAppointment(null,'${esc(c.id)}')">+ Book appointment</button></div>
-        <div class="card"><div class="list">${appts.length ? appts.map(a => `<div class="item"><div class="grow">
-          <div class="row spread"><span class="name">${esc(fmtDT(a.start))}</span><span class="badge ${a.status === 'Cancelled' ? 'danger' : a.status === 'Completed' ? 'customer' : 'lead'}">${esc(a.status)}</span></div>
-          <div class="muted">${esc(a.service || 'Appointment')}${a.vehicle ? ' &middot; ' + esc(a.vehicle) : ''}${a.location ? ' &middot; ' + esc(a.location) : ''}</div>
-          ${a.notes ? `<div class="faint pre">${esc(a.notes)}</div>` : ''}
-          ${a.reminderSent ? `<div class="faint">Reminder sent ${esc(fmtDT(a.reminderSent))}</div>` : ''}</div>
-          <button class="btn ghost sm" onclick="editAppointment('${esc(a.id)}')">Edit</button></div>`).join('') : '<div class="empty">No appointments.</div>'}</div></div></div>
+      <div class="card"><div class="head"><h2>Jobs done</h2><button class="btn sm" onclick="editJob(null,'${esc(c.id)}')">Log a job</button></div>
+        ${js.length ? `<div class="table-wrap">${jobsTable(js, false)}</div>` : '<div class="empty">No jobs yet.</div>'}</div>
 
-      <div class="section"><div class="row spread"><h2>Interaction history</h2><button class="btn sm" onclick="editInteraction('${esc(c.id)}')">+ Log interaction</button></div>
-        <div class="card"><div class="list">${acts.length ? acts.map(i => activityItem(i, false)).join('') : '<div class="empty">Nothing logged yet.</div>'}</div></div></div>
+      <div class="card"><div class="head"><h2>Appointments</h2><button class="btn sm" onclick="editAppointment(null,'${esc(c.id)}')">Book</button></div>
+        <div class="list">${appts.length ? appts.map(a => `<div class="item"><div class="grow">
+          <div class="row spread"><b>${esc(fmtDT(a.start))}</b>${apptPill(a)}</div>
+          <div>${esc(a.service || 'Appointment')}${a.vehicle ? ', ' + esc(a.vehicle) : ''}${a.location ? ' at ' + esc(a.location) : ''}</div>
+          ${a.notes ? `<div class="muted pre small">${esc(a.notes)}</div>` : ''}
+          ${a.reminderSent ? `<div class="muted small">Reminder sent ${esc(fmtDT(a.reminderSent))}</div>` : ''}</div>
+          <button class="btn plain sm" onclick="editAppointment('${esc(a.id)}')">Edit</button></div>`).join('') : '<div class="empty">No appointments.</div>'}</div></div>
 
-      <div class="section"><button class="btn danger sm" onclick="delClient('${esc(c.id)}')">Delete client</button></div>`;
+      <div class="card"><div class="head"><h2>History</h2><button class="btn sm" onclick="editInteraction('${esc(c.id)}')">Add note or conversation</button></div>
+        <div class="list">${acts.length ? acts.map(i => activityItem(i, false)).join('') : '<div class="empty">Nothing logged yet.</div>'}</div></div>
+
+      <div><button class="btn danger sm" onclick="delClient('${esc(c.id)}')">Delete client</button></div>`;
   }
 
-  const info = (label, v) => `<div><div class="label">${label}</div><div class="pre">${esc(v) || '<span class="faint">-</span>'}</div></div>`;
+  const info = (label, v) => `<div><div class="k">${label}</div><div class="v pre">${esc(v) || '<span class="muted">Not set</span>'}</div></div>`;
+
+  function apptPill(a) {
+    if (a.status === 'Scheduled' && a.end && a.end < nowStr()) return pill('Not marked done', 'red');
+    if (a.status === 'Scheduled' && String(a.start).slice(0, 10) === todayStr()) return pill('Today', 'amber');
+    return pill(a.status, { Scheduled: 'blue', Completed: 'green', Cancelled: 'gray', 'No-show': 'gray' }[a.status] || 'gray');
+  }
+
+  function estPill(e) {
+    if (e.status === 'Won') return pill('Won', 'green');
+    if (e.status === 'Lost') return pill('Lost', 'gray');
+    const age = daysAgo(e.date), wait = Number((SETTINGS || {}).estimateFollowUpDays) || 3;
+    return age >= 7 ? pill('No answer in ' + age + ' days', 'red') : age >= wait ? pill('Follow up', 'amber') : pill('Open', 'blue');
+  }
+
+  function estItem(e) {
+    return `<div class="item"><div class="grow">
+      <div class="row spread"><span><b class="num">${money(e.amount)}</b> <span class="muted">${esc(fmtDate(e.date))}</span></span>${estPill(e)}</div>
+      <div>${esc([e.vehicle, e.work].filter(Boolean).join(': '))}</div>
+      ${e.notes ? `<div class="muted small pre">${esc(e.notes)}</div>` : ''}</div>
+      <div class="row">${e.status === 'Open' ? `<button class="btn sm" onclick="estimateWon('${esc(e.id)}')">Won</button><button class="btn plain sm" onclick="estimateLost('${esc(e.id)}')">Lost</button>` : ''}
+      <button class="btn plain sm" onclick="editEstimate('${esc(e.id)}')">Edit</button></div></div>`;
+  }
 
   function jobsTable(js, showClient) {
     const total = js.reduce((t, j) => t + (Number(j.total) || 0), 0);
-    return `<table><thead><tr><th>Date</th>${showClient ? '<th>Client</th>' : ''}<th>Vehicle</th><th>Work done</th><th class="money">Parts</th><th class="money">Labor</th><th class="money">Paid</th><th></th></tr></thead><tbody>
-      ${js.map(j => `<tr class="click" onclick="editJob('${esc(j.id)}')">
+    return `<table><thead><tr><th>Date</th>${showClient ? '<th>Client</th>' : ''}<th>Vehicle</th><th>Work done</th><th class="money">Parts</th><th class="money">Labor</th><th class="money">Total</th><th>Paid</th></tr></thead><tbody>
+      ${js.map(j => { const unpaid = j.paid !== true && Number(j.total) > 0; return `<tr class="click" onclick="editJob('${esc(j.id)}')">
         <td style="white-space:nowrap">${esc(fmtDate(j.date))}</td>
         ${showClient ? `<td class="name">${esc(fullName(client(j.clientId)))}</td>` : ''}
-        <td>${esc(j.vehicle)}${j.mileage ? `<div class="faint">${esc(Number(j.mileage).toLocaleString())} mi</div>` : ''}</td>
-        <td>${j.category ? `<span class="badge">${esc(j.category)}</span> ` : ''}<span class="pre">${esc(j.work)}</span></td>
+        <td>${esc(j.vehicle)}${j.mileage ? `<div class="muted small num">${esc(Number(j.mileage).toLocaleString())} mi</div>` : ''}</td>
+        <td>${j.category ? `<div class="muted small">${esc(j.category)}</div>` : ''}<span class="pre">${esc(j.work)}</span></td>
         <td class="money muted">${j.partsCost !== '' ? money(j.partsCost) : ''}</td>
         <td class="money muted">${j.labor !== '' ? money(j.labor) : ''}</td>
         <td class="money name">${money(j.total)}</td>
-        <td>${j.paid === true ? '' : Number(j.total) > 0 ? '<span class="badge danger">Unpaid</span>' : ''}</td></tr>`).join('')}
-      <tr><td colspan="${showClient ? 6 : 5}" class="label">Total</td><td class="money name">${money(total)}</td><td></td></tr>
-      </tbody></table>`;
+        <td>${unpaid ? pill(daysAgo(j.date) >= 7 ? 'Unpaid ' + daysAgo(j.date) + ' days' : 'Unpaid', daysAgo(j.date) >= 7 ? 'red' : 'amber') : pill(j.payment || 'Paid', 'green')}</td></tr>`; }).join('')}
+      </tbody><tfoot><tr><td colspan="${showClient ? 6 : 5}">Total</td><td class="money">${money(total)}</td><td></td></tr></tfoot></table>`;
+  }
+
+  /* -------------------------------------------------------- estimates */
+  function viewEstimates() {
+    const all = DATA.estimates.slice().sort((a, b) => String(b.date).localeCompare(String(a.date)));
+    const list = UI.estFilter === 'All' ? all : all.filter(e => e.status === UI.estFilter);
+    const won = all.filter(e => e.status === 'Won'), lost = all.filter(e => e.status === 'Lost'), open = all.filter(e => e.status === 'Open');
+    const decided = won.length + lost.length;
+    const sum = arr => money(arr.reduce((t, e) => t + (Number(e.amount) || 0), 0));
+    return `
+      <div class="row spread"><div><h1>Estimates</h1><div class="muted">Every quote you give, so none slip through the cracks. Customers get an automatic check-in after a few days.</div></div>
+        <button class="btn" onclick="editEstimate()">New estimate</button></div>
+      <div class="summary">
+        <div><div class="muted small">Waiting on an answer</div><div class="big">${sum(open)}</div><div class="small muted">${open.length} estimates</div></div>
+        <div><div class="muted small">Won</div><div class="big">${sum(won)}</div><div class="small muted">${won.length} estimates</div></div>
+        <div><div class="muted small">Win rate</div><div class="big">${decided ? Math.round(won.length / decided * 100) + '%' : '-'}</div><div class="small muted">${decided ? won.length + ' of ' + decided + ' decided' : 'No answers yet'}</div></div>
+      </div>
+      <div class="chips">${['Open', 'Won', 'Lost', 'All'].map(s => `<button class="chip ${UI.estFilter === s ? 'on' : ''}" onclick="UI.estFilter='${s}'; render()">${s}</button>`).join('')}</div>
+      <div class="card"><div class="list">${list.length ? list.map(e => `<div class="item"><div class="grow">
+        <div class="row spread"><span><button class="linkbtn" onclick="go('client','${esc(e.clientId)}')">${esc(fullName(client(e.clientId)))}</button> <b class="num">${money(e.amount)}</b></span>${estPill(e)}</div>
+        <div>${esc([e.vehicle, e.work].filter(Boolean).join(': '))}</div><div class="muted small">Given ${esc(fmtDate(e.date))}${e.followUpSent ? ', check-in sent ' + esc(fmtShort(e.followUpSent)) : ''}</div></div>
+        <div class="row">${e.status === 'Open' ? `${callBtn(client(e.clientId))}<button class="btn sm" onclick="estimateWon('${esc(e.id)}')">Won</button><button class="btn plain sm" onclick="estimateLost('${esc(e.id)}')">Lost</button>` : ''}
+        <button class="btn plain sm" onclick="editEstimate('${esc(e.id)}')">Edit</button></div></div>`).join('') : '<div class="empty">No estimates here.</div>'}</div></div>`;
   }
 
   /* ----------------------------------------------------- appointments */
   function viewAppointments() {
-    const today = nowStr().slice(0, 10);
-    const list = DATA.appointments.filter(a => UI.showPast ? true : a.start >= today && a.status !== 'Cancelled')
-      .sort((a, b) => UI.showPast ? b.start.localeCompare(a.start) : a.start.localeCompare(b.start));
+    const today = todayStr();
+    const list = DATA.appointments.filter(a => UI.showPast ? true : (String(a.start) >= today || (a.status === 'Scheduled' && a.end < nowStr())) && a.status !== 'Cancelled')
+      .sort((a, b) => UI.showPast ? String(b.start).localeCompare(String(a.start)) : String(a.start).localeCompare(String(b.start)));
     const days = {};
     list.forEach(a => { const k = String(a.start).slice(0, 10); (days[k] = days[k] || []).push(a); });
     return `
-      <div class="row spread"><h1>Appointments</h1><button class="btn" onclick="editAppointment()">+ Book appointment</button></div>
-      <p class="muted">Every appointment is added to your Google Calendar with alerts 1 day and 1 hour before.</p>
+      <div class="row spread"><div><h1>Calendar</h1><div class="muted">Everything you book here goes on your Google Calendar, with alerts a day and an hour before.</div></div>
+        <button class="btn" onclick="editAppointment()">Book appointment</button></div>
       <div class="chips"><button class="chip ${UI.showPast ? '' : 'on'}" onclick="UI.showPast=false; render()">Upcoming</button>
-        <button class="chip ${UI.showPast ? 'on' : ''}" onclick="UI.showPast=true; render()">All, newest first</button></div>
-      ${Object.keys(days).length ? Object.keys(days).map(k => `<div class="section"><h2 style="margin-bottom:8px">${esc(toDate(k).toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' }))}</h2>
-        <div class="card"><div class="list">${days[k].map(a => { const c = client(a.clientId); return `<div class="item">
-          <div class="when"><b style="font-size:14px">${esc(fmtTime(a.start))}</b></div>
-          <div class="grow"><div class="row spread"><button class="linkbtn name" onclick="go('client','${esc(a.clientId)}')">${esc(fullName(c))}</button>
-            <span class="badge ${a.status === 'Cancelled' ? 'danger' : a.status === 'Completed' ? 'customer' : 'lead'}">${esc(a.status)}</span></div>
-            <div class="muted">${esc(a.service || 'Appointment')}${a.vehicle ? ' &middot; ' + esc(a.vehicle) : ''}${c && c.phone ? ' &middot; ' + esc(phone(c.phone)) : ''}</div>
-            ${a.location || (c && c.address) ? `<div class="faint">${esc(a.location || c.address)}</div>` : ''}</div>
+        <button class="chip ${UI.showPast ? 'on' : ''}" onclick="UI.showPast=true; render()">Everything, newest first</button></div>
+      ${Object.keys(days).length ? Object.keys(days).map(k => `<section class="card"><h2>${esc(toDate(k).toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' }))}${k === today ? ' ' + pill('Today', 'amber') : ''}</h2>
+        <div class="list">${days[k].map(a => { const c = client(a.clientId); const where = a.location || (c && c.address) || ''; return `<div class="item">
+          <div class="when"><b style="font-size:15px">${esc(fmtTime(a.start))}</b></div>
+          <div class="grow"><div class="row spread"><button class="linkbtn" onclick="go('client','${esc(a.clientId)}')">${esc(fullName(c))}</button>${apptPill(a)}</div>
+            <div>${esc(a.service || 'Appointment')}${a.vehicle ? ', ' + esc(a.vehicle) : ''}${c && c.phone ? ` <span class="muted num">${esc(phone(c.phone))}</span>` : ''}</div>
+            ${where ? `<div class="muted small">${esc(where)}</div>` : ''}</div>
           <div class="row">${a.status === 'Scheduled' ? `<button class="btn sm" onclick="completeAppointment('${esc(a.id)}')">Done</button>` : ''}
-            <button class="btn ghost sm" onclick="editAppointment('${esc(a.id)}')">Edit</button></div></div>`; }).join('')}</div></div></div>`).join('')
-        : '<div class="card section"><div class="empty">No appointments.</div></div>'}`;
+            <button class="btn plain sm" onclick="editAppointment('${esc(a.id)}')">Edit</button></div></div>`; }).join('')}</div></section>`).join('')
+        : '<div class="card empty">No appointments.</div>'}`;
   }
 
   /* -------------------------------------------------------------- jobs */
@@ -435,98 +585,139 @@
     const js = DATA.jobs.filter(j => !q || [fullName(client(j.clientId)), j.vehicle, j.work, j.category, j.notes].join(' ').toLowerCase().includes(q))
       .sort((a, b) => String(b.date).localeCompare(String(a.date)));
     return `
-      <div class="row spread"><h1>Services</h1><button class="btn" onclick="editJob()">+ Add service</button></div>
-      <p class="muted">Every job you have done, with what was paid. Click a row to edit it.</p>
-      <input id="jobSearch" placeholder="Search client, vehicle, work..." value="${esc(UI.jobSearch)}" oninput="UI.jobSearch=this.value; renderKeepFocus('jobSearch')">
-      <div class="card section scroll-x">${js.length ? jobsTable(js, true) : '<div class="empty">No services yet.</div>'}</div>`;
+      <div class="row spread"><div><h1>Jobs</h1><div class="muted">Every job you have done and what you were paid. Click one to edit it.</div></div><button class="btn" onclick="editJob()">Log a job</button></div>
+      <input id="jobSearch" aria-label="Search jobs" placeholder="Search by client, vehicle or work" value="${esc(UI.jobSearch)}" oninput="UI.jobSearch=this.value; renderKeepFocus('jobSearch')">
+      <div class="card table-wrap">${js.length ? jobsTable(js, true) : '<div class="empty">No jobs yet.</div>'}</div>`;
+  }
+
+  /* ------------------------------------------------------------- sales */
+  function viewSales() {
+    const now = new Date(), months = [];
+    for (let i = 5; i >= 0; i--) { const d = new Date(now.getFullYear(), now.getMonth() - i, 1); months.push(localStr(d).slice(0, 7)); }
+    const rev = m => DATA.jobs.filter(j => String(j.date).slice(0, 7) === m).reduce((t, j) => t + (Number(j.total) || 0), 0);
+    const revs = months.map(rev), max = Math.max(1, ...revs);
+    const thisM = months[5], lastM = months[4];
+    const leadsIn = m => DATA.clients.filter(c => String(c.created).slice(0, 7) === m).length;
+    const paying = DATA.clients.filter(c => jobsOf(c.id).length);
+    const conv = DATA.clients.length ? Math.round(paying.length / DATA.clients.length * 100) : 0;
+    const avgJob = DATA.jobs.length ? DATA.jobs.reduce((t, j) => t + (Number(j.total) || 0), 0) / DATA.jobs.length : 0;
+    const change = (a, b) => b ? `<span class="${a >= b ? '' : 't-red'}">${a >= b ? '+' : ''}${Math.round((a - b) / b * 100)}% vs last month</span>` : 'First month tracked';
+
+    const sources = {};
+    DATA.clients.forEach(c => { const s = c.source || 'Unknown'; const r = sources[s] = sources[s] || { leads: 0, customers: 0, revenue: 0 };
+      r.leads++; if (jobsOf(c.id).length) r.customers++; r.revenue += spent(c.id); });
+    const srcRows = Object.entries(sources).sort((a, b) => b[1].revenue - a[1].revenue || b[1].leads - a[1].leads);
+    const cats = {};
+    DATA.jobs.forEach(j => { const k = j.category || 'Other'; cats[k] = (cats[k] || 0) + (Number(j.total) || 0); });
+    const catRows = Object.entries(cats).sort((a, b) => b[1] - a[1]), catMax = Math.max(1, ...catRows.map(r => r[1]));
+    const top = paying.slice().sort((a, b) => spent(b.id) - spent(a.id)).slice(0, 5);
+    const referrers = {};
+    DATA.clients.filter(c => c.referredBy).forEach(c => { referrers[c.referredBy] = (referrers[c.referredBy] || 0) + 1; });
+
+    return `
+      <div><h1>Sales</h1><div class="muted">How the business is growing and where your customers come from.</div></div>
+      <div class="summary">
+        <div><div class="muted small">Made this month</div><div class="big">${money(rev(thisM))}</div><div class="small muted">${change(rev(thisM), rev(lastM))}</div></div>
+        <div><div class="muted small">New leads this month</div><div class="big">${leadsIn(thisM)}</div><div class="small muted">${leadsIn(lastM)} last month</div></div>
+        <div><div class="muted small">Leads that became customers</div><div class="big">${conv}%</div><div class="small muted">${paying.length} of ${DATA.clients.length}</div></div>
+        <div><div class="muted small">Average job</div><div class="big">${money(Math.round(avgJob))}</div><div class="small muted">${DATA.jobs.length} jobs total</div></div>
+      </div>
+      <div class="card"><h2>Money made, last 6 months</h2>
+        <div class="bars">${months.map((m, i) => `<div class="col ${i === 5 ? 'now' : ''}"><span class="val">${revs[i] ? money(revs[i]) : ''}</span><div class="bar-fill" style="height:${Math.max(revs[i] ? 3 : 0, revs[i] / max * 100)}%"></div></div>`).join('')}</div>
+        <div class="bar-labels">${months.map(m => `<span>${toDate(m + '-01').toLocaleDateString('en-US', { month: 'short' })}</span>`).join('')}</div></div>
+      <div class="grid g2">
+        <div class="card table-wrap"><h2>Where customers come from</h2>
+          ${srcRows.length ? `<table><thead><tr><th>Source</th><th class="money">Leads</th><th class="money">Customers</th><th class="money">Money made</th></tr></thead><tbody>
+          ${srcRows.map(([s, r]) => `<tr><td>${esc(s)}</td><td class="money">${r.leads}</td><td class="money">${r.customers}</td><td class="money">${money(r.revenue)}</td></tr>`).join('')}</tbody></table>` : '<div class="empty">No clients yet.</div>'}
+          <p class="muted small" style="margin-bottom:0">Spend your marketing time on the sources that bring paying customers.</p></div>
+        <div class="card"><h2>What sells</h2>
+          ${catRows.length ? catRows.map(([k, v]) => `<div style="margin:10px 0"><div class="row spread small"><span>${esc(k)}</span><b class="num">${money(v)}</b></div><div class="meter"><div style="width:${v / catMax * 100}%"></div></div></div>`).join('') : '<div class="empty">No jobs yet.</div>'}</div>
+        <div class="card"><h2>Best customers</h2><div class="list">${top.length ? top.map(c => `<div class="item"><div class="grow"><button class="linkbtn" onclick="go('client','${esc(c.id)}')">${esc(fullName(c))}</button> ${isRepeat(c.id) ? pill('Repeat', 'star') : ''}</div><b class="num">${money(spent(c.id))}</b></div>`).join('') : '<div class="empty">No paying customers yet.</div>'}</div>
+          <p class="muted small" style="margin-bottom:0">These folks are your best source of referrals. Ask them.</p></div>
+        <div class="card"><h2>Top referrers</h2><div class="list">${Object.keys(referrers).length ? Object.entries(referrers).sort((a, b) => b[1] - a[1]).map(([n, k]) => `<div class="item"><div class="grow">${esc(n)}</div><b class="num">${k} referred</b></div>`).join('') : '<div class="empty">Fill in "Referred by" on new clients to see who sends you work.</div>'}</div></div>
+      </div>`;
   }
 
   /* ---------------------------------------------------------- settings */
   async function loadSettings() {
     SETTINGS = await call('getSettings');
-    if (UI.view === 'settings') render();
+    render();
   }
 
   function viewSettings() {
     if (!SETTINGS) return '<p class="muted">Loading settings...</p>';
     const s = SETTINGS;
-    const field = (k, label, type, hint) => `<label class="f ${type === 'textarea' ? 'full' : ''}"><span class="label">${label}</span>
-      ${type === 'textarea' ? `<textarea name="${k}">${esc(s[k])}</textarea>` : `<input name="${k}" type="${type || 'text'}" value="${esc(s[k])}">`}
-      ${hint ? `<div class="hint">${hint}</div>` : ''}</label>`;
-    const check = (k, label) => `<label class="check full"><input type="checkbox" name="${k}" ${s[k] ? 'checked' : ''}> ${label}</label>`;
-    const tpl = (kind, title) => `<div class="card section"><h2 style="margin-bottom:12px">${title}</h2><div class="form">
-      ${field(kind + 'Subject', 'Email subject', 'text')}<div></div>
-      ${field(kind + 'Body', 'Email message', 'textarea')}${field(kind + 'Sms', 'Text message', 'textarea')}</div></div>`;
+    const field = (k, label, type, hint) => `<label class="f ${type === 'textarea' ? 'full' : ''}" for="set-${k}">${label}
+      ${type === 'textarea' ? `<textarea id="set-${k}" name="${k}">${esc(s[k])}</textarea>` : `<input id="set-${k}" name="${k}" type="${type || 'text'}" value="${esc(s[k])}">`}
+      ${hint ? `<span class="hint">${hint}</span>` : ''}</label>`;
+    const check = (k, label) => `<label class="check full"><input type="checkbox" id="set-${k}" name="${k}" ${s[k] ? 'checked' : ''}> ${label}</label>`;
+    const tpl = (kind, title) => `<div class="card"><h2>${title}</h2><div class="form">
+      ${field(kind + 'Subject', 'Email subject')}<div></div>
+      ${field(kind + 'Body', 'Email', 'textarea')}${field(kind + 'Sms', 'Text', 'textarea')}</div></div>`;
 
     return `
       <h1>Settings</h1>
-      <form id="settingsForm" onsubmit="event.preventDefault(); saveSettingsForm()">
-      <div class="card section"><h2 style="margin-bottom:12px">Automatic messages</h2>
-        <div class="row" style="margin-bottom:14px">${s.automationsOn
-          ? '<span class="badge customer">Automations are running</span>'
-          : '<span class="badge danger">Automations are off</span>'}
-          <button type="button" class="btn ghost sm" onclick="turnOn()">${s.automationsOn ? 'Restart' : 'Turn on'}</button></div>
+      <form id="settingsForm" onsubmit="event.preventDefault(); saveSettingsForm()" style="display:flex;flex-direction:column;gap:22px">
+      <div class="card"><div class="head"><h2>Automatic messages</h2>${s.automationsOn ? pill('Running', 'green') : pill('Turned off', 'red')}
+        <button type="button" class="btn plain sm" onclick="turnOn()">${s.automationsOn ? 'Restart' : 'Turn on'}</button></div>
+        <p class="muted" style="margin-top:0">Emails go out on their own. Texts are written for you and wait on the Today page, where one tap opens your phone's Messages app.</p>
         <div class="form">
           ${check('sendEmail', 'Send emails')}${check('sendSms', 'Write texts for me to send from my phone')}
           ${check('autoReminders', 'Remind customers before appointments')}
           ${field('reminderHours', 'How many hours before', 'number')}
-          ${check('autoFollowUp', 'Send a thank-you follow-up after a service')}
-          ${field('followUpDays', 'Days after the service', 'number')}
-          ${check('autoServiceReminder', 'Send a "time for a check-up" reminder')}
-          ${field('serviceReminderMonths', 'Months after the last service', 'number')}
-          ${check('autoLeadReply', 'Auto-reply to new website form requests')}
+          ${check('autoFollowUp', 'Thank-you message after a job')}
+          ${field('followUpDays', 'Days after the job', 'number')}
+          ${check('autoEstimateFollowUp', 'Check in on estimates that have no answer')}
+          ${field('estimateFollowUpDays', 'Days after the estimate', 'number')}
+          ${check('autoServiceReminder', '"Time for a check-up" message')}
+          ${field('serviceReminderMonths', 'Months after their last job', 'number')}
+          ${check('autoLeadReply', 'Auto-reply to new website requests')}
           ${check('dailyDigest', 'Email me a summary of my day at 6 AM')}
         </div></div>
 
-      <div class="card section"><h2 style="margin-bottom:12px">Business info</h2><div class="form">
-        ${field('businessName', 'Business name')}${field('businessPhone', 'Business phone (shown in messages)')}
-        ${field('ownerEmail', 'Your email', 'email', 'Replies and the daily summary go here. Blank = this Google account.')}
+      <div class="card"><h2>Business info</h2><div class="form">
+        ${field('businessName', 'Business name')}${field('businessPhone', 'Business phone shown in messages')}
+        ${field('ownerEmail', 'Your email', 'email', 'Replies and the daily summary go here. Leave blank to use this Google account.')}
         ${field('reviewLink', 'Google review link', 'url', 'Added to thank-you messages. Leave blank to skip that line.')}
-        ${field('calendarId', 'Google Calendar ID', 'text', 'Blank = your main calendar.')}
-      </div><p class="hint">Your CRM data sheet: <a href="${esc(s.crmSheetUrl)}" target="_blank">open in Google Sheets</a></p></div>
+        ${field('calendarId', 'Google Calendar ID', 'text', 'Leave blank to use your main calendar.')}
+      </div><p class="small">Your data lives in this Google Sheet: <a href="${esc(s.crmSheetUrl)}" target="_blank">open it</a>.
+        <button type="button" class="btn plain sm" onclick="test()" style="margin-left:6px">Send me a test email</button></p></div>
 
-      <div class="card section"><h2 style="margin-bottom:12px">How texting works (free)</h2>
-        <p class="muted" style="margin-top:0">The CRM writes each reminder and follow-up text for you and puts it in
-          <b>Texts to send</b> on the Dashboard. Tap <b>Send</b> on your phone and Messages opens with the text ready to go,
-          from your own number, at no cost. Emails go out on their own. Your morning summary email tells you when texts are waiting.</p>
-        <button type="button" class="btn ghost sm" onclick="test()">Send me a test email</button></div>
+      <p class="muted" style="margin:0">Message wording. These get filled in for you: {firstName} {name} {vehicle} {date} {time} {service} {amount} {location} {business} {phone} {reviewLink}</p>
+      ${tpl('reminder', 'Appointment reminder')}${tpl('followUp', 'Thank-you after a job')}${tpl('estimate', 'Estimate check-in')}${tpl('service', 'Check-up reminder')}${tpl('lead', 'Reply to website requests')}
 
-      <div class="section"><p class="muted">Message templates. These words get filled in for you:
-        {firstName} {name} {vehicle} {date} {time} {service} {location} {business} {phone} {reviewLink}</p></div>
-      ${tpl('reminder', 'Appointment reminder')}${tpl('followUp', 'Thank-you follow-up')}${tpl('service', 'Check-up reminder')}${tpl('lead', 'Website request auto-reply')}
-
-      <div class="section" style="position:sticky;bottom:12px"><button class="btn">Save settings</button></div>
+      <div style="position:sticky;bottom:12px"><button class="btn dark">Save settings</button></div>
       </form>`;
   }
 
   async function saveSettingsForm() {
-    const form = document.getElementById('settingsForm'), out = {};
-    form.querySelectorAll('input, textarea').forEach(el => { out[el.name] = el.type === 'checkbox' ? el.checked : el.value; });
+    const out = {};
+    document.getElementById('settingsForm').querySelectorAll('input, textarea').forEach(el => { out[el.name] = el.type === 'checkbox' ? el.checked : el.value; });
     SETTINGS = await call('saveSettings', out);
     render();
     toast('Settings saved');
   }
-  async function turnOn() { SETTINGS = await call('installAutomations'); render(); toast('Automations are on'); }
+  async function turnOn() { SETTINGS = await call('installAutomations'); render(); toast('Automatic messages are on'); }
   async function test() { await call('sendTest'); toast('Test email sent'); }
 
   /* ------------------------------------------------------------ modals */
-  // fields: [{k, label, type, options, full, hint, list}]
+  // fields: [{k, label, type, options, full, hint, list, text}]
   function openForm(title, fields, values, onSave, extra) {
     const v = values || {};
     const input = f => {
-      const val = v[f.k] == null ? '' : v[f.k];
-      if (f.type === 'textarea') return `<textarea name="${f.k}">${esc(val)}</textarea>`;
-      if (f.type === 'select') return `<select name="${f.k}">${f.options.map(o => { const [ov, ol] = Array.isArray(o) ? o : [o, o];
+      const val = v[f.k] == null ? '' : v[f.k], id = 'f-' + f.k;
+      if (f.type === 'textarea') return `<textarea id="${id}" name="${f.k}" ${f.rows ? `style="min-height:${f.rows * 24}px"` : ''} placeholder="${esc(f.placeholder || '')}">${esc(val)}</textarea>`;
+      if (f.type === 'select') return `<select id="${id}" name="${f.k}">${f.options.map(o => { const [ov, ol] = Array.isArray(o) ? o : [o, o];
         return `<option value="${esc(ov)}" ${String(val) === String(ov) ? 'selected' : ''}>${esc(ol)}</option>`; }).join('')}</select>`;
-      if (f.type === 'checkbox') return `<span class="check"><input type="checkbox" name="${f.k}" ${val !== false ? 'checked' : ''}> ${esc(f.text || '')}</span>`;
-      return `<input name="${f.k}" type="${f.type || 'text'}" value="${esc(val)}" ${f.type === 'number' ? 'step="any"' : ''} ${f.list ? `list="dl-${f.k}"` : ''}>
+      if (f.type === 'checkbox') return `<span class="check"><input type="checkbox" id="${id}" name="${f.k}" ${val !== false ? 'checked' : ''}> ${esc(f.text || '')}</span>`;
+      return `<input id="${id}" name="${f.k}" type="${f.type || 'text'}" value="${esc(val)}" ${f.type === 'number' ? 'step="any"' : ''} ${f.list ? `list="dl-${f.k}"` : ''}>
         ${f.list ? `<datalist id="dl-${f.k}">${f.list.map(o => `<option value="${esc(o)}">`).join('')}</datalist>` : ''}`;
     };
     document.getElementById('modal').innerHTML = `<div class="modal-wrap" onclick="if(event.target===this) closeModal()">
-      <form class="modal" id="mform"><h2 style="margin-bottom:16px">${esc(title)}</h2>
-        <div class="form">${fields.map(f => `<label class="f ${f.full || f.type === 'textarea' ? 'full' : ''}">
-          ${f.type === 'checkbox' ? '' : `<span class="label">${esc(f.label)}</span>`}${input(f)}${f.hint ? `<div class="hint">${esc(f.hint)}</div>` : ''}</label>`).join('')}</div>
-        <div class="actions">${extra || ''}<span style="flex:1"></span><button type="button" class="btn ghost" onclick="closeModal()">Cancel</button><button class="btn">Save</button></div>
+      <form class="modal" id="mform"><h2>${esc(title)}</h2>
+        <div class="form">${fields.map(f => `<label class="f ${f.full || f.type === 'textarea' ? 'full' : ''}" for="f-${f.k}">
+          ${f.type === 'checkbox' ? '' : esc(f.label)}${input(f)}${f.hint ? `<span class="hint">${esc(f.hint)}</span>` : ''}</label>`).join('')}</div>
+        <div class="actions">${extra || ''}<span style="flex:1"></span><button type="button" class="btn plain" onclick="closeModal()">Cancel</button><button class="btn dark">Save</button></div>
       </form></div>`;
     document.getElementById('mform').onsubmit = async e => {
       e.preventDefault();
@@ -539,61 +730,130 @@
   }
   function closeModal() { document.getElementById('modal').innerHTML = ''; }
 
-  const clientOptions = () => DATA.clients.slice().sort((a, b) => fullName(a).localeCompare(fullName(b))).map(c => [c.id, fullName(c) + (c.phone ? ' - ' + phone(c.phone) : '')]);
+  const clientOptions = () => DATA.clients.slice().sort((a, b) => fullName(a).localeCompare(fullName(b))).map(c => [c.id, fullName(c) + (c.phone ? ', ' + phone(c.phone) : '')]);
+  const needClient = out => { if (!out.clientId) { toast('Pick a client first', true); throw new Error('no client'); } };
 
   function editClient(id) {
     const c = id ? client(id) : { okText: true, okEmail: true, status: 'New lead' };
-    openForm(id ? 'Edit client' : 'New client', [
+    openForm(id ? 'Edit client' : 'Add a client', [
       { k: 'firstName', label: 'First name' }, { k: 'lastName', label: 'Last name' },
       { k: 'phone', label: 'Phone', type: 'tel' }, { k: 'email', label: 'Email', type: 'email' },
       { k: 'address', label: 'Address', full: true },
       { k: 'vehicles', label: 'Vehicles', type: 'textarea', hint: 'One per line, like: 2019 Ford Fiesta ST' },
       { k: 'status', label: 'Status', type: 'select', options: STATUSES },
-      { k: 'source', label: 'How they found you', list: ['Website form', 'Referral', 'Google', 'Facebook', 'Instagram', 'Repeat', 'Walk-up'] },
-      { k: 'tags', label: 'Tags', full: true, hint: 'Anything you want to search by, like: fleet, VIP, pays cash' },
+      { k: 'source', label: 'How they found you', list: SOURCES },
+      { k: 'referredBy', label: 'Referred by', list: DATA.clients.map(fullName), hint: 'Who sent them your way, if anyone' },
+      { k: 'tags', label: 'Tags', hint: 'Anything to search by, like: fleet, pays cash' },
       { k: 'notes', label: 'Notes', type: 'textarea' },
       { k: 'okText', type: 'checkbox', text: 'OK to send automatic texts' },
       { k: 'okEmail', type: 'checkbox', text: 'OK to send automatic emails' }
     ], c, async out => {
       const isNew = !out.id;
       const d = await act('saveClient', out);
-      if (isNew) { const made = d.clients[d.clients.length - 1]; go('client', made.id); }
+      if (isNew) go('client', d.clients[d.clients.length - 1].id);
       toast('Client saved');
     });
   }
 
-  function editJob(id, clientId) {
-    const j = id ? DATA.jobs.find(x => x.id === id) : { clientId: clientId || '', date: nowStr().slice(0, 10), paid: true };
+  function editNextStep(id) {
+    const c = client(id);
+    const t = new Date(Date.now() + 2 * DAY);
+    openForm('Next step with ' + fullName(c), [
+      { k: 'nextStep', label: 'What do you need to do?', full: true, list: ['Call back', 'Send estimate', 'Check if they want to book', 'Ask for a review', 'Ask for a referral', 'Collect payment'] },
+      { k: 'followUpOn', label: 'When', type: 'date' }
+    ], Object.assign({}, c, { followUpOn: String(c.followUpOn || localStr(t)).slice(0, 10) }), async out => {
+      await act('saveClient', out);
+      toast('It will show on your Today page on ' + fmtShort(out.followUpOn));
+    });
+  }
+
+  async function followUpDone(id) {
+    const c = Object.assign({}, client(id));
+    const step = c.nextStep;
+    c.nextStep = ''; c.followUpOn = '';
+    await act('saveClient', c);
+    await act('saveInteraction', { clientId: id, type: 'Note', summary: 'Done: ' + (step || 'follow-up') });
+    toast('Marked done');
+  }
+
+  async function markContacted(id) {
+    const c = Object.assign({}, client(id), { status: 'Contacted' });
+    await act('saveClient', c);
+    await act('saveInteraction', { clientId: id, type: 'Call', summary: 'Contacted' });
+    toast('Marked contacted. Set a next step so they don\'t go cold.');
+    editNextStep(id);
+  }
+
+  async function markPaid(id) {
+    await act('saveJob', Object.assign({}, DATA.jobs.find(j => j.id === id), { paid: true }));
+    toast('Marked paid');
+  }
+
+  function editEstimate(id, clientId) {
+    const e = id ? DATA.estimates.find(x => x.id === id) : { clientId: clientId || '', date: todayStr(), status: 'Open' };
+    const c = client(e.clientId);
+    openForm(id ? 'Edit estimate' : 'New estimate', [
+      { k: 'clientId', label: 'Client', type: 'select', options: [['', 'Pick a client'], ...clientOptions()], full: true },
+      { k: 'date', label: 'Date given', type: 'date' },
+      { k: 'amount', label: 'Amount ($)', type: 'number' },
+      { k: 'vehicle', label: 'Vehicle', list: c ? vehicles(c) : [...new Set(DATA.clients.flatMap(vehicles))], full: true },
+      { k: 'work', label: 'Work quoted', type: 'textarea' },
+      { k: 'status', label: 'Status', type: 'select', options: ['Open', 'Won', 'Lost'] },
+      { k: 'notes', label: 'Notes', type: 'textarea', hint: 'Parts prices, why they said no, etc.' }
+    ], Object.assign({}, e, { date: String(e.date || '').slice(0, 10) }), async out => {
+      needClient(out);
+      await act('saveEstimate', out);
+      toast('Estimate saved');
+    }, id ? `<button type="button" class="btn danger" onclick="delEstimate('${esc(id)}')">Delete</button>` : '');
+  }
+
+  async function estimateWon(id) {
+    const e = Object.assign({}, DATA.estimates.find(x => x.id === id), { status: 'Won' });
+    await act('saveEstimate', e);
+    toast('Nice! Book it or log the job.');
+    editAppointment(null, e.clientId, { service: e.work, vehicle: e.vehicle });
+  }
+
+  function estimateLost(id) {
+    const e = DATA.estimates.find(x => x.id === id);
+    openForm('Estimate lost', [
+      { k: 'notes', label: 'Why? (helps you price future jobs)', type: 'textarea', list: [] }
+    ], { notes: e.notes || '' }, async out => {
+      await act('saveEstimate', Object.assign({}, e, { status: 'Lost', notes: out.notes }));
+      toast('Marked lost');
+    });
+  }
+
+  function editJob(id, clientId, preset) {
+    const j = id ? DATA.jobs.find(x => x.id === id) : Object.assign({ clientId: clientId || '', date: todayStr(), paid: true }, preset || {});
     const c = client(j.clientId);
-    const fields = [
+    openForm(id ? 'Edit job' : 'Log a job', [
       { k: 'clientId', label: 'Client', type: 'select', options: [['', 'Pick a client'], ...clientOptions()], full: true },
       { k: 'date', label: 'Date', type: 'date' },
       { k: 'vehicle', label: 'Vehicle', list: c ? vehicles(c) : [...new Set(DATA.clients.flatMap(vehicles))] },
-      { k: 'category', label: 'Category', type: 'select', options: ['', ...CATEGORIES] },
+      { k: 'category', label: 'Type of work', type: 'select', options: ['', ...CATEGORIES] },
       { k: 'mileage', label: 'Mileage', type: 'number' },
       { k: 'work', label: 'Work done', type: 'textarea' },
-      { k: 'partsCost', label: 'Parts cost ($)', type: 'number' }, { k: 'labor', label: 'Labor ($)', type: 'number' },
-      { k: 'total', label: 'Total paid ($)', type: 'number', hint: 'Leave blank to use parts + labor' },
-      { k: 'payment', label: 'Payment method', type: 'select', options: ['', 'Cash', 'Card', 'Zelle', 'Venmo', 'Cash App', 'Check', 'Other'] },
+      { k: 'partsCost', label: 'Parts ($)', type: 'number' }, { k: 'labor', label: 'Labor ($)', type: 'number' },
+      { k: 'total', label: 'Total paid ($)', type: 'number', hint: 'Leave blank to add up parts and labor' },
+      { k: 'payment', label: 'Paid with', type: 'select', options: ['', 'Cash', 'Card', 'Zelle', 'Venmo', 'Cash App', 'Check', 'Other'] },
       { k: 'paid', type: 'checkbox', text: 'Paid in full' },
-      { k: 'notes', label: 'Notes', type: 'textarea', hint: 'Parts used, things to check next time, etc.' }
-    ];
-    const vals = Object.assign({}, j, { date: String(j.date || '').slice(0, 10) });
-    openForm(id ? 'Edit service' : 'Add service', fields, vals, async out => {
-      if (!out.clientId) { toast('Pick a client', true); throw new Error('no client'); }
+      { k: 'notes', label: 'Notes', type: 'textarea', hint: 'Parts used, things to check next time' }
+    ], Object.assign({}, j, { date: String(j.date || '').slice(0, 10) }), async out => {
+      needClient(out);
       if (out.total === '' && (out.partsCost !== '' || out.labor !== '')) out.total = (Number(out.partsCost) || 0) + (Number(out.labor) || 0);
       await act('saveJob', out);
-      toast('Service saved');
+      toast(out.paid ? 'Job saved' : 'Job saved. It shows as unpaid on your Today page.');
     }, id ? `<button type="button" class="btn danger" onclick="delJob('${esc(id)}')">Delete</button>` : '');
   }
 
-  function editAppointment(id, clientId) {
+  function editAppointment(id, clientId, preset) {
     let a;
     if (id) a = DATA.appointments.find(x => x.id === id);
     else {
       const t = new Date(); t.setDate(t.getDate() + 1); t.setHours(9, 0, 0, 0);
       const c = client(clientId);
-      a = { clientId: clientId || '', start: localStr(t), status: 'Scheduled', location: c ? c.address : '', vehicle: c ? vehicles(c)[0] || '' : '' };
+      a = Object.assign({ clientId: clientId || '', start: localStr(t), status: 'Scheduled', location: c ? c.address : '', vehicle: c ? vehicles(c)[0] || '' : '' }, preset || {});
     }
     const c = client(a.clientId);
     const vals = Object.assign({}, a, { length: a.end ? String((toDate(a.end) - toDate(a.start)) / 36e5) : '2' });
@@ -603,73 +863,101 @@
       { k: 'length', label: 'How long (hours)', type: 'number' },
       { k: 'service', label: 'Service', list: CATEGORIES },
       { k: 'vehicle', label: 'Vehicle', list: c ? vehicles(c) : [] },
-      { k: 'location', label: 'Location', full: true, hint: 'Blank = client address' },
+      { k: 'location', label: 'Location', full: true, hint: 'Leave blank to use their address' },
       { k: 'status', label: 'Status', type: 'select', options: ['Scheduled', 'Completed', 'Cancelled', 'No-show'] },
       { k: 'notes', label: 'Notes', type: 'textarea' }
     ], vals, async out => {
       if (!out.clientId || !out.start) { toast('Pick a client and a time', true); throw new Error('missing'); }
-      const hrs = Number(out.length) || 2;
-      out.end = localStr(new Date(toDate(out.start).getTime() + hrs * 36e5));
+      out.end = localStr(new Date(toDate(out.start).getTime() + (Number(out.length) || 2) * 36e5));
       delete out.length;
       await act('saveAppointment', out);
-      toast(out.status === 'Cancelled' ? 'Cancelled and removed from Google Calendar' : 'Saved to Google Calendar');
+      toast(out.status === 'Cancelled' ? 'Cancelled and taken off your Google Calendar' : 'Saved to your Google Calendar');
     }, id ? `<button type="button" class="btn danger" onclick="delAppointment('${esc(id)}')">Delete</button>` : '');
   }
 
   async function completeAppointment(id) {
     const a = Object.assign({}, DATA.appointments.find(x => x.id === id), { status: 'Completed' });
     await act('saveAppointment', a);
-    toast('Marked done. Add the service so it shows in their history.');
-    editJob(null, a.clientId);
-    const f = document.getElementById('mform');
-    if (f) { f.elements.vehicle.value = a.vehicle || ''; f.elements.date.value = String(a.start).slice(0, 10);
-      if (CATEGORIES.includes(a.service)) f.elements.category.value = a.service; }
+    toast('Marked done. Now log what you did and the price.');
+    editJob(null, a.clientId, { vehicle: a.vehicle || '', date: String(a.start).slice(0, 10), category: CATEGORIES.includes(a.service) ? a.service : '' });
   }
 
   function editInteraction(clientId) {
-    openForm('Log interaction', [
+    openForm('Add to history', [
       { k: 'type', label: 'Type', type: 'select', options: INTERACTION_TYPES },
       { k: 'date', label: 'When', type: 'datetime-local' },
-      { k: 'summary', label: 'What happened', type: 'textarea' }
-    ], { clientId, type: 'Call', date: nowStr() }, async out => { await act('saveInteraction', out); toast('Logged'); });
+      { k: 'summary', label: 'What happened', type: 'textarea', rows: 6, hint: 'You can paste a whole text conversation here.' }
+    ], { clientId, type: 'Call', date: nowStr() }, async out => { await act('saveInteraction', out); toast('Added to history'); });
   }
 
   function compose(clientId) {
     const c = client(clientId);
-    openForm('Message ' + fullName(c), [
-      { k: 'channel', label: 'Send as', type: 'select', options: [['email', 'Email' + (c.email ? ' to ' + c.email : ' (no email on file)')], ['sms', 'Text' + (c.phone ? ' to ' + phone(c.phone) + ' (opens Messages on your phone)' : ' (no phone on file)')]], full: true },
-      { k: 'subject', label: 'Email subject (emails only)', full: true },
-      { k: 'body', label: 'Message', type: 'textarea' }
-    ], { channel: c.email ? 'email' : 'sms', subject: 'Cowboy Mechanics', body: `Hi ${c.firstName || 'there'},\n\n` }, async out => {
-      if (out.channel === 'sms') {
-        if (!c.phone) { toast('This client has no phone number', true); throw new Error('no phone'); }
-        const a = document.createElement('a');
-        a.href = smsLink(c.phone, out.body);
-        a.click(); // must happen right away, while the tap still counts
-      }
-      await act('sendMessage', clientId, out.channel, out.subject, out.body);
-      toast(out.channel === 'sms' ? 'Text logged' : 'Email sent and logged');
+    openForm('Email ' + fullName(c), [
+      { k: 'subject', label: 'Subject', full: true },
+      { k: 'body', label: 'Message', type: 'textarea', rows: 7 }
+    ], { subject: 'Cowboy Mechanics', body: `Hi ${c.firstName || 'there'},\n\n` }, async out => {
+      await act('sendMessage', clientId, 'email', out.subject, out.body);
+      toast('Email sent and saved to their history');
     });
+  }
+
+  async function markText(id, status) {
+    await act('markText', id, status);
+    if (status === 'Sent') toast('Saved to their history');
+  }
+
+  /* --------------------------------------------------------- importing */
+  // Paste one client per line: Name, Phone, Email, Address, Vehicle, Notes. A header line is skipped.
+  function openImport() {
+    openForm('Import a list of clients', [
+      { k: 'csv', label: 'Paste your list', type: 'textarea', rows: 10, placeholder: 'Name, Phone, Email, Address, Vehicle, Notes\nMarcus Delgado, 702-555-0143, , , 2016 Silverado, Wants brakes quoted',
+        hint: 'One client per line, in this order: Name, Phone, Email, Address, Vehicle, Notes. Leave a spot empty if you don\'t have it. People already in the CRM are matched by phone or email, so nobody is added twice.' },
+      { k: 'source', label: 'Where did this list come from?', list: SOURCES }
+    ], { source: 'Imported' }, async out => {
+      const rows = parseCsv(out.csv).filter(r => !/^name$/i.test(r[0] || '')).map(r => {
+        const [first, ...rest] = String(r[0] || '').trim().split(/\s+/);
+        return { firstName: first || '', lastName: rest.join(' '), phone: r[1] || '', email: r[2] || '', address: r[3] || '', vehicles: r[4] || '', notes: r[5] || '', source: out.source };
+      });
+      if (!rows.length) { toast('Nothing to import. Paste at least one line.', true); throw new Error('empty'); }
+      const d = await act('importClients', rows);
+      toast(`${d.imported.added} added, ${d.imported.updated} updated`);
+    });
+  }
+
+  function parseCsv(text) {
+    const rows = []; let row = [], cell = '', q = false;
+    for (let i = 0; i < text.length; i++) {
+      const ch = text[i];
+      if (q) { if (ch === '"' && text[i + 1] === '"') { cell += '"'; i++; } else if (ch === '"') q = false; else cell += ch; }
+      else if (ch === '"') q = true;
+      else if (ch === ',') { row.push(cell.trim()); cell = ''; }
+      else if (ch === '\n') { row.push(cell.trim()); if (row.some(Boolean)) rows.push(row); row = []; cell = ''; }
+      else if (ch !== '\r') cell += ch;
+    }
+    row.push(cell.trim()); if (row.some(Boolean)) rows.push(row);
+    return rows;
   }
 
   /* ----------------------------------------------------------- deletes */
   async function delClient(id) {
-    if (!confirm('Delete this client and all their services, appointments and history? This cannot be undone.')) return;
+    if (!confirm('Delete this client and all their jobs, estimates, appointments and history? This cannot be undone.')) return;
     await act('deleteClient', id); go('clients'); toast('Client deleted');
   }
-  async function delJob(id) { if (!confirm('Delete this service?')) return; await act('deleteJob', id); closeModal(); toast('Deleted'); }
-  async function delAppointment(id) { if (!confirm('Delete this appointment? It will also be removed from Google Calendar.')) return; await act('deleteAppointment', id); closeModal(); toast('Deleted'); }
+  async function delJob(id) { if (!confirm('Delete this job?')) return; await act('deleteJob', id); closeModal(); toast('Deleted'); }
+  async function delEstimate(id) { if (!confirm('Delete this estimate?')) return; await act('deleteEstimate', id); closeModal(); toast('Deleted'); }
+  async function delAppointment(id) { if (!confirm('Delete this appointment? It will also come off your Google Calendar.')) return; await act('deleteAppointment', id); closeModal(); toast('Deleted'); }
   async function delInteraction(id) { if (!confirm('Delete this entry?')) return; await act('deleteInteraction', id); }
 
   async function refresh() {
     const before = DATA.clients.length;
     const d = await act('getData', true);
-    if (d.syncError) toast('Could not read the form sheet: ' + d.syncError, true);
-    else toast(d.clients.length > before ? (d.clients.length - before) + ' new lead(s) added' : 'Up to date');
+    if (d.syncError) toast('Could not read the website form sheet: ' + d.syncError, true);
+    else toast(d.clients.length > before ? (d.clients.length - before) + ' new lead(s) added' : 'No new leads');
   }
 
   document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
-  call('getData', true).then(d => { setData(d); if (d.syncError) toast('Could not read the form sheet: ' + d.syncError, true); });
+  call('getData', true).then(d => { setData(d); if (d.syncError) toast('Could not read the website form sheet: ' + d.syncError, true); });
+  loadSettings();
 </script>
 </body>
 </html>
