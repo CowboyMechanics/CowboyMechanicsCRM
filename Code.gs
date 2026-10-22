@@ -221,6 +221,19 @@ function deleteJob(id) {
 function saveAppointment(rec) {
   return withLock_(() => {
     const isNew = !rec.id;
+    // Booking someone new: add them to the clients, or use the existing client with the same phone or email.
+    let booked = null;
+    if (!rec.clientId && rec.newClient) {
+      const nc = rec.newClient;
+      let c = matchClient_(readTable_('Clients'), nc.phone, nc.email);
+      booked = { existing: !!c };
+      if (!c) c = { created: now_(), status: 'Contacted', source: nc.source || 'Added by hand', okText: true, okEmail: true };
+      ['firstName', 'lastName', 'phone', 'email', 'address', 'vehicles'].forEach(k => { if (nc[k] && !c[k]) c[k] = nc[k]; });
+      saveRecord_('Clients', c);
+      rec.clientId = c.id;
+      booked.name = fullName_(c);
+    }
+    delete rec.newClient;
     const client = findRecord_('Clients', rec.clientId);
     if (!rec.end && rec.start) {
       rec.end = fmt_(new Date(parseDate_(rec.start).getTime() + 2 * 3600 * 1000));
@@ -234,7 +247,9 @@ function saveAppointment(rec) {
     if (isNew && client) {
       logInteraction_(client.id, 'Appointment', 'Booked ' + (rec.service || 'appointment') + ' for ' + prettyDateTime_(rec.start));
     }
-    return readAll_();
+    const data = readAll_();
+    data.booked = booked;
+    return data;
   });
 }
 

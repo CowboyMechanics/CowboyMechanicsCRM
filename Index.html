@@ -715,7 +715,7 @@
     };
     document.getElementById('modal').innerHTML = `<div class="modal-wrap" onclick="if(event.target===this) closeModal()">
       <form class="modal" id="mform"><h2>${esc(title)}</h2>
-        <div class="form">${fields.map(f => `<label class="f ${f.full || f.type === 'textarea' ? 'full' : ''}" for="f-${f.k}">
+        <div class="form">${fields.map(f => `<label class="f ${f.full || f.type === 'textarea' ? 'full' : ''}" for="f-${f.k}" ${f.group ? `data-group="${f.group}"` : ''}>
           ${f.type === 'checkbox' ? '' : esc(f.label)}${input(f)}${f.hint ? `<span class="hint">${esc(f.hint)}</span>` : ''}</label>`).join('')}</div>
         <div class="actions">${extra || ''}<span style="flex:1"></span><button type="button" class="btn plain" onclick="closeModal()">Cancel</button><button class="btn dark">Save</button></div>
       </form></div>`;
@@ -857,8 +857,16 @@
     }
     const c = client(a.clientId);
     const vals = Object.assign({}, a, { length: a.end ? String((toDate(a.end) - toDate(a.start)) / 36e5) : '2' });
+    const NEW = 'new';
+    if (!id && !a.clientId) a.clientId = NEW;
     openForm(id ? 'Edit appointment' : 'Book appointment', [
-      { k: 'clientId', label: 'Client', type: 'select', options: [['', 'Pick a client'], ...clientOptions()], full: true },
+      { k: 'clientId', label: 'Client', type: 'select', full: true,
+        options: [...(id ? [] : [[NEW, 'New client (fill in their info below)']]), ...clientOptions()] },
+      { k: 'ncFirst', label: 'First name', group: NEW }, { k: 'ncLast', label: 'Last name', group: NEW },
+      { k: 'ncPhone', label: 'Phone', type: 'tel', group: NEW }, { k: 'ncEmail', label: 'Email', type: 'email', group: NEW },
+      { k: 'ncAddress', label: 'Address', full: true, group: NEW, hint: 'Also used as the appointment location' },
+      { k: 'ncSource', label: 'How they found you', list: SOURCES, group: NEW, full: true,
+        hint: 'If their phone or email is already in your clients, the booking goes under that client instead of adding a duplicate.' },
       { k: 'start', label: 'Date and time', type: 'datetime-local' },
       { k: 'length', label: 'How long (hours)', type: 'number' },
       { k: 'service', label: 'Service', list: CATEGORIES },
@@ -867,12 +875,27 @@
       { k: 'status', label: 'Status', type: 'select', options: ['Scheduled', 'Completed', 'Cancelled', 'No-show'] },
       { k: 'notes', label: 'Notes', type: 'textarea' }
     ], vals, async out => {
-      if (!out.clientId || !out.start) { toast('Pick a client and a time', true); throw new Error('missing'); }
+      if (!out.start) { toast('Pick a date and time', true); throw new Error('missing'); }
+      if (out.clientId === NEW) {
+        if (!out.ncFirst && !out.ncPhone) { toast('Type at least their name or phone number', true); throw new Error('missing'); }
+        out.newClient = { firstName: out.ncFirst, lastName: out.ncLast, phone: out.ncPhone, email: out.ncEmail,
+          address: out.ncAddress, vehicles: out.vehicle, source: out.ncSource };
+        if (!out.location) out.location = out.ncAddress;
+        out.clientId = '';
+      }
       out.end = localStr(new Date(toDate(out.start).getTime() + (Number(out.length) || 2) * 36e5));
-      delete out.length;
-      await act('saveAppointment', out);
-      toast(out.status === 'Cancelled' ? 'Cancelled and taken off your Google Calendar' : 'Saved to your Google Calendar');
+      ['ncFirst', 'ncLast', 'ncPhone', 'ncEmail', 'ncAddress', 'ncSource', 'length'].forEach(k => delete out[k]);
+      const d = await act('saveAppointment', out);
+      const b = d.booked;
+      toast(out.status === 'Cancelled' ? 'Cancelled and taken off your Google Calendar'
+        : b ? (b.existing ? `${b.name} was already in your clients. Booked under them and saved to your calendar.` : `${b.name} added to your clients and saved to your calendar`)
+        : 'Saved to your Google Calendar');
     }, id ? `<button type="button" class="btn danger" onclick="delAppointment('${esc(id)}')">Delete</button>` : '');
+    // Show the new-client fields only when "New client" is picked.
+    const sel = document.getElementById('f-clientId');
+    const sync = () => document.querySelectorAll('#mform [data-group="new"]').forEach(el => { el.style.display = sel.value === NEW ? '' : 'none'; });
+    sel.addEventListener('change', sync);
+    sync();
   }
 
   async function completeAppointment(id) {
