@@ -11,9 +11,9 @@
        Side menu on a computer, tab bar on a phone. */
     :root {
       color-scheme: light;
-      --bg: #e8ebf0;
-      --glass: rgba(255,255,255,.58); --glass-strong: rgba(255,255,255,.86); --glass-line: rgba(255,255,255,.85);
-      --shadow: 0 10px 30px rgba(31,42,55,.08);
+      --bg: #f3f8fc;
+      --glass: rgba(255,255,255,.72); --glass-strong: rgba(255,255,255,.9); --glass-line: rgba(176,200,222,.55);
+      --shadow: 0 8px 26px rgba(40,80,120,.08);
       --text: #1f2733; --muted: #5f6b7a; --line: rgba(31,39,51,.09);
       --blue: #4d74a6; --blue-text: #2f5486;
       --brand: #c66a06;
@@ -28,13 +28,10 @@
     }
     * { box-sizing: border-box; }
     html, body { margin: 0; }
+    html { background: #eaf3fa; }
     body {
       font-family: var(--font); font-size: 15px; line-height: 1.5; color: var(--text); min-height: 100vh;
-      background:
-        radial-gradient(900px 600px at 0% 0%, rgba(214,210,247,.55), transparent 60%),
-        radial-gradient(800px 600px at 100% 100%, rgba(200,236,220,.55), transparent 60%),
-        radial-gradient(600px 400px at 85% 10%, rgba(253,224,200,.45), transparent 60%),
-        var(--bg);
+      background: linear-gradient(180deg, #f6fafd 0%, #eaf3fa 100%) fixed;
       background-attachment: fixed;
     }
     h1 { font-size: 28px; line-height: 1.15; font-weight: 700; margin: 0; letter-spacing: -.01em; text-wrap: balance; }
@@ -85,7 +82,12 @@
 
     .cols { display: grid; grid-template-columns: 1.35fr 1fr; gap: 18px; align-items: start; }
     .stack { display: flex; flex-direction: column; gap: 18px; min-width: 0; }
-    @media (max-width: 1000px) { .cols { grid-template-columns: 1fr; } }
+    @media (max-width: 1000px) {
+      .cols { grid-template-columns: 1fr; }
+      .home-cols { display: flex; flex-direction: column; }
+      .home-cols > .stack { display: contents; }
+    }
+    .o1 { order: 1; } .o2 { order: 2; } .o3 { order: 3; } .o4 { order: 4; } .o5 { order: 5; }
     .card { padding: 20px; min-width: 0; }
     .card-head { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-bottom: 12px; }
     .card-head .left { display: flex; align-items: center; gap: 10px; }
@@ -143,7 +145,7 @@
 
     /* ---------- to-do list ---------- */
     .todo { display: flex; flex-direction: column; gap: 10px; }
-    .titem { display: flex; gap: 12px; align-items: flex-start; padding: 13px 14px; border-radius: 18px; background: rgba(255,255,255,.6); border: 1px solid rgba(255,255,255,.9); transition: opacity .3s; }
+    .titem { display: flex; gap: 12px; align-items: flex-start; padding: 13px 14px; border-radius: 18px; background: rgba(255,255,255,.85); border: 1px solid rgba(176,200,222,.45); transition: opacity .3s; }
     .titem.overdue { background: rgba(251,224,221,.55); border-color: rgba(168,35,27,.18); }
     .titem.leaving { opacity: .35; }
     .titem.leaving .tt { text-decoration: line-through; }
@@ -156,7 +158,7 @@
     .check svg.i { width: 16px; height: 16px; stroke-width: 2.6; }
     .acts { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 4px; }
 
-    .appt { display: flex; gap: 12px; align-items: center; padding: 10px 12px; border-radius: 16px; cursor: pointer; background: rgba(255,255,255,.55); border: 1px solid rgba(255,255,255,.9); width: 100%; font: inherit; color: inherit; text-align: left; }
+    .appt { display: flex; gap: 12px; align-items: center; padding: 10px 12px; border-radius: 16px; cursor: pointer; background: rgba(255,255,255,.85); border: 1px solid rgba(176,200,222,.45); width: 100%; font: inherit; color: inherit; text-align: left; }
     .appt:hover { background: rgba(255,255,255,.85); }
     .appt .time { min-width: 70px; font-weight: 700; color: var(--blue-text); font-variant-numeric: tabular-nums; }
     .appt .grow { flex: 1; min-width: 0; }
@@ -173,7 +175,7 @@
     .cal-head h2 { font-size: 22px; min-width: 170px; }
     .cal-grid { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 8px; }
     .dow { text-align: center; font-size: 12px; font-weight: 700; color: var(--muted); padding: 2px 0; }
-    .day { min-height: 108px; padding: 8px; border-radius: 16px; background: rgba(255,255,255,.5); border: 1px solid rgba(255,255,255,.85); cursor: pointer;
+    .day { min-height: 108px; padding: 8px; border-radius: 16px; background: rgba(255,255,255,.8); border: 1px solid rgba(176,200,222,.4); cursor: pointer;
       display: flex; flex-direction: column; gap: 4px; min-width: 0; font: inherit; color: inherit; text-align: left; }
     .day:hover { background: rgba(255,255,255,.8); }
     .day.out { opacity: .45; }
@@ -207,7 +209,7 @@
     .photos { display: grid; grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); gap: 8px; }
     .photos button { aspect-ratio: 1; max-width: 100%; border-radius: 14px; overflow: hidden; padding: 0; border: 1px solid rgba(255,255,255,.9); cursor: pointer; background: var(--t-gray-bg); }
     .photos img { width: 100%; height: 100%; object-fit: cover; display: block; }
-    .visit { padding: 14px; border-radius: 18px; background: rgba(255,255,255,.6); border: 1px solid rgba(255,255,255,.9); display: flex; flex-direction: column; gap: 6px; cursor: pointer; }
+    .visit { padding: 14px; border-radius: 18px; background: rgba(255,255,255,.85); border: 1px solid rgba(176,200,222,.45); display: flex; flex-direction: column; gap: 6px; cursor: pointer; }
     .visit:hover { background: rgba(255,255,255,.85); }
     .kv { display: grid; grid-template-columns: 130px 1fr; gap: 4px 12px; font-size: 14px; }
     .kv .k { color: var(--muted); }
@@ -429,13 +431,13 @@
         <div class="row"><button class="btn" onclick="refresh()">Check for new</button><button class="btn" onclick="editAppointment()">${icon('calendar')}Book</button>
           <button class="btn primary" onclick="openLogCall()">${icon('plus')}Log a call</button></div></div>
 
-      <div class="cols">
+      <div class="cols home-cols">
         <div class="stack">
-          <section class="card glass"><div class="card-head"><div class="left"><span class="badge-icon tag peach">${icon('phone')}</span>
+          <section class="card glass o1"><div class="card-head"><div class="left"><span class="badge-icon tag peach">${icon('phone')}</span>
             <div><h2>To do</h2><div class="small muted">Calls, texts and follow-ups to get back to</div></div></div>${items.length ? tag(items.length + ' left', items.some(i => i.late) ? 'red' : 'gray') : ''}</div>
             <div class="todo">${items.length ? items.map(todoHtml).join('') : '<div class="empty">All caught up. Nice work.</div>'}</div></section>
 
-          <section class="card glass"><div class="card-head"><div class="left"><span class="badge-icon tag lav">${icon('megaphone')}</span><h2>Marketing to do</h2></div>
+          <section class="card glass o5"><div class="card-head"><div class="left"><span class="badge-icon tag lav">${icon('megaphone')}</span><h2>Marketing to do</h2></div>
             ${mkDone.length ? `<button class="linkbtn small" onclick="UI.showDone=!UI.showDone; render()">${UI.showDone ? 'Hide' : 'Show'} done (${mkDone.length})</button>` : ''}</div>
             <form class="row" onsubmit="event.preventDefault(); addMarketing(this)" style="flex-wrap:nowrap"><input id="mkText" name="text" placeholder="Add something, like: post a before/after photo" aria-label="New marketing item"><button class="btn" aria-label="Add">${icon('plus')}</button></form>
             <div style="margin-top:8px">${mkOpen.map(mkHtml).join('')}${UI.showDone ? mkDone.map(mkHtml).join('') : ''}
@@ -443,14 +445,14 @@
         </div>
 
         <div class="stack">
-          <section class="card glass"><div class="card-head"><div class="left"><span class="badge-icon tag blue">${icon('clock')}</span><h2>Today's appointments</h2></div>${tag(todays.length, 'blue')}</div>
+          <section class="card glass o2"><div class="card-head"><div class="left"><span class="badge-icon tag blue">${icon('clock')}</span><h2>Today's appointments</h2></div>${tag(todays.length, 'blue')}</div>
             <div class="list">${todays.length ? todays.map(a => apptRow(a)).join('') : '<div class="empty">No appointments today.</div>'}</div></section>
 
-          <section class="card glass"><div class="card-head"><div class="left"><span class="badge-icon tag mint">${icon('calendar')}</span><h2>Next 7 days</h2></div>
+          <section class="card glass o3"><div class="card-head"><div class="left"><span class="badge-icon tag mint">${icon('calendar')}</span><h2>Next 7 days</h2></div>
             <button class="linkbtn small" onclick="go('calendar')">Calendar</button></div>
             <div class="list">${Object.keys(byDay).length ? Object.keys(byDay).map(k => `<div class="daylabel">${esc(fmtShort(k))}</div>${byDay[k].map(a => apptRow(a)).join('')}`).join('') : '<div class="empty">Nothing booked yet.</div>'}</div></section>
 
-          <section class="card glass"><div class="card-head"><div class="left"><span class="badge-icon tag pink">${icon('globe')}</span><h2>Recent website requests</h2></div></div>
+          <section class="card glass o4"><div class="card-head"><div class="left"><span class="badge-icon tag pink">${icon('globe')}</span><h2>Recent website requests</h2></div></div>
             <div class="list">${recent.length ? recent.map(h => { const c = client(h.clientId); return `<button class="appt" onclick="go('client','${esc(h.clientId)}')">
               <div class="grow"><div class="row spread"><b>${esc(fullName(c))}</b><span class="small muted">${esc(fmtShort(h.date))}</span></div>
               <div class="small muted" style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(h.summary)}</div></div></button>`; }).join('') : '<div class="empty">No website requests yet.</div>'}</div></section>
