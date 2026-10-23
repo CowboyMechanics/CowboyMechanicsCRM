@@ -1,115 +1,109 @@
-# Cowboy Mechanics CRM: setup guide
+# Cowboy Mechanics CRM
 
-The CRM is a private web app that runs inside your Google account
-(admincowboymechanics@gmail.com). It is completely separate from the website.
-Only you can open it, because it asks you to sign in with that Google account.
+A private app for Russell that keeps track of every call, text, website request,
+appointment and client, so nothing slips through the cracks. It runs inside the
+**admincowboymechanics@gmail.com** Google account and is separate from the website.
+Only that account can open it.
 
-What it does:
+## What it does
 
-- A **Today** page: one to-do list of everything that needs you, color-coded.
-  Red means act now (emergencies, leads waiting over a day, overdue follow-ups, unpaid jobs over a week,
-  estimates with no answer for a week, appointments not marked done). Amber means today.
-- Keeps every client with phone, email, address, vehicles, status, tags, notes, who referred them,
-  and a **next step** with a follow-up date so no lead goes cold.
-- Tracks **estimates**, checks in with the customer automatically after a few days, and shows your win rate.
-- A **Sales** page: money made by month, where customers come from, what sells, best customers and top referrers.
-- **Import a list** of clients (for example ones pulled out of old text messages) without creating duplicates.
-- Logs every service you do: date, vehicle, mileage, work done, parts, labor, price paid, payment method.
-- Shows total spent, number of visits and marks **Repeat** clients.
-- Keeps an interaction history (calls, texts, emails, notes, website requests).
-- Pulls in your website form requests automatically from the
-  "Cowboy Mechanics - Form Submissions" sheet. That sheet is only read, never changed.
-  A returning customer is matched by phone or email, so they do not get a duplicate.
-- Books appointments straight onto your Google Calendar (with alerts 1 day and 1 hour before).
-- Sends automatic emails: appointment reminders, a thank-you follow-up after a
-  service, an optional "time for a check-up" reminder, and an optional reply to new website requests.
-- Writes the matching texts for you to send from your own phone with one tap (free).
-- Emails you a summary of your day every morning at 6 AM.
+- **Home** is a to-do list of everything to get back to: calls he logged, missed calls,
+  texts, website requests, follow-ups and thank-you texts. Tap the circle to check one off.
+  Anything waiting 3 hours or more turns red. Next to it: today's appointments, the next
+  7 days, the 3 newest website requests, and a marketing to-do list.
+- **Log a call** (the big + button): right after hanging up, type or say the name, vehicle
+  and what they need, and pick reminders: in 1 hour, in 3 hours, or every hour until it is
+  checked off. The phone buzzes with an alert, and tapping it calls the customer back.
+- **Missed calls and texts** get an automatic text from Russell's phone, and they land on the to-do list.
+- **Website requests** land on the to-do list, with the day they asked for, and Russell gets an alert.
+- **Calendar**: a month view with name and time on each day. Tap an appointment for the address,
+  directions, phone and notes. Tap a day to book it. Everything booked goes on Google Calendar.
+- **Clients**: only name and phone are required. Each client has their jobs (reason, services done,
+  products used, what he charged, notes), a photo gallery, appointments, history and "last contacted".
+- **Automatic messages**: a reminder the day before an appointment and a thank-you after a job,
+  by email on their own, and as a text ready for one tap on the to-do list.
+- **6 AM email** with the day's appointments and everyone still waiting on a call back.
 
-All the data is saved in a new Google Sheet called **Cowboy Mechanics - CRM**, which the app makes for you.
+All data is saved in a Google Sheet called **Cowboy Mechanics - CRM**, and photos in a Google Drive
+folder called **Cowboy Mechanics CRM Photos**. The website's form sheet is only read, never changed.
+
+Everything here is free. The phone part uses two free Android apps: **ntfy** (alerts) and
+**MacroDroid** (auto-reply texts and the "log last call" button).
 
 ---
 
-## Step 1. Create the Apps Script project (about 10 minutes)
+## Part 1. Set up the CRM (on a computer, about 15 minutes)
 
 1. Sign in to Google as **admincowboymechanics@gmail.com**.
-2. Go to **https://script.google.com** and click **New project**.
-3. Click the title "Untitled project" at the top and name it **Cowboy Mechanics CRM**.
-4. **Code.gs**: delete everything in the editor, then copy all of `Code.gs` from
-   this folder and paste it in.
-5. **Index.html**: click the **+** next to "Files", choose **HTML**, name it `Index`
-   (Google adds the `.html`). Delete what is in it, then paste all of `Index.html`.
-6. **appsscript.json**: click the gear icon (**Project Settings**) on the left, tick
-   **Show "appsscript.json" manifest file in editor**, go back to the editor (the `< >` icon),
-   open `appsscript.json` and replace it with `appsscript.json`.
-7. Click the save icon.
+2. Go to **script.google.com**, click **New project**, and rename it **Cowboy Mechanics CRM**.
+3. Copy in the 3 files from this repo. On GitHub, each file's **Copy raw file** button copies it all.
+   - **Code.gs**: delete what is in the editor and paste `Code.gs`.
+   - **Index**: click **+** next to Files, choose **HTML**, name it `Index`, delete what is inside, paste `Index.html`.
+   - **appsscript.json**: click the gear (**Project Settings**), tick **Show "appsscript.json" manifest file**,
+     go back to the editor, open `appsscript.json` and replace it with this repo's version.
+   - Click save.
+4. Pick **setup** in the dropdown at the top and click **Run**. Allow the permissions it asks for
+   (on "Google hasn't verified this app", click **Advanced**, then **Go to Cowboy Mechanics CRM**).
+5. Click **Deploy > New deployment**, gear icon, **Web app**. Set **Execute as: Me** and
+   **Who has access: Only myself**. Click **Deploy** and copy the **Web app URL**. That is the CRM.
+6. On Russell's phone, open that link in Chrome (signed in as admincowboymechanics@gmail.com),
+   tap **⋮ > Add to Home screen**.
+7. In the CRM, open **Settings**, add the Google review link, check the wording, and **Save**.
 
-## Step 2. Run setup once
+## Part 2. Alerts on the phone with ntfy (5 minutes)
 
-1. At the top of the editor, pick **setup** from the function dropdown and click **Run**.
-2. Google asks for permission. Click **Review permissions**, pick your account.
-   You will see "Google hasn't verified this app". That is normal for your own script:
-   click **Advanced**, then **Go to Cowboy Mechanics CRM (unsafe)**, then **Allow**.
-   (It is your own code, it only asks for your Sheets, Calendar and Gmail.)
-3. When it finishes, the log at the bottom shows a link to your new CRM sheet.
+1. Install **ntfy** from the Play Store.
+2. In the CRM, go to **Settings > Your phone** and copy the **Alert topic**.
+3. In ntfy tap **+**, paste the topic, and tap **Subscribe**.
+4. In the CRM tap **Send me a test alert**. It should pop up on the phone.
 
-## Step 3. Turn it into a web app
+Alerts are quiet from 9 PM to 7 AM (you can change that in Settings). The topic name works like a
+password, so don't share it.
 
-1. Click **Deploy** (top right) > **New deployment**.
-2. Click the gear next to "Select type" and choose **Web app**.
-3. Set **Execute as: Me** and **Who has access: Only myself**.
-4. Click **Deploy**, then copy the **Web app URL**.
-5. Open that URL. That is your CRM. Bookmark it, and on your phone use
-   "Add to Home Screen" so it opens like an app.
+## Part 3. Auto-replies and "log last call" with MacroDroid (20 minutes)
 
-Your existing website requests show up the first time you open it.
+Install **MacroDroid** from the Play Store and allow the permissions it asks for (phone, SMS,
+contacts). The free version allows 5 macros, and you need 4. In **Settings > Your phone** in the CRM
+you'll find the **phone code** and the **email** the steps below use. In MacroDroid, the **...**
+button next to a text box inserts values like the caller's number.
 
-## Step 4. Settings
+**Macro 1: Missed call auto-reply**
+- Trigger: **Call Missed**, from numbers **not in contacts**.
+- Action: **Send SMS** to the caller's number (`{call_number}`), with the auto-reply text from CRM Settings.
+- Action: **Send Email** to the CRM email, subject `CRM <phone code> missed {call_number}`.
 
-Open **Settings** in the CRM:
+**Macro 2: Text auto-reply**
+- Trigger: **SMS Received**, from numbers **not in contacts**.
+- Action: **Send SMS** to the sender (`[Incoming SMS Num]`), with the auto-reply text.
+- Action: **Send Email** to the CRM email, subject `CRM <phone code> text {sms_number}`, body `{sms_message}`.
 
-- Add your **Google review link** so thank-you messages ask for a review
-  (Google Business Profile > "Ask for reviews" gives you the link).
-- Pick which automatic messages you want and when.
-- Edit the message wording if you like. Words in curly brackets, like `{firstName}`, are filled in for you.
-- Click **Send me a test email** to check email works.
-- Click **Save settings**.
+**Macro 3: Remember the last caller**
+- Trigger: **Call Ended**.
+- Action: **Set Variable**, a global text variable named `lastCaller`, set to `{call_number}`.
 
-## How texting works (free)
+**Macro 4: Log last call button**
+- Trigger: none (choose **Empty trigger**).
+- Action: **Open Website**: the "CRM link" from CRM Settings with the `lastCaller` variable added at the end.
+- Then add it to the home screen: long-press the home screen, **Widgets > MacroDroid > Macro shortcut**,
+  and pick this macro. Name it **Log call**.
 
-Texting costs nothing and needs no extra service. The CRM writes every reminder and
-follow-up text for you and puts it in **Texts to send** at the top of the Dashboard.
-Open the CRM on your phone, tap **Send**, and your Messages app opens with the
-text already filled in. Hit send. It comes from your own number, and the CRM logs it
-in that client's history. **Skip** removes a text you don't want to send.
+Test each one: call the phone from another number and don't answer, then text it, then tap the
+**Log call** button after a call. Missed calls and texts show up on the to-do list within 5 minutes.
 
-Your 6 AM summary email tells you when texts are waiting. A reminder text for an
-appointment that has already passed disappears on its own.
+Tips:
+- Save regular customers to the phone's contacts so they don't get the auto-reply every time they text.
+- Only text people who contacted you first. The auto-reply is a reply, not marketing.
 
-Each client has an **OK to send automatic texts** checkbox. Untick it if someone
-asks you to stop texting them.
+## Day to day
 
----
-
-## Everyday use
-
-- **New lead from the website**: it shows on the Dashboard under "New leads to contact".
-  Call them, then click **+ Log interaction** and set their status to Contacted or Quoted.
-- **Booking**: on the client page click **+ Book appointment**. It goes on your Google Calendar
-  and the day before, the customer gets a reminder email and a reminder text shows up for you to send.
-- **Finished a job**: on the Appointments page click **Done**, then fill in the service and price.
-  The client becomes a Customer. A few days later the thank-you email goes out and the thank-you text shows up in Texts to send.
-- **Cancelling**: edit the appointment and set Status to Cancelled. It is removed from your calendar.
-
-Good to know:
-
-- Automatic messages only go to appointments and services from now on, so typing in
-  old jobs will not send anyone a surprise message.
-- Moving or editing appointments in Google Calendar directly does not update the CRM.
-  Make changes in the CRM and they go to the calendar.
-- Gmail lets a free account send about 100 automatic emails a day, which is plenty.
+1. **Morning**: read the 6 AM email, open the CRM, work down the to-do list.
+2. **After every call**: tap **+**, fill in what they need, pick a reminder.
+3. **Book it**: tap **Book** on the to-do item. It goes on Google Calendar and checks the call off.
+4. **After the job**: tap **Done, log job** on the appointment and fill in services, products and price.
+   Add before and after photos on the client's page.
+5. **Thank-you**: a few days later it is ready on the to-do list. Tap **Send text**.
 
 ## Updating the code later
 
-Paste the new code into the same files, save, then go to **Deploy > Manage deployments**,
-click the pencil, choose **Version: New version** and **Deploy**. The URL stays the same.
+Paste the new code into the same files, save, then **Deploy > Manage deployments**, click the pencil,
+choose **Version: New version**, and **Deploy**. The link stays the same.
