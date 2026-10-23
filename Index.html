@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     /* Soft gray-blue background that stays back; bright frosted cards that stand out;
        see-through "jelly" sky blue for actions, jelly red for anything urgent. */
@@ -411,6 +411,62 @@
         linear-gradient(180deg, rgba(var(--tint),.12), rgba(var(--tint),.38)) !important; }
     /* the glare strip on top gets brighter too */
     .btn::before, .tab.plus::before, .nav-item.on::before { background: linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(255,255,255,.35) 70%, transparent 100%) !important; }
+
+    /* ================= TYPE & TIDY =================
+       One font everywhere and one set of sizes:
+       page title 30, section 18, item title 15, text 14.5, small 13, tags 12. */
+    :root { --font: 'Plus Jakarta Sans', 'Inter', -apple-system, 'Segoe UI', Roboto, sans-serif; }
+    body { font-family: var(--font); font-size: 14.5px; line-height: 1.55; font-weight: 500; color: #1a2332;
+      -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; font-feature-settings: "tnum" 0; }
+    h1 { font-size: 30px; font-weight: 800; letter-spacing: -.025em; line-height: 1.15; }
+    h2 { font-size: 18px; font-weight: 700; letter-spacing: -.015em; line-height: 1.25; }
+    .muted { color: #5f6b7c; }
+    .small { font-size: 13px; line-height: 1.5; }
+    .top .muted { font-size: 14.5px; margin-top: 4px; }
+    .card { padding: 22px; }
+    .card-head { margin-bottom: 14px; }
+    .card-head .left { gap: 12px; }
+    .card-head .small.muted { margin-top: 1px; }
+    .tt { font-size: 15px; font-weight: 700; letter-spacing: -.01em; }
+    .titem { padding: 14px 16px; gap: 14px; }
+    .titem .grow { gap: 5px; }
+    .titem .pre.small { font-size: 14px; color: #2c3747; }
+    .appt b, .ccard b, .visit b { font-weight: 700; letter-spacing: -.01em; }
+    .appt .time { font-size: 14px; font-weight: 700; min-width: 72px; }
+    .btn { font-family: var(--font); font-size: 14px; font-weight: 600; letter-spacing: -.005em; }
+    .btn.sm { font-size: 13px; padding: 7px 13px; }
+    .tag { font-size: 12px; font-weight: 600; letter-spacing: 0; padding: 3px 10px; line-height: 1.35; }
+    .nav-item { font-size: 15px; font-weight: 600; }
+    .brand b { font-weight: 800; letter-spacing: .05em; }
+    label.f { font-size: 13.5px; font-weight: 600; color: #2c3747; }
+    input, select, textarea { font-family: var(--font); font-size: 14.5px; font-weight: 500; }
+    input::placeholder, textarea::placeholder { color: #8692a3; font-weight: 500; }
+    .daylabel { font-size: 12.5px; font-weight: 700; letter-spacing: .02em; text-transform: uppercase; color: #6b7789; }
+    .dow { font-size: 12px; letter-spacing: .04em; text-transform: uppercase; }
+    .cal-head h2 { font-size: 22px; font-weight: 800; letter-spacing: -.02em; }
+    .day .n { font-size: 13.5px; }
+    .drow .k { font-size: 12px; font-weight: 600; letter-spacing: .02em; text-transform: uppercase; color: #7a8698; }
+    .drow .v { font-size: 14.5px; }
+    .kv { font-size: 14px; }
+    .num, .appt .time, .day .n, .tag { font-variant-numeric: tabular-nums; }
+
+    /* icons sit dead center in their bubbles */
+    .badge-icon { display: inline-flex !important; align-items: center; justify-content: center; width: 40px; height: 40px; flex-shrink: 0; }
+    .badge-icon svg.i { width: 19px; height: 19px; position: relative; z-index: 3; }
+    .btn svg.i, .check svg.i { position: relative; z-index: 3; }
+
+    /* thinner, softer white edge on the glass */
+    .glass { border: 1px solid rgba(255,255,255,.4) !important;
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.75),
+        inset 0 -1px 1px rgba(255,255,255,.3),
+        inset 3px 3px 12px rgba(255,255,255,.35),
+        inset -6px -8px 22px rgba(var(--tint),.14),
+        0 18px 40px rgba(52,82,120,.15), 0 3px 8px rgba(52,82,120,.07) !important; }
+    .glass::after { padding: 1px; inset: -1px; opacity: .55; }
+    .titem, .appt, .day, .visit { border: 1px solid rgba(255,255,255,.5) !important; }
+    .titem::after { padding: 1px; inset: -1px; opacity: .6; }
+    .titem.overdue { border-color: rgba(255,255,255,.55) !important; }
   </style>
 </head>
 <body>
