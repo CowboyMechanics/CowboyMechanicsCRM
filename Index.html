@@ -467,6 +467,47 @@
     .titem, .appt, .day, .visit { border: 1px solid rgba(255,255,255,.5) !important; }
     .titem::after { padding: 1px; inset: -1px; opacity: .6; }
     .titem.overdue { border-color: rgba(255,255,255,.55) !important; }
+
+    /* ================= BIGGER TEXT, LOGO =================
+       page title 34, section 20, item title 16.5, text 16, small 14, tags 13. */
+    body { font-size: 16px; }
+    h1 { font-size: 34px; }
+    h2 { font-size: 20px; }
+    .small { font-size: 14px; }
+    .top .muted { font-size: 16px; }
+    .tt { font-size: 16.5px; }
+    .titem .pre.small { font-size: 15px; }
+    .appt .time { font-size: 15px; min-width: 80px; }
+    .btn { font-size: 15px; padding: 11px 20px; }
+    .btn.sm { font-size: 14px; padding: 8px 14px; }
+    .tag { font-size: 13px; padding: 3px 11px; }
+    .nav-item { font-size: 16px; padding: 12px 16px; }
+    label.f { font-size: 14.5px; }
+    input, select, textarea { font-size: 16px; }
+    .daylabel { font-size: 13.5px; }
+    .dow { font-size: 13px; }
+    .cal-head h2 { font-size: 24px; }
+    .day .n { font-size: 15px; width: 30px; height: 30px; }
+    .chip { font-size: 13px; }
+    .drow .k { font-size: 12.5px; }
+    .drow .v { font-size: 16px; }
+    .kv { font-size: 15px; }
+    .tab { font-size: 12px; min-width: 0 !important; flex: 1 1 0; padding: 6px 2px !important; }
+    .tab.plus { flex: 0 0 56px; }
+    /* keep the menu pinned (the glass rules above set position: relative) */
+    .side.glass { position: sticky !important; }
+    @media (max-width: 860px) { .tabbar.glass { position: fixed !important; } }
+    .side { width: 264px; }
+    @media (max-width: 860px) { h1 { font-size: 28px; } }
+
+    /* the cowboy in dark ink, right on the glass, no box */
+    .brand { gap: 12px; padding: 4px 4px 2px; }
+    .brand img { height: 64px !important; width: auto !important; padding: 0 !important; border-radius: 0 !important; background: none !important; box-shadow: none !important;
+      filter: brightness(.16) sepia(.35) drop-shadow(0 2px 3px rgba(255,255,255,.7)); }
+    .brand b { font-size: 17px; letter-spacing: .04em; line-height: 1.1; color: #211f1d; }
+    .brand small { font-size: 13px; letter-spacing: .14em; font-weight: 800; }
+    .mobile-head .brand img { height: 52px !important; }
+    .mobile-head .brand b { font-size: 16px; }
   </style>
 </head>
 <body>
