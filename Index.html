@@ -86,10 +86,7 @@
     .stack { display: flex; flex-direction: column; gap: 18px; min-width: 0; }
     @media (max-width: 1000px) {
       .cols { grid-template-columns: 1fr; }
-      .home-cols { display: flex; flex-direction: column; }
-      .home-cols > .stack { display: contents; }
     }
-    .o1 { order: 1; } .o2 { order: 2; } .o3 { order: 3; } .o4 { order: 4; } .o5 { order: 5; }
     .card { padding: 20px; min-width: 0; }
     .card-head { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-bottom: 12px; }
     .card-head .left { display: flex; align-items: center; gap: 10px; }
@@ -364,7 +361,7 @@
        A glare along the top that slides with the mouse or scroll (--lx), a sparkle on the
        corner, and light glowing through to the bottom edge. */
     .glass { background:
-        linear-gradient(115deg, transparent calc(var(--lx, 28) * 1% - 22%), rgba(255,255,255,.0) calc(var(--lx, 28) * 1% - 14%), rgba(255,255,255,.55) calc(var(--lx, 28) * 1% - 8%), rgba(255,255,255,.18) calc(var(--lx, 28) * 1% - 4%), rgba(255,255,255,.5) calc(var(--lx, 28) * 1% - 1%), transparent calc(var(--lx, 28) * 1% + 6%)),
+        linear-gradient(115deg, transparent calc(var(--lx, 28) * 1% - 22%), rgba(255,255,255,.0) calc(var(--lx, 28) * 1% - 14%), rgba(255,255,255,.38) calc(var(--lx, 28) * 1% - 8%), rgba(255,255,255,.12) calc(var(--lx, 28) * 1% - 4%), rgba(255,255,255,.35) calc(var(--lx, 28) * 1% - 1%), transparent calc(var(--lx, 28) * 1% + 6%)),
         radial-gradient(48% 70px at calc(var(--lx, 28) * 1%) 0%, rgba(255,255,255,.95) 0%, rgba(255,255,255,.35) 45%, transparent 75%),
         radial-gradient(circle at 18px 16px, #fff 0 1.5px, rgba(255,255,255,.7) 2.5px, transparent 7px),
         radial-gradient(60% 50px at calc(100% - var(--lx, 28) * .6%) 100%, rgba(255,255,255,.6), transparent 75%),
@@ -373,23 +370,23 @@
         radial-gradient(48% 70px at calc(var(--lx, 28) * 1%) 0%, #fff, transparent 75%),
         linear-gradient(145deg, rgba(255,255,255,.9), rgba(255,255,255,.75)) !important; }
     .titem, .appt, .visit { background:
-        linear-gradient(115deg, transparent calc(var(--lx, 28) * 1% - 22%), rgba(255,255,255,.0) calc(var(--lx, 28) * 1% - 14%), rgba(255,255,255,.55) calc(var(--lx, 28) * 1% - 8%), rgba(255,255,255,.18) calc(var(--lx, 28) * 1% - 4%), rgba(255,255,255,.5) calc(var(--lx, 28) * 1% - 1%), transparent calc(var(--lx, 28) * 1% + 6%)),
+        linear-gradient(115deg, transparent calc(var(--lx, 28) * 1% - 22%), rgba(255,255,255,.0) calc(var(--lx, 28) * 1% - 14%), rgba(255,255,255,.38) calc(var(--lx, 28) * 1% - 8%), rgba(255,255,255,.12) calc(var(--lx, 28) * 1% - 4%), rgba(255,255,255,.35) calc(var(--lx, 28) * 1% - 1%), transparent calc(var(--lx, 28) * 1% + 6%)),
         radial-gradient(40% 40px at calc(var(--lx, 28) * 1%) 0%, rgba(255,255,255,.95), transparent 75%),
         radial-gradient(50% 30px at 70% 100%, rgba(255,255,255,.55), transparent 75%),
         linear-gradient(160deg, rgba(255,255,255,.5), rgba(255,255,255,.18)) !important; }
     .titem.overdue { background:
-        linear-gradient(115deg, transparent calc(var(--lx, 28) * 1% - 22%), rgba(255,255,255,.0) calc(var(--lx, 28) * 1% - 14%), rgba(255,255,255,.55) calc(var(--lx, 28) * 1% - 8%), rgba(255,255,255,.18) calc(var(--lx, 28) * 1% - 4%), rgba(255,255,255,.5) calc(var(--lx, 28) * 1% - 1%), transparent calc(var(--lx, 28) * 1% + 6%)),
+        linear-gradient(115deg, transparent calc(var(--lx, 28) * 1% - 22%), rgba(255,255,255,.0) calc(var(--lx, 28) * 1% - 14%), rgba(255,255,255,.38) calc(var(--lx, 28) * 1% - 8%), rgba(255,255,255,.12) calc(var(--lx, 28) * 1% - 4%), rgba(255,255,255,.35) calc(var(--lx, 28) * 1% - 1%), transparent calc(var(--lx, 28) * 1% + 6%)),
         radial-gradient(40% 40px at calc(var(--lx, 28) * 1%) 0%, rgba(255,255,255,.95), transparent 75%),
         radial-gradient(55% 34px at 70% 100%, rgba(255,226,222,.8), transparent 75%),
         linear-gradient(180deg, rgba(255,214,210,.36) 0%, rgba(250,136,128,.34) 100%) !important; }
     .btn { background:
-        linear-gradient(115deg, transparent calc(var(--lx, 28) * 1% - 22%), rgba(255,255,255,.0) calc(var(--lx, 28) * 1% - 14%), rgba(255,255,255,.55) calc(var(--lx, 28) * 1% - 8%), rgba(255,255,255,.18) calc(var(--lx, 28) * 1% - 4%), rgba(255,255,255,.5) calc(var(--lx, 28) * 1% - 1%), transparent calc(var(--lx, 28) * 1% + 6%)),
+        linear-gradient(115deg, transparent calc(var(--lx, 28) * 1% - 22%), rgba(255,255,255,.0) calc(var(--lx, 28) * 1% - 14%), rgba(255,255,255,.38) calc(var(--lx, 28) * 1% - 8%), rgba(255,255,255,.12) calc(var(--lx, 28) * 1% - 4%), rgba(255,255,255,.35) calc(var(--lx, 28) * 1% - 1%), transparent calc(var(--lx, 28) * 1% + 6%)),
         radial-gradient(70% 60% at calc(var(--lx, 28) * 1%) 0%, rgba(255,255,255,.98), rgba(255,255,255,.4) 50%, transparent 80%),
         radial-gradient(circle at 14px 9px, #fff 0 1.2px, transparent 4px),
         radial-gradient(60% 45% at 60% 100%, rgba(255,255,255,.65), transparent 80%),
         linear-gradient(180deg, rgba(255,255,255,.35) 0%, rgba(255,255,255,.1) 55%, rgba(255,255,255,.3) 100%) !important; }
     .btn.primary, .tab.plus, .nav-item.on, .day.today .n { background:
-        linear-gradient(115deg, transparent calc(var(--lx, 28) * 1% - 22%), rgba(255,255,255,.0) calc(var(--lx, 28) * 1% - 14%), rgba(255,255,255,.55) calc(var(--lx, 28) * 1% - 8%), rgba(255,255,255,.18) calc(var(--lx, 28) * 1% - 4%), rgba(255,255,255,.5) calc(var(--lx, 28) * 1% - 1%), transparent calc(var(--lx, 28) * 1% + 6%)),
+        linear-gradient(115deg, transparent calc(var(--lx, 28) * 1% - 22%), rgba(255,255,255,.0) calc(var(--lx, 28) * 1% - 14%), rgba(255,255,255,.38) calc(var(--lx, 28) * 1% - 8%), rgba(255,255,255,.12) calc(var(--lx, 28) * 1% - 4%), rgba(255,255,255,.35) calc(var(--lx, 28) * 1% - 1%), transparent calc(var(--lx, 28) * 1% + 6%)),
         radial-gradient(70% 60% at calc(var(--lx, 28) * 1%) 0%, rgba(255,255,255,.95), rgba(235,248,255,.45) 50%, transparent 80%),
         radial-gradient(circle at 14px 9px, #fff 0 1.2px, transparent 4px),
         radial-gradient(65% 50% at 60% 100%, rgba(225,245,255,.85), transparent 80%),
@@ -577,6 +574,21 @@
     .cols { grid-template-columns: 1.2fr 1fr; }
     @media (max-width: 1000px) { .cols { grid-template-columns: 1fr; } }
     @media (max-width: 860px) { .hide-phone { display: none !important; } }
+
+    /* draggable home cards */
+    .grip { display: inline-grid; place-items: center; width: 36px; height: 36px; border-radius: 50%; border: 0; background: rgba(255,255,255,.35); color: #5d6c80; cursor: grab; touch-action: none; padding: 0; }
+    .grip svg.i { stroke-width: 3.4; width: 20px; height: 20px; }
+    .grip:hover { color: var(--sky-text); background: rgba(255,255,255,.5); }
+    .grip:active { cursor: grabbing; }
+    .dragging { box-shadow: 0 28px 60px rgba(52,82,120,.3) !important; transform: rotate(-.6deg) scale(1.01); }
+    .drop-spot { border-radius: 26px; border: 2px dashed rgba(96,178,245,.6); background: rgba(255,255,255,.25); }
+    .add-card { display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; padding: 20px; border-radius: 26px; cursor: pointer;
+      font: inherit; font-weight: 700; font-size: 17px; color: var(--sky-text); background: rgba(255,255,255,.22); border: 2px dashed rgba(96,178,245,.55); }
+    .add-card:hover { background: rgba(255,255,255,.45); }
+    .center { text-align: center; }
+    .center svg.i { width: 15px; height: 15px; vertical-align: -2px; }
+    textarea.notes { min-height: 140px; }
+    .round-sm { width: 36px; height: 36px; padding: 0 !important; border-radius: 50%; }
   </style>
 </head>
 <body>
@@ -595,9 +607,9 @@
 
 <script>
   /* ------------------------------------------------------------ state */
-  let DATA = { clients: [], calls: [], appointments: [], visits: [], history: [], marketing: [], outbox: [] };
+  let DATA = { clients: [], calls: [], appointments: [], visits: [], history: [], marketing: [], outbox: [], cards: [] };
   let SETTINGS = null;
-  const UI = { view: 'home', clientId: null, search: '', month: '', selDay: '', showDone: false };
+  const UI = { view: 'home', clientId: null, search: '', month: '', selDay: '', showDone: {} };
   const PHOTOS = {};
   const DAY = 864e5;
   const SOURCES = ['Phone call', 'Website form', 'Referral', 'Google', 'Facebook', 'Instagram', 'Nextdoor', 'Yelp', 'Walk-up'];
@@ -624,7 +636,9 @@
     car: 'M5 17h14M5 17a2 2 0 1 1-4 0v-4l2-5h18l2 5v4a2 2 0 1 1-4 0M5 17a2 2 0 1 0 4 0M15 17a2 2 0 1 0 4 0',
     note: 'M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9zM14 3v6h6M8 13h8M8 17h5',
     tag: 'M20.6 13.4 13.4 20.6a2 2 0 0 1-2.8 0L3 13V3h10l7.6 7.6a2 2 0 0 1 0 2.8zM7.5 7.5h.01',
-    list: 'M9 6h12M9 12h12M9 18h12M4 6h.01M4 12h.01M4 18h.01'
+    list: 'M9 6h12M9 12h12M9 18h12M4 6h.01M4 12h.01M4 18h.01',
+    grip: 'M9 5h.01M15 5h.01M9 12h.01M15 12h.01M9 19h.01M15 19h.01',
+    pencil: 'M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z'
   };
   const icon = n => `<svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="${ICONS[n]}"/></svg>`;
 
@@ -643,7 +657,7 @@
     return d;
   }
   function setData(d) {
-    ['clients', 'calls', 'appointments', 'visits', 'history', 'marketing', 'outbox'].forEach(k => { DATA[k] = d[k] || []; });
+    ['clients', 'calls', 'appointments', 'visits', 'history', 'marketing', 'outbox', 'cards'].forEach(k => { DATA[k] = d[k] || []; });
     render();
   }
 
@@ -707,6 +721,7 @@
     document.getElementById('tabbar').innerHTML = tab(NAV[0]) + tab(NAV[1]) +
       `<button class="tab plus" onclick="openLogCall()" aria-label="Log a call">${icon('plus')}</button>` + tab(NAV[2]) + tab(NAV[3]);
     const views = { home: viewHome, calendar: viewCalendar, clients: viewClients, client: viewClient, settings: viewSettings };
+    UI.narrow = narrow();
     document.getElementById('app').innerHTML = `<div class="mobile-head"><div class="brand" onclick="go('home')"><img src="https://cowboy-mechanics.com/logo-mark.png" alt=""><div><b>Cowboy Mechanics</b><small>CRM</small></div></div></div>` + (views[UI.view] || viewHome)();
   }
 
@@ -757,53 +772,188 @@
         ${t.acts ? `<div class="acts">${t.acts}</div>` : ''}</div></div>`;
   }
 
-  function viewHome() {
-    const items = todoItems(), today = todayStr();
-    const sched = a => a.status === 'Scheduled' || a.status === 'Completed';
-    const todays = DATA.appointments.filter(a => sched(a) && String(a.start).slice(0, 10) === today).sort((a, b) => a.start.localeCompare(b.start));
-    const weekEnd = dayKey(new Date(Date.now() + 7 * DAY));
-    const next = DATA.appointments.filter(a => a.status === 'Scheduled' && String(a.start).slice(0, 10) > today && String(a.start).slice(0, 10) <= weekEnd)
-      .sort((a, b) => a.start.localeCompare(b.start));
-    const byDay = {};
-    next.forEach(a => { const k = String(a.start).slice(0, 10); (byDay[k] = byDay[k] || []).push(a); });
-    const recent = DATA.history.filter(h => h.type === 'Website form').sort((a, b) => String(b.date).localeCompare(String(a.date))).slice(0, 3);
-    const mk = DATA.marketing.slice().sort((a, b) => String(a.created).localeCompare(String(b.created)));
-    const mkOpen = mk.filter(m => !m.done), mkDone = mk.filter(m => m.done);
-    const hour = new Date().getHours();
+  /* ---------------------------------------------------- home cards */
+  // Built-in cards plus any Russell adds. Their order is saved in Settings (homeLayout),
+  // separately for the two-column computer view and the one-column phone view.
+  const BUILTIN = ['todo', 'today', 'next', 'recent', 'marketing'];
+  const DEFAULT_LAYOUT = { left: ['todo', 'marketing'], right: ['today', 'next', 'recent'], phone: ['todo', 'today', 'next', 'recent', 'marketing'] };
+  const CARD_COLORS = [['blue', 'Sky blue'], ['mint', 'Mint'], ['peach', 'Peach'], ['pink', 'Pink'], ['lav', 'Lavender']];
+  const narrow = () => window.matchMedia('(max-width: 1000px)').matches;
 
+  function homeLayout() {
+    let saved = {};
+    try { saved = JSON.parse((SETTINGS && SETTINGS.homeLayout) || '{}') || {}; } catch (e) { saved = {}; }
+    const all = BUILTIN.concat(DATA.cards.map(c => c.id));
+    const clean = list => (list || []).filter((id, i, a) => all.includes(id) && a.indexOf(id) === i);
+    const left = clean(saved.left || DEFAULT_LAYOUT.left), right = clean(saved.right || DEFAULT_LAYOUT.right).filter(id => !left.includes(id));
+    // New cards (or ones missing from an old layout) go at the end.
+    all.filter(id => !left.includes(id) && !right.includes(id)).forEach(id => (left.length <= right.length ? left : right).push(id));
+    const phone = clean(saved.phone || DEFAULT_LAYOUT.phone);
+    all.filter(id => !phone.includes(id)).forEach(id => phone.push(id));
+    return { left, right, phone };
+  }
+
+  const grip = `<button class="grip" aria-label="Drag to move this card" title="Drag to move">${icon('grip')}</button>`;
+  function cardHead(color, ic, title, sub, right) {
+    return `<div class="card-head"><div class="left"><span class="badge-icon tag ${color}">${icon(ic)}</span>
+      <div><h2>${esc(title)}</h2>${sub ? `<div class="small muted">${esc(sub)}</div>` : ''}</div></div><div class="row">${right || ''}${grip}</div></div>`;
+  }
+
+  function checklistBody(listId, placeholder) {
+    const mk = DATA.marketing.filter(m => (m.listId || 'marketing') === listId).sort((a, b) => String(a.created).localeCompare(String(b.created)));
+    const open = mk.filter(m => !m.done), done = mk.filter(m => m.done), show = UI.showDone[listId];
+    return `<form class="row" data-list="${esc(listId)}" onsubmit="event.preventDefault(); addMarketing(this)" style="flex-wrap:nowrap">
+        <input id="mk-${esc(listId)}" name="text" placeholder="${esc(placeholder)}" aria-label="New item"><button class="btn" aria-label="Add">${icon('plus')}</button></form>
+      <div style="margin-top:8px">${open.map(mkHtml).join('')}${show ? done.map(mkHtml).join('') : ''}
+        ${!open.length && !(show && done.length) ? '<div class="empty">Nothing on the list yet.</div>' : ''}
+        ${done.length ? `<button class="linkbtn small" style="margin-top:6px" onclick="UI.showDone['${esc(listId)}']=!UI.showDone['${esc(listId)}']; render()">${show ? 'Hide' : 'Show'} done (${done.length})</button>` : ''}</div>`;
+  }
+
+  function homeCard(id) {
+    const today = todayStr();
+    if (id === 'todo') {
+      const items = todoItems();
+      return cardHead('peach', 'phone', 'To do', 'Calls, texts and follow-ups to get back to', items.length ? tag(items.length + ' left', items.some(i => i.late) ? 'red' : 'gray') : '') +
+        `<div class="todo">${items.length ? items.map(todoHtml).join('') : '<div class="empty">All caught up. Nice work.</div>'}</div>`;
+    }
+    if (id === 'today') {
+      const todays = DATA.appointments.filter(a => (a.status === 'Scheduled' || a.status === 'Completed') && String(a.start).slice(0, 10) === today).sort((a, b) => a.start.localeCompare(b.start));
+      return cardHead('blue', 'clock', "Today's appointments", '', tag(todays.length, 'blue')) +
+        `<div class="list">${todays.length ? todays.map(a => apptRow(a)).join('') : '<div class="empty">No appointments today.</div>'}</div>`;
+    }
+    if (id === 'next') {
+      const weekEnd = dayKey(new Date(Date.now() + 7 * DAY)), byDay = {};
+      DATA.appointments.filter(a => a.status === 'Scheduled' && String(a.start).slice(0, 10) > today && String(a.start).slice(0, 10) <= weekEnd)
+        .sort((a, b) => a.start.localeCompare(b.start)).forEach(a => { const k = String(a.start).slice(0, 10); (byDay[k] = byDay[k] || []).push(a); });
+      return cardHead('mint', 'calendar', 'Next 7 days', '', `<button class="linkbtn small" onclick="go('calendar')">Calendar</button>`) +
+        `<div class="list">${Object.keys(byDay).length ? Object.keys(byDay).map(k => `<div class="daylabel">${esc(fmtShort(k))}</div>${byDay[k].map(a => apptRow(a)).join('')}`).join('') : '<div class="empty">Nothing booked yet.</div>'}</div>`;
+    }
+    if (id === 'recent') {
+      const recent = DATA.history.filter(h => h.type === 'Website form').sort((a, b) => String(b.date).localeCompare(String(a.date))).slice(0, 3);
+      return cardHead('pink', 'globe', 'Recent website requests', '', '') +
+        `<div class="list">${recent.length ? recent.map(h => { const c = client(h.clientId); return `<button class="appt" onclick="go('client','${esc(h.clientId)}')">
+          <div class="grow"><div class="row spread"><b>${esc(fullName(c))}</b><span class="small muted">${esc(fmtShort(h.date))}</span></div>
+          <div class="small muted" style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(h.summary)}</div></div></button>`; }).join('') : '<div class="empty">No website requests yet.</div>'}</div>`;
+    }
+    if (id === 'marketing') return cardHead('lav', 'megaphone', 'Marketing to do', '', '') + checklistBody('marketing', 'Add something, like: post a before/after photo');
+    const c = DATA.cards.find(x => x.id === id);
+    if (!c) return '';
+    const edit = `<button class="btn sm round-sm" aria-label="Edit card" title="Edit card" onclick="editCard('${esc(c.id)}')">${icon('pencil')}</button>`;
+    if (c.kind === 'Notes') {
+      return cardHead(c.color || 'blue', 'note', c.title || 'Notes', '', edit) +
+        `<textarea class="notes" id="note-${esc(c.id)}" aria-label="${esc(c.title)}" placeholder="Type or tap the mic to talk" onblur="saveNotes('${esc(c.id)}', this.value)">${esc(c.body)}</textarea>`;
+    }
+    return cardHead(c.color || 'blue', 'list', c.title || 'Checklist', '', edit) + checklistBody(c.id, 'Add an item');
+  }
+
+  function viewHome() {
+    const hour = new Date().getHours(), L = homeLayout();
+    const section = id => `<section class="card glass" data-card="${esc(id)}">${homeCard(id)}</section>`;
+    const body = narrow()
+      ? `<div class="stack sortable" data-col="phone">${L.phone.map(section).join('')}</div>`
+      : `<div class="cols"><div class="stack sortable" data-col="left">${L.left.map(section).join('')}</div>
+          <div class="stack sortable" data-col="right">${L.right.map(section).join('')}</div></div>`;
     return `
       <div class="top"><div><h1>Good ${hour < 12 ? 'morning' : hour < 17 ? 'afternoon' : 'evening'}, Russell</h1>
         <div class="muted">${esc(new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' }))}</div></div>
         <div class="row"><button class="btn" onclick="refresh()">Check for new</button><button class="btn" onclick="editAppointment()">${icon('calendar')}Book</button>
           <button class="btn primary hide-phone" onclick="openLogCall()">${icon('plus')}Log a call</button></div></div>
+      ${body}
+      <button class="add-card" onclick="editCard()">${icon('plus')}Add card</button>
+      <p class="small muted center">Drag a card by its ${icon('grip')} handle to move it.</p>`;
+  }
 
-      <div class="cols home-cols">
-        <div class="stack">
-          <section class="card glass o1"><div class="card-head"><div class="left"><span class="badge-icon tag peach">${icon('phone')}</span>
-            <div><h2>To do</h2><div class="small muted">Calls, texts and follow-ups to get back to</div></div></div>${items.length ? tag(items.length + ' left', items.some(i => i.late) ? 'red' : 'gray') : ''}</div>
-            <div class="todo">${items.length ? items.map(todoHtml).join('') : '<div class="empty">All caught up. Nice work.</div>'}</div></section>
+  // Drag and drop for the home cards: press the handle, drag, let go. Works with mouse and touch.
+  // The arrow keys move a card too, when its handle has focus.
+  (function () {
+    let drag = null;
+    const cols = () => [...document.querySelectorAll('.sortable')];
+    function start(e) {
+      const handle = e.target.closest('.grip');
+      if (!handle || UI.view !== 'home') return;
+      const card = handle.closest('[data-card]');
+      e.preventDefault();
+      const r = card.getBoundingClientRect();
+      const ph = document.createElement('div');
+      ph.className = 'drop-spot';
+      ph.style.height = r.height + 'px';
+      card.parentNode.insertBefore(ph, card);
+      Object.assign(card.style, { position: 'fixed', left: r.left + 'px', top: r.top + 'px', width: r.width + 'px', zIndex: 70, pointerEvents: 'none' });
+      card.classList.add('dragging');
+      drag = { card, ph, dx: e.clientX - r.left, dy: e.clientY - r.top };
+      handle.setPointerCapture && handle.setPointerCapture(e.pointerId);
+    }
+    function move(e) {
+      if (!drag) return;
+      drag.card.style.left = (e.clientX - drag.dx) + 'px';
+      drag.card.style.top = (e.clientY - drag.dy) + 'px';
+      if (e.clientY < 70) scrollBy(0, -14); else if (e.clientY > innerHeight - 90) scrollBy(0, 14);
+      // the column under the finger, then the card it is over
+      const col = cols().find(c => { const b = c.getBoundingClientRect(); return e.clientX >= b.left && e.clientX <= b.right; }) || drag.ph.parentNode;
+      const others = [...col.querySelectorAll(':scope > [data-card]')].filter(x => x !== drag.card);
+      const before = others.find(x => { const b = x.getBoundingClientRect(); return e.clientY < b.top + b.height / 2; });
+      if (before) { if (drag.ph.nextSibling !== before) col.insertBefore(drag.ph, before); }
+      else if (col.lastElementChild !== drag.ph) col.appendChild(drag.ph);
+    }
+    function end() {
+      if (!drag) return;
+      const { card, ph } = drag;
+      drag = null;
+      ph.parentNode.insertBefore(card, ph);
+      ph.remove();
+      card.removeAttribute('style');
+      card.classList.remove('dragging');
+      saveLayout();
+    }
+    addEventListener('pointerdown', start);
+    addEventListener('pointermove', move, { passive: true });
+    addEventListener('pointerup', end);
+    addEventListener('pointercancel', end);
+    addEventListener('keydown', e => {
+      const handle = e.target.closest && e.target.closest('.grip');
+      if (!handle || !['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(e.key)) return;
+      e.preventDefault();
+      const card = handle.closest('[data-card]'), col = card.parentNode, all = cols();
+      if (e.key === 'ArrowUp' && card.previousElementSibling) col.insertBefore(card, card.previousElementSibling);
+      else if (e.key === 'ArrowDown' && card.nextElementSibling) col.insertBefore(card.nextElementSibling, card);
+      else if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+        const to = all[all.indexOf(col) + (e.key === 'ArrowLeft' ? -1 : 1)];
+        if (to) to.appendChild(card);
+      }
+      const id = card.dataset.card;
+      saveLayout().then(() => { const g = document.querySelector(`[data-card="${id}"] .grip`); if (g) g.focus(); });
+    });
+  })();
 
-          <section class="card glass o5"><div class="card-head"><div class="left"><span class="badge-icon tag lav">${icon('megaphone')}</span><h2>Marketing to do</h2></div>
-            ${mkDone.length ? `<button class="linkbtn small" onclick="UI.showDone=!UI.showDone; render()">${UI.showDone ? 'Hide' : 'Show'} done (${mkDone.length})</button>` : ''}</div>
-            <form class="row" onsubmit="event.preventDefault(); addMarketing(this)" style="flex-wrap:nowrap"><input id="mkText" name="text" placeholder="Add something, like: post a before/after photo" aria-label="New marketing item"><button class="btn" aria-label="Add">${icon('plus')}</button></form>
-            <div style="margin-top:8px">${mkOpen.map(mkHtml).join('')}${UI.showDone ? mkDone.map(mkHtml).join('') : ''}
-              ${!mkOpen.length && !(UI.showDone && mkDone.length) ? '<div class="empty">Nothing on the list yet.</div>' : ''}</div></section>
-        </div>
+  async function saveLayout() {
+    const L = homeLayout();
+    document.querySelectorAll('.sortable').forEach(col => { L[col.dataset.col] = [...col.querySelectorAll(':scope > [data-card]')].map(s => s.dataset.card); });
+    const json = JSON.stringify(L);
+    if (SETTINGS && SETTINGS.homeLayout === json) return;
+    SETTINGS = Object.assign(SETTINGS || {}, { homeLayout: json });
+    try { SETTINGS = await call('saveSettings', { homeLayout: SETTINGS.homeLayout }); toast('Layout saved'); } catch (e) { /* toast shown */ }
+  }
 
-        <div class="stack">
-          <section class="card glass o2"><div class="card-head"><div class="left"><span class="badge-icon tag blue">${icon('clock')}</span><h2>Today's appointments</h2></div>${tag(todays.length, 'blue')}</div>
-            <div class="list">${todays.length ? todays.map(a => apptRow(a)).join('') : '<div class="empty">No appointments today.</div>'}</div></section>
-
-          <section class="card glass o3"><div class="card-head"><div class="left"><span class="badge-icon tag mint">${icon('calendar')}</span><h2>Next 7 days</h2></div>
-            <button class="linkbtn small" onclick="go('calendar')">Calendar</button></div>
-            <div class="list">${Object.keys(byDay).length ? Object.keys(byDay).map(k => `<div class="daylabel">${esc(fmtShort(k))}</div>${byDay[k].map(a => apptRow(a)).join('')}`).join('') : '<div class="empty">Nothing booked yet.</div>'}</div></section>
-
-          <section class="card glass o4"><div class="card-head"><div class="left"><span class="badge-icon tag pink">${icon('globe')}</span><h2>Recent website requests</h2></div></div>
-            <div class="list">${recent.length ? recent.map(h => { const c = client(h.clientId); return `<button class="appt" onclick="go('client','${esc(h.clientId)}')">
-              <div class="grow"><div class="row spread"><b>${esc(fullName(c))}</b><span class="small muted">${esc(fmtShort(h.date))}</span></div>
-              <div class="small muted" style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(h.summary)}</div></div></button>`; }).join('') : '<div class="empty">No website requests yet.</div>'}</div></section>
-        </div>
-      </div>`;
+  function editCard(id) {
+    const c = id ? DATA.cards.find(x => x.id === id) : { kind: 'Checklist', color: 'blue' };
+    openForm(id ? 'Edit card' : 'Add a card', [
+      { k: 'title', label: 'Name', req: true, full: true, placeholder: 'Like: Parts to order, or Shop notes' },
+      ...(id ? [] : [{ k: 'kind', label: 'Type', type: 'select', options: [['Checklist', 'Checklist (things to check off)'], ['Notes', 'Notes (a place to jot things down)']] }]),
+      { k: 'color', label: 'Color', type: 'select', options: CARD_COLORS }
+    ], c, async out => {
+      await act('saveCard', out);
+      toast(id ? 'Card saved' : 'Card added. Drag it wherever you want it.');
+    }, id ? `<button type="button" class="btn danger" onclick="delCard('${esc(id)}')">Delete card</button>` : `<span class="hint" style="align-self:center">Need something smarter? Ask Claude in your chat to build it.</span>`);
+  }
+  async function saveNotes(id, value) {
+    const c = DATA.cards.find(x => x.id === id);
+    if (!c || c.body === value) return;
+    await act('saveCard', Object.assign({}, c, { body: value }));
+    toast('Notes saved');
+  }
+  async function delCard(id) {
+    if (!confirm('Delete this card and everything on it?')) return;
+    await act('deleteCard', id); closeModal(); toast('Card deleted');
   }
 
   function apptRow(a, withDate) {
@@ -826,10 +976,10 @@
   async function skipText(id) { await act('markText', id, 'Skipped'); }
   async function checkFollowUp(id, btn) { leave(btn); await act('finishFollowUp', id); toast('Checked off'); }
   async function addMarketing(form) {
-    const text = form.text.value.trim();
+    const text = form.text.value.trim(), listId = form.dataset.list || 'marketing';
     if (!text) return;
-    await act('saveMarketing', { text, done: false });
-    const el = document.getElementById('mkText'); if (el) el.focus();
+    await act('saveMarketing', { text, done: false, listId });
+    const el = document.getElementById('mk-' + listId); if (el) el.focus();
   }
   async function toggleMarketing(id) { const m = DATA.marketing.find(x => x.id === id); await act('saveMarketing', Object.assign({}, m, { done: !m.done })); }
   async function delMarketing(id) { await act('deleteMarketing', id); }
@@ -1025,7 +1175,7 @@
   }
 
   /* ---------------------------------------------------------- settings */
-  async function loadSettings() { SETTINGS = await call('getSettings'); if (UI.view === 'settings') render(); }
+  async function loadSettings() { SETTINGS = await call('getSettings'); if (UI.view === 'settings' || UI.view === 'home') render(); }
 
   function viewSettings() {
     if (!SETTINGS) return '<p class="muted">Loading settings...</p>';
@@ -1287,14 +1437,15 @@
   }
 
   document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+  addEventListener('resize', () => { if (UI.view === 'home' && narrow() !== UI.narrow) render(); });
   // Light on the glass slides with the mouse (computer) or with scrolling (phone).
   (function () {
     if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     let x = 28, queued = false;
     const paint = () => { queued = false; document.documentElement.style.setProperty('--lx', x.toFixed(1)); };
-    const move = v => { x = Math.max(8, Math.min(92, v)); if (!queued) { queued = true; requestAnimationFrame(paint); } };
+    const move = v => { x = 50 + (Math.max(8, Math.min(92, v)) - 50) * 0.7; if (!queued) { queued = true; requestAnimationFrame(paint); } };
     addEventListener('pointermove', e => { if (e.pointerType === 'mouse') move(e.clientX / innerWidth * 100); }, { passive: true });
-    addEventListener('scroll', () => move(20 + (scrollY % 1200) / 1200 * 60), { passive: true });
+    addEventListener('scroll', () => move(29 + (scrollY % 1200) / 1200 * 42), { passive: true });
   })();
   call('getData', true).then(d => {
     setData(d);

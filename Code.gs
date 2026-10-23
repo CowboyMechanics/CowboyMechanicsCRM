@@ -45,7 +45,10 @@ const TABLES = {
   },
   Photos: { id: 'ID', clientId: 'Client ID', created: 'Added', fileId: 'Drive file ID', caption: 'Caption', thumb: 'Thumbnail' },
   History: { id: 'ID', clientId: 'Client ID', date: 'Date', type: 'Type', summary: 'Summary' },
-  Marketing: { id: 'ID', created: 'Added', text: 'To do', done: 'Done', doneAt: 'Done on' },
+  // Checklist items: the Marketing card (list 'marketing') and any checklist cards Russell adds.
+  Marketing: { id: 'ID', created: 'Added', text: 'To do', done: 'Done', doneAt: 'Done on', listId: 'List' },
+  // Cards Russell adds to his home page.
+  Cards: { id: 'ID', created: 'Added', title: 'Title', kind: 'Type', body: 'Notes', color: 'Color' },
   // Texts the CRM wrote for Russell to send from his own phone with one tap.
   Outbox: {
     id: 'ID', clientId: 'Client ID', created: 'Created', kind: 'Kind', phone: 'Phone',
@@ -57,7 +60,7 @@ const TABLES = {
 const DATE_FIELDS = ['created', 'start', 'end', 'reminderSent', 'date', 'followUpOn', 'thankYouSent',
   'lastReminded', 'closed', 'doneAt', 'expires', 'sentAt', 'imported'];
 const BOOL_FIELDS = ['okText', 'okEmail', 'remind1h', 'remind3h', 'remindHourly', 'followUpDone', 'done'];
-const ID_PREFIX = { Clients: 'C', Calls: 'K', Appointments: 'A', Visits: 'V', Photos: 'P', History: 'H', Marketing: 'M', Outbox: 'T' };
+const ID_PREFIX = { Clients: 'C', Calls: 'K', Appointments: 'A', Visits: 'V', Photos: 'P', History: 'H', Marketing: 'M', Outbox: 'T', Cards: 'D' };
 
 const DEFAULT_SETTINGS = {
   businessName: 'Cowboy Mechanics',
@@ -78,6 +81,7 @@ const DEFAULT_SETTINGS = {
   autoThankYou: true,
   thankYouDays: 3,
   dailyDigest: true,
+  homeLayout: '',
   autoReplyText: 'Hey, this is Russell with Cowboy Mechanics. I\'m under a car right now and will get back to you as soon as I can. Feel free to text me your vehicle\'s year, make and model and what\'s going on with it.',
 
   reminderSubject: 'Reminder: your {business} appointment on {date}',
@@ -303,6 +307,23 @@ function saveMarketing(rec) {
     if (!rec.id) rec.created = now_();
     rec.doneAt = rec.done ? (rec.doneAt || now_()) : '';
     saveRecord_('Marketing', rec);
+    return readAll_();
+  });
+}
+
+function saveCard(rec) {
+  return withLock_(() => {
+    if (!rec.title) throw new Error('Give the card a name');
+    if (!rec.id) rec.created = now_();
+    saveRecord_('Cards', rec);
+    return readAll_();
+  });
+}
+
+function deleteCard(id) {
+  return withLock_(() => {
+    readTable_('Marketing').filter(m => m.listId === id).forEach(m => deleteRecord_('Marketing', m.id));
+    deleteRecord_('Cards', id);
     return readAll_();
   });
 }
@@ -840,7 +861,8 @@ function readAll_() {
     visits: readTable_('Visits'),
     history: readTable_('History'),
     marketing: readTable_('Marketing'),
-    outbox: readTable_('Outbox')
+    outbox: readTable_('Outbox'),
+    cards: readTable_('Cards')
   };
 }
 
