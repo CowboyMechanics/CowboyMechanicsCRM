@@ -508,6 +508,75 @@
     .brand small { font-size: 13px; letter-spacing: .14em; font-weight: 800; }
     .mobile-head .brand img { height: 52px !important; }
     .mobile-head .brand b { font-size: 16px; }
+
+    /* ================= PROFESSIONAL SIZING =================
+       page title 38, section 22, item title 18, text 17, small 15, tags 14. Nothing under 14. */
+    body { font-size: 17px; line-height: 1.55; }
+    h1 { font-size: 38px; letter-spacing: -.03em; }
+    h2 { font-size: 22px; }
+    .small { font-size: 15px; }
+    .muted.small, .small.muted { font-size: 15px; }
+    .top .muted { font-size: 17px; margin-top: 6px; }
+    .card { padding: 26px; }
+    .card-head { margin-bottom: 18px; }
+    .stack, .cols { gap: 22px; }
+    main { gap: 24px; padding-top: 34px; }
+    .tt { font-size: 18px; }
+    .titem { padding: 16px 18px; gap: 16px; border-radius: 22px; }
+    .titem .pre.small { font-size: 16px; }
+    .check { width: 32px; height: 32px; }
+    .check svg.i { width: 18px; height: 18px; }
+    .appt { padding: 13px 16px; border-radius: 20px; }
+    .appt .time { font-size: 16px; min-width: 88px; }
+    .btn { font-size: 16px; padding: 12px 22px; }
+    .btn.sm { font-size: 15px; padding: 9px 16px; }
+    .btn.big { font-size: 17px; padding: 15px 24px; }
+    svg.i { width: 20px; height: 20px; }
+    .tag { font-size: 14px; padding: 4px 12px; }
+    .badge-icon { width: 46px !important; height: 46px !important; }
+    .badge-icon svg.i { width: 22px; height: 22px; }
+    .nav-item { font-size: 17px; padding: 13px 18px; gap: 14px; }
+    .nav-item .count { font-size: 14px; min-width: 26px; }
+    label.f { font-size: 15px; }
+    input, select, textarea { font-size: 17px; padding: 13px 18px; }
+    .hint { font-size: 14px; }
+    .daylabel { font-size: 14px; }
+    .dow { font-size: 14px; }
+    .cal-head h2 { font-size: 28px; }
+    .day .n { font-size: 16px; width: 32px; height: 32px; }
+    .chip { font-size: 14px; padding: 4px 8px; }
+    .more { font-size: 14px; }
+    .drow .k { font-size: 14px; }
+    .drow .v { font-size: 17px; }
+    .kv { font-size: 16px; grid-template-columns: 150px 1fr; }
+    .action { font-size: 14px; }
+    .round { width: 52px; height: 52px; }
+    .modal h2 { font-size: 24px; }
+    #toast { font-size: 16px; padding: 14px 22px; }
+    .side { width: 290px; padding: 26px 18px; gap: 26px; }
+    .tab { font-size: 13px; }
+    .tab svg.i { width: 22px; height: 22px; }
+    @media (max-width: 860px) {
+      h1 { font-size: 30px; }
+      .card { padding: 20px; }
+      main { padding-top: 18px; }
+    }
+
+    /* wordmark: big name, CRM in its own glass pill */
+    .brand { align-items: center; }
+    .brand b { font-size: 20px !important; letter-spacing: .03em !important; line-height: 1.05 !important; }
+    .brand small { display: inline-flex; align-items: center; margin-top: 7px; padding: 3px 12px; border-radius: 999px;
+      font-size: 14px !important; font-weight: 800; letter-spacing: .16em !important; color: #0d4370 !important;
+      background: linear-gradient(180deg, rgba(190,228,255,.55), rgba(110,186,246,.45)); border: 1px solid rgba(255,255,255,.85);
+      box-shadow: inset 0 1.5px 0 rgba(255,255,255,.95), inset 0 -3px 6px rgba(215,240,255,.6), 0 4px 10px rgba(96,178,245,.35); }
+    .brand img { height: 70px !important; }
+    .mobile-head .brand img { height: 56px !important; }
+    .mobile-head .brand b { font-size: 18px !important; }
+    .mobile-head .brand small { font-size: 13px !important; margin-top: 5px; }
+
+    .cols { grid-template-columns: 1.2fr 1fr; }
+    @media (max-width: 1000px) { .cols { grid-template-columns: 1fr; } }
+    @media (max-width: 860px) { .hide-phone { display: none !important; } }
   </style>
 </head>
 <body>
@@ -706,7 +775,7 @@
       <div class="top"><div><h1>Good ${hour < 12 ? 'morning' : hour < 17 ? 'afternoon' : 'evening'}, Russell</h1>
         <div class="muted">${esc(new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' }))}</div></div>
         <div class="row"><button class="btn" onclick="refresh()">Check for new</button><button class="btn" onclick="editAppointment()">${icon('calendar')}Book</button>
-          <button class="btn primary" onclick="openLogCall()">${icon('plus')}Log a call</button></div></div>
+          <button class="btn primary hide-phone" onclick="openLogCall()">${icon('plus')}Log a call</button></div></div>
 
       <div class="cols home-cols">
         <div class="stack">
