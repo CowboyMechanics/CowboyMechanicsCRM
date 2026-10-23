@@ -241,6 +241,124 @@
       background: linear-gradient(90deg, transparent, var(--sky-deep), transparent); background-size: 40% 100%; background-repeat: no-repeat; animation: slide 1s linear infinite; }
     @keyframes slide { from { background-position: -40% 0; } to { background-position: 140% 0; } }
     @media (prefers-reduced-motion: reduce) { #busy { animation: none; background: var(--sky-deep); } .titem, .switch input, .switch input::after { transition: none; } }
+
+    /* ================= LIQUID GLASS =================
+       Clear centers, thick bright rims with a slight rainbow edge, a wet shine on top,
+       and a colored glow underneath. Tint per element comes from --tint (r,g,b). */
+    body { background:
+        radial-gradient(520px 380px at 12% 18%, rgba(150,205,250,.55), transparent 70%),
+        radial-gradient(600px 420px at 88% 80%, rgba(140,195,245,.45), transparent 70%),
+        radial-gradient(420px 300px at 70% 12%, rgba(255,255,255,.95), transparent 70%),
+        radial-gradient(380px 300px at 30% 92%, rgba(180,225,240,.5), transparent 70%),
+        linear-gradient(180deg, #e8edf3 0%, #dde4ed 100%) !important; background-attachment: fixed !important; }
+
+    .glass, .titem, .appt, .day, .visit, .btn, .tag, .chip, .check, .nav-item.on, .tab.plus, .badge-icon,
+    input, select, textarea, .pillcheck, .switch input, .nav-item .count, .day.today .n {
+      position: relative; isolation: isolate; }
+
+    /* clear thick glass panes */
+    .glass { --tint: 120,170,220;
+      background: linear-gradient(145deg, rgba(255,255,255,.42) 0%, rgba(255,255,255,.16) 50%, rgba(255,255,255,.3) 100%) !important;
+      -webkit-backdrop-filter: blur(16px) saturate(180%); backdrop-filter: blur(16px) saturate(180%);
+      border: 1.5px solid rgba(255,255,255,.75) !important;
+      box-shadow:
+        inset 0 2px 1px rgba(255,255,255,.95),
+        inset 0 -2px 2px rgba(255,255,255,.55),
+        inset 4px 4px 14px rgba(255,255,255,.5),
+        inset -6px -8px 22px rgba(var(--tint),.16),
+        0 18px 40px rgba(52,82,120,.16), 0 3px 8px rgba(52,82,120,.08) !important; }
+    .modal.glass { background: linear-gradient(145deg, rgba(255,255,255,.88), rgba(255,255,255,.72)) !important; }
+
+    /* rainbow rim: light splitting at the edge of the glass */
+    .glass::after, .btn::after, .titem::after, .tab.plus::after, .nav-item.on::after, .badge-icon::after, .check::after {
+      content: ""; position: absolute; inset: -1.5px; border-radius: inherit; padding: 1.5px; pointer-events: none; z-index: 2;
+      background: conic-gradient(from 200deg, rgba(255,255,255,.95), rgba(160,215,255,.85), rgba(255,255,255,.6), rgba(255,190,225,.55),
+        rgba(255,240,200,.6), rgba(255,255,255,.95), rgba(170,240,225,.6), rgba(255,255,255,.95));
+      -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor;
+      mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0); }
+
+    /* wet shine across the top */
+    .glass::before, .btn::before, .titem::before, .tab.plus::before, .nav-item.on::before, .badge-icon::before, .check::before, .day.today .n::before {
+      content: ""; position: absolute; pointer-events: none; z-index: 1;
+      top: 2px; left: 6%; right: 30%; height: min(46%, 26px); border-radius: 999px;
+      background: linear-gradient(180deg, rgba(255,255,255,.9) 0%, rgba(255,255,255,.25) 70%, rgba(255,255,255,0) 100%);
+      filter: blur(.4px); }
+    .glass::before, .titem::before { top: 1px; left: 3%; right: 3%; height: 46px; border-radius: 24px 24px 50% 50% / 24px 24px 100% 100%;
+      background: linear-gradient(180deg, rgba(255,255,255,.6) 0%, rgba(255,255,255,.12) 60%, rgba(255,255,255,0) 100%); filter: blur(1.5px); }
+    .titem::before { height: 30px; }
+    .glass > *, .titem > * { position: relative; z-index: 3; }
+
+    /* inner glass rows */
+    .titem, .appt, .day, .visit {
+      --tint: 120,175,230;
+      background: linear-gradient(160deg, rgba(255,255,255,.55), rgba(255,255,255,.22)) !important;
+      border: 1px solid rgba(255,255,255,.85) !important;
+      box-shadow: inset 0 1.5px 1px rgba(255,255,255,.95), inset 0 -3px 8px rgba(255,255,255,.4),
+        inset -4px -5px 12px rgba(var(--tint),.12), 0 6px 16px rgba(52,82,120,.08) !important; }
+    .appt:hover, .day:hover, .visit:hover { background: linear-gradient(160deg, rgba(255,255,255,.75), rgba(220,238,252,.4)) !important; }
+    .day.sel { box-shadow: inset 0 1.5px 1px #fff, 0 0 0 2.5px rgba(110,185,245,.55), 0 6px 18px rgba(110,185,245,.3) !important; }
+
+    /* red jelly for overdue */
+    .titem.overdue { --tint: 240,96,90;
+      background: linear-gradient(180deg, rgba(255,214,210,.38) 0%, rgba(250,140,132,.32) 100%) !important;
+      border-color: rgba(255,255,255,.8) !important;
+      box-shadow: inset 0 2px 1px rgba(255,255,255,.95), inset 0 -10px 18px rgba(255,235,232,.55),
+        inset 0 0 0 1px rgba(var(--tint),.35), inset -6px -8px 18px rgba(var(--tint),.22),
+        0 10px 24px rgba(var(--tint),.28), 0 2px 5px rgba(var(--tint),.2) !important; }
+
+    /* clear jelly buttons */
+    .btn { --tint: 150,180,210;
+      background: linear-gradient(180deg, rgba(255,255,255,.5) 0%, rgba(255,255,255,.16) 55%, rgba(255,255,255,.38) 100%) !important;
+      -webkit-backdrop-filter: blur(8px) saturate(170%); backdrop-filter: blur(8px) saturate(170%);
+      border: 1px solid rgba(255,255,255,.7) !important;
+      box-shadow: inset 0 2px 1px rgba(255,255,255,.95), inset 0 -6px 12px rgba(255,255,255,.5),
+        inset 0 0 0 1px rgba(var(--tint),.2), 0 8px 18px rgba(var(--tint),.25), 0 2px 4px rgba(52,82,120,.1) !important; }
+    .btn:hover { background: linear-gradient(180deg, rgba(255,255,255,.7), rgba(255,255,255,.3) 55%, rgba(255,255,255,.5)) !important; }
+    /* sky jelly: the main color */
+    .btn.primary, .tab.plus, .nav-item.on, .day.today .n { --tint: 96,178,245; color: #0d4370 !important;
+      background: linear-gradient(180deg, rgba(190,228,255,.42) 0%, rgba(110,186,246,.42) 60%, rgba(150,208,252,.6) 100%) !important;
+      border: 1px solid rgba(255,255,255,.8) !important;
+      box-shadow: inset 0 2px 1px rgba(255,255,255,.95), inset 0 -8px 14px rgba(215,240,255,.65),
+        inset 0 0 0 1px rgba(var(--tint),.4), inset -4px -6px 12px rgba(var(--tint),.3),
+        0 10px 22px rgba(var(--tint),.42), 0 2px 5px rgba(var(--tint),.3) !important; }
+    .btn.danger { --tint: 240,96,90; color: #9e1e18 !important;
+      background: linear-gradient(180deg, rgba(255,214,210,.4), rgba(250,140,132,.38) 60%, rgba(255,190,184,.55)) !important;
+      box-shadow: inset 0 2px 1px rgba(255,255,255,.95), inset 0 -8px 14px rgba(255,232,230,.6), inset 0 0 0 1px rgba(var(--tint),.35),
+        0 8px 18px rgba(var(--tint),.3) !important; }
+
+    /* jelly tags, tinted per kind */
+    .tag, .chip, .nav-item .count, .badge-icon { border: 1px solid rgba(255,255,255,.85) !important;
+      background: linear-gradient(180deg, rgba(var(--tint),.16) 0%, rgba(var(--tint),.36) 100%) !important;
+      box-shadow: inset 0 1.5px 0 rgba(255,255,255,.95), inset 0 -3px 6px rgba(255,255,255,.4), inset 0 0 0 1px rgba(var(--tint),.32),
+        0 3px 8px rgba(var(--tint),.28) !important; }
+    .tag.blue, .chip { --tint: 96,178,245; } .tag.lav { --tint: 140,130,240; } .tag.mint, .chip.done { --tint: 70,190,140; }
+    .tag.peach { --tint: 245,150,85; } .tag.pink { --tint: 235,115,180; } .tag.red, .chip.late, .nav-item .count { --tint: 240,90,84; }
+    .tag.gray { --tint: 140,155,175; }
+    .badge-icon { box-shadow: inset 0 2px 1px rgba(255,255,255,.95), inset 0 -5px 10px rgba(255,255,255,.5), inset 0 0 0 1px rgba(var(--tint),.35),
+      0 6px 14px rgba(var(--tint),.35) !important; }
+
+    /* glass bubble checkbox */
+    .check { --tint: 120,170,220; background: radial-gradient(circle at 50% 70%, rgba(255,255,255,.25), rgba(255,255,255,.55)) !important;
+      border: 1px solid rgba(255,255,255,.85) !important;
+      box-shadow: inset 0 2px 1px #fff, inset 0 -4px 6px rgba(255,255,255,.6), inset 0 0 0 1px rgba(120,160,200,.45), 0 3px 8px rgba(52,82,120,.18) !important; }
+    .check::before { top: 2px; left: 18%; right: 34%; height: 38%; }
+    .check.on { --tint: 70,190,140; background: linear-gradient(180deg, rgba(170,235,205,.55), rgba(70,190,140,.55)) !important; color: #fff;
+      box-shadow: inset 0 2px 1px #fff, inset 0 -5px 8px rgba(210,255,235,.6), 0 4px 12px rgba(var(--tint),.5) !important; }
+
+    /* clear inputs set into the glass */
+    input, select, textarea, .pillcheck { background: linear-gradient(180deg, rgba(255,255,255,.35), rgba(255,255,255,.6)) !important;
+      border: 1px solid rgba(255,255,255,.85) !important;
+      box-shadow: inset 0 2px 5px rgba(52,82,120,.12), inset 0 -1px 0 rgba(255,255,255,.9), 0 1px 0 rgba(255,255,255,.7) !important; }
+    input:focus, select:focus, textarea:focus { box-shadow: inset 0 2px 5px rgba(52,82,120,.1), 0 0 0 4px rgba(110,185,245,.35) !important; background: rgba(255,255,255,.75) !important; }
+
+    .switch input { background: linear-gradient(180deg, rgba(255,255,255,.3), rgba(200,214,230,.5)) !important; border: 1px solid rgba(255,255,255,.85) !important;
+      box-shadow: inset 0 2px 5px rgba(52,82,120,.2), 0 1px 0 #fff !important; }
+    .switch input::after { background: radial-gradient(circle at 38% 30%, #fff 0%, rgba(255,255,255,.75) 50%, rgba(215,228,242,.9) 100%) !important;
+      box-shadow: inset 0 -2px 4px rgba(120,150,190,.25), 0 3px 8px rgba(52,82,120,.3) !important; }
+    .switch input:checked { --tint: 96,178,245; background: linear-gradient(180deg, rgba(190,228,255,.5), rgba(110,186,246,.6)) !important;
+      box-shadow: inset 0 2px 1px rgba(255,255,255,.9), inset 0 -5px 8px rgba(215,240,255,.6), 0 4px 12px rgba(var(--tint),.45) !important; }
+
+    .tabbar.glass { background: linear-gradient(145deg, rgba(255,255,255,.6), rgba(255,255,255,.35)) !important; }
   </style>
 </head>
 <body>
